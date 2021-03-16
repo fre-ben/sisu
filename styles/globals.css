@@ -1,9 +1,24 @@
+:root {
+  --primary-color: #141225;
+  --secondary-color: #ffce21;
+  --primary-fontcolor: #fff;
+  --placeholder-color: #8a8a8a;
+  --background-gradient-color: #62606d;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background: transparent
+    radial-gradient(
+      closest-side at 50% 50%,
+      var(--primary-color) 0%,
+      var(--background-gradient-color) 400%
+    )
+    0% 0% no-repeat padding-box;
 }
 
 a {
