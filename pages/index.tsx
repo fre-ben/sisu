@@ -1,5 +1,6 @@
 import Head from "next/head";
 import LogoMain from "../components/logo/Logo_main";
+import LogoSmall from "../components/logo/Logo_small";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
@@ -12,6 +13,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <LogoMain />
+        <LogoSmall />
       </main>
     </div>
   );
