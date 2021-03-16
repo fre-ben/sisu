@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Button from "../components/button/Button";
+import LogoMain from "../components/logo/Logo_main";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
@@ -11,8 +11,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <Button primary label="Primary" />
-        <Button primary={false} label="Secondary" />
+        <LogoMain />
       </main>
     </div>
   );
