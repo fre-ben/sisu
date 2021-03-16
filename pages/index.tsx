@@ -1,4 +1,5 @@
 import Head from "next/head";
+import StartGameBtn from "../components/button/StartGameBtn";
 import Logo from "../components/logo/Logo";
 import styles from "../styles/Home.module.css";
 
@@ -13,6 +14,7 @@ export default function Home() {
       <main className={styles.main}>
         <Logo size="big" />
         <Logo size="small" />
+        <StartGameBtn />
       </main>
     </div>
   );
