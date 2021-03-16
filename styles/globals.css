@@ -1,7 +1,7 @@
 :root {
   --primary-color: #141225;
   --secondary-color: #ffce21;
-  --primary-fontcolor: #fff;
+  --primary-text-color: #fff;
   --placeholder-color: #8a8a8a;
   --background-gradient-color: #62606d;
 }
@@ -12,7 +12,7 @@ body {
   margin: 0;
   font-family: Roboto, sans-serif;
   font-size: 16px;
-  color: var(--primary-fontcolor);
+  color: var(--primary-text-color);
   background: transparent
     radial-gradient(
       closest-side at 50% 50%,
