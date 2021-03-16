@@ -1,0 +1,23 @@
+.logo {
+  line-height: 1em;
+  background-image: linear-gradient(
+      var(--secondary-color),
+      var(--secondary-color)
+    ),
+    linear-gradient(var(--secondary-color), var(--secondary-color));
+  background-repeat: no-repeat;
+  background-size: 3px 55%, 64% 3px;
+  background-position: right bottom, right bottom;
+}
+
+.big {
+  font-weight: 900;
+  font-size: 8.5em;
+  padding: 0 0.1em;
+}
+
+.small {
+  font-weight: 600;
+  font-size: 4.2em;
+  padding: 0 0.11em;
+}
