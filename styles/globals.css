@@ -22,6 +22,14 @@ body {
     0% 0% no-repeat padding-box;
 }
 
+button {
+  font-family: Roboto, sans-serif;
+  font-weight: 600;
+  color: var(--primary-fontcolor);
+  background: none;
+  border: none;
+}
+
 a {
   color: inherit;
   text-decoration: none;
