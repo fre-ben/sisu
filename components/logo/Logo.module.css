@@ -8,7 +8,7 @@
     ),
     linear-gradient(var(--secondary-color), var(--secondary-color));
   background-repeat: no-repeat;
-  background-size: 3px 55%, 65% 3px;
+  background-size: 3px 55%, 64% 3px;
   background-position: right bottom, right bottom;
   padding: 0 0.1em;
 }
@@ -23,7 +23,7 @@
     ),
     linear-gradient(var(--secondary-color), var(--secondary-color));
   background-repeat: no-repeat;
-  background-size: 2px 55%, 65% 2px;
+  background-size: 2px 55%, 64% 2px;
   background-position: right bottom, right bottom;
   padding: 0 0.12em;
 }
