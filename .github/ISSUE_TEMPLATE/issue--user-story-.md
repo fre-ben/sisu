@@ -1,16 +1,16 @@
 ---
 name: Issue (User Story)
 about: Issue in form of a user story
-title: ''
+title: ""
 labels: user story
-assignees: ''
-
+assignees: ""
 ---
 
 ## User story
-__As a__:  
-__I want to__:  
-__So I can__:  
+
+**As a**:  
+**I want to**:  
+**So I can**:
 
 ## Acceptance criteria
 
