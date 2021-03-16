@@ -1,4 +1,6 @@
 .btn {
+  font-size: 2.7em;
+  padding: 0.05em 0.2em;
   line-height: 1em;
   background-image: linear-gradient(
       var(--secondary-color),
@@ -10,7 +12,7 @@
   background-position: right bottom, right bottom;
 }
 
-.menuBtn {
-  font-size: 2.7em;
-  padding: 0.05em 0.2em;
+.rulesBtn {
+  background-size: 3px 58%, 25% 3px;
+  padding: 0.25em 0.2em;
 }
