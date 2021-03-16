@@ -1,8 +1,3 @@
-.btn {
-  border-radius: 10px;
-}
-
-.primary {
-  color: antiquewhite;
-  background: black;
+.menuBtn {
+  font-size: 2.7em;
 }
