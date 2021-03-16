@@ -11,6 +11,7 @@ body {
   padding: 0;
   margin: 0;
   font-family: Roboto, sans-serif;
+  font-size: 16px;
   color: var(--primary-fontcolor);
   background: transparent
     radial-gradient(
