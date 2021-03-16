@@ -1,6 +1,5 @@
 import Head from "next/head";
-import LogoMain from "../components/logo/Logo_main";
-import LogoSmall from "../components/logo/Logo_small";
+import Logo from "../components/logo/Logo";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
@@ -12,8 +11,8 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <LogoMain />
-        <LogoSmall />
+        <Logo size="big" />
+        <Logo size="small" />
       </main>
     </div>
   );

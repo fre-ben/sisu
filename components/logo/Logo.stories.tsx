@@ -1,10 +1,9 @@
 import { Meta } from "@storybook/react/types-6-0";
-import LogoMain from "./Logo_main";
-import LogoSmall from "./Logo_small";
+import Logo from "./Logo";
 
 export default {
   title: "Common/Logo",
 } as Meta;
 
-export const main = () => LogoMain();
-export const small = () => LogoSmall();
+export const big = () => <Logo size="big" />;
+export const small = () => <Logo size="small" />;
