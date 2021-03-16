@@ -15,7 +15,7 @@
 
 .small {
   font-weight: 600;
-  font-size: 2.7em;
+  font-size: 4.2em;
   line-height: 1em;
   background-image: linear-gradient(
       var(--secondary-color),
@@ -25,5 +25,5 @@
   background-repeat: no-repeat;
   background-size: 2px 55%, 64% 2px;
   background-position: right bottom, right bottom;
-  padding: 0 0.12em;
+  padding: 0 0.11em;
 }
