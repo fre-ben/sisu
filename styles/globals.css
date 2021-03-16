@@ -1,17 +1,17 @@
 @font-face {
   font-family: "Roboto";
-  src: url("/src/fonts/Roboto-Black.ttf") format("truetype"),
-    url("/src/fonts/Roboto-BlackItalic.ttf") format("truetype"),
-    url("/src/fonts/Roboto-Bold.ttf") format("truetype"),
-    url("/src/fonts/Roboto-BoldItalic.ttf") format("truetype"),
-    url("/src/fonts/Roboto-Italic.ttf") format("truetype"),
-    url("/src/fonts/Roboto-Light.ttf") format("truetype"),
-    url("/src/fonts/Roboto-LightItalic.ttf") format("truetype"),
-    url("/src/fonts/Roboto-Medium.ttf") format("truetype"),
-    url("/src/fonts/Roboto-MediumItalic.ttf") format("truetype"),
-    url("/src/fonts/Roboto-Regular.ttf") format("truetype"),
-    url("/src/fonts/Roboto-Thin.ttf") format("truetype"),
-    url("/src/fonts/Roboto-ThinItalic.ttf") format("truetype");
+  src: url("../src/fonts/Roboto-Black.ttf") format("truetype"),
+    url("../src/fonts/Roboto-BlackItalic.ttf") format("truetype"),
+    url("../src/fonts/Roboto-Bold.ttf") format("truetype"),
+    url("../src/fonts/Roboto-BoldItalic.ttf") format("truetype"),
+    url("../src/fonts/Roboto-Italic.ttf") format("truetype"),
+    url("../src/fonts/Roboto-Light.ttf") format("truetype"),
+    url("../src/fonts/Roboto-LightItalic.ttf") format("truetype"),
+    url("../src/fonts/Roboto-Medium.ttf") format("truetype"),
+    url("../src/fonts/Roboto-MediumItalic.ttf") format("truetype"),
+    url("../src/fonts/Roboto-Regular.ttf") format("truetype"),
+    url("../src/fonts/Roboto-Thin.ttf") format("truetype"),
+    url("../src/fonts/Roboto-ThinItalic.ttf") format("truetype");
 }
 
 :root {
