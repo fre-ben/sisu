@@ -12,3 +12,18 @@
   background-position: right bottom, right bottom;
   padding: 0 0.1em;
 }
+
+.small {
+  font-weight: 600;
+  font-size: 2.7em;
+  line-height: 1em;
+  background-image: linear-gradient(
+      var(--secondary-color),
+      var(--secondary-color)
+    ),
+    linear-gradient(var(--secondary-color), var(--secondary-color));
+  background-repeat: no-repeat;
+  background-size: 2px 55%, 65% 2px;
+  background-position: right bottom, right bottom;
+  padding: 0 0.12em;
+}
