@@ -1,0 +1,14 @@
+.main {
+  font-weight: 900;
+  font-size: 8.5em;
+  line-height: 1em;
+  background-image: linear-gradient(
+      var(--secondary-color),
+      var(--secondary-color)
+    ),
+    linear-gradient(var(--secondary-color), var(--secondary-color));
+  background-repeat: no-repeat;
+  background-size: 3px 55%, 65% 3px;
+  background-position: right bottom, right bottom;
+  padding: 0 0.1em;
+}
