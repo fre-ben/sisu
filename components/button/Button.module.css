@@ -16,3 +16,15 @@
   background-size: 3px 58%, 25% 3px;
   padding: 0.25em 0.2em;
 }
+
+.backContainer {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  column-gap: 0.2em;
+}
+
+.backBtn {
+  background-size: 3px 58%, 51% 3px;
+  padding: 0.05em 0.22em;
+}
