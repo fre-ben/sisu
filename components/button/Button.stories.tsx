@@ -7,6 +7,6 @@ export default {
   title: "Common/Button",
 } as Meta;
 
-export const startgame = () => StartGameBtn();
-export const rules = () => RulesBtn();
-export const back = () => BackBtn();
+export const startgame = () => <StartGameBtn />;
+export const rules = () => <RulesBtn />;
+export const back = () => <BackBtn />;
