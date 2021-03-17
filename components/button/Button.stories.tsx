@@ -16,6 +16,6 @@ Back.args = {
   onClick: () => alert("Hello"),
 };
 
-export const startgame = () => <StartGameBtn />;
-export const rules = () => <RulesBtn />;
-export const confirm = () => <ConfirmBtn />;
+export const startgame = () => <StartGameBtn onClick={() => alert("test")} />;
+export const rules = () => <RulesBtn onClick={() => alert("test")} />;
+export const confirm = () => <ConfirmBtn onClick={() => alert("test")} />;

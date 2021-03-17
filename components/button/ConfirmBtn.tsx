@@ -1,9 +1,12 @@
+import { ButtonProps } from "./BackBtn";
 import "./Button.module.css";
 import styles from "./Button.module.css";
 
-function ConfirmBtn() {
+function ConfirmBtn({ onClick }: ButtonProps) {
   return (
-    <button className={`${styles.btn} ${styles.confirmBtn}`}>Confirm</button>
+    <button className={`${styles.btn} ${styles.confirmBtn}`} onClick={onClick}>
+      Confirm
+    </button>
   );
 }
 
