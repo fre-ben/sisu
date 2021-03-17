@@ -6,18 +6,21 @@ import styles from "../styles/Home.module.css";
 
 export default function Home() {
   return (
-    <div className={styles.container}>
+    <>
       <Head>
-        <title>Create Next App</title>
+        <title>Sisu</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <Logo size="big" />
-        <Logo size="small" />
-        <StartGameBtn />
-        <RulesBtn />
+      <main>
+        <div className={styles.container}>
+          <Logo size="big" />
+          <div className={styles.menuItems}>
+            <StartGameBtn />
+            <RulesBtn />
+          </div>
+        </div>
       </main>
-    </div>
+    </>
   );
 }
