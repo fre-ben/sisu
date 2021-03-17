@@ -1,8 +1,18 @@
 .btn {
-  border-radius: 10px;
+  font-size: 2.7em;
+  padding: 0.05em 0.2em;
+  line-height: 1em;
+  background-image: linear-gradient(
+      var(--secondary-color),
+      var(--secondary-color)
+    ),
+    linear-gradient(var(--secondary-color), var(--secondary-color));
+  background-repeat: no-repeat;
+  background-size: 3px 58%, 38% 3px;
+  background-position: right bottom, right bottom;
 }
 
-.primary {
-  color: antiquewhite;
-  background: black;
+.rulesBtn {
+  background-size: 3px 58%, 25% 3px;
+  padding: 0.25em 0.2em;
 }
