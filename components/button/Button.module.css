@@ -17,6 +17,19 @@
   padding: 0.25em 0.2em;
 }
 
+
 .confirmBtn {
   background-size: 3px 58%, 77% 3px;
+}
+
+.backContainer {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  column-gap: 0.2em;
+}
+
+.backBtn {
+  background-size: 3px 58%, 51% 3px;
+  padding: 0.05em 0.22em;
 }
