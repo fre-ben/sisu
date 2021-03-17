@@ -1,22 +1,17 @@
 import Head from "next/head";
-import RulesBtn from "../components/button/RulesBtn";
-import StartGameBtn from "../components/button/StartGameBtn";
-import Logo from "../components/logo/Logo";
+import IndexPage from "../components/pages/Index";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
-        <title>Create Next App</title>
+        <title>Sisu</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <Logo size="big" />
-        <Logo size="small" />
-        <StartGameBtn />
-        <RulesBtn />
+      <main>
+        <IndexPage />
       </main>
     </div>
   );
