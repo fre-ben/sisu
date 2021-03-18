@@ -8,6 +8,7 @@
   background-repeat: no-repeat;
   background-size: 3px 55%, 64% 3px;
   background-position: right bottom, right bottom;
+  user-select: none;
 }
 
 .big {
