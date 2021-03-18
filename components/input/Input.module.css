@@ -24,7 +24,7 @@
   background-repeat: no-repeat;
   background-size: 3px 58%, 27% 3px;
   background-position: right bottom, right bottom;
-  padding: 0.2em 0.2em;
+  padding: 0 0.2em 0.2em 0;
 }
 
 .input::placeholder {
