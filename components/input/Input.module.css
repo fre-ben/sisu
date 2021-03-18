@@ -1,7 +1,6 @@
 .container {
   display: grid;
   grid-auto-flow: row;
-  row-gap: 1em;
   justify-items: end;
   align-items: start;
   min-height: 105px;
