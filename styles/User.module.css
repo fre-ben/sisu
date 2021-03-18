@@ -1,0 +1,20 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3% 10%;
+}
+
+.pageItems {
+  margin-top: 6em;
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 3em;
+}
+
+.form {
+  display: grid;
+  justify-items: end;
+}
