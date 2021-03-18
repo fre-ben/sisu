@@ -1,5 +1,6 @@
 import { Meta } from "@storybook/react/types-6-0";
-import Home from "../../pages";
+import Home from "../../pages/index";
+import Rules from "../../pages/rules";
 
 export default {
   title: "Pages/Main Menu",
@@ -7,3 +8,4 @@ export default {
 } as Meta;
 
 export const index = () => <Home />;
+export const rules = () => <Rules />;

@@ -4,7 +4,7 @@ import BackBtn from "../components/button/BackBtn";
 import Logo from "../components/logo/Logo";
 import styles from "../styles/Rules.module.css";
 
-export default function Home() {
+export default function Rules() {
   const router = useRouter();
 
   const goHome = () => {
