@@ -1,0 +1,38 @@
+.container {
+  display: grid;
+  grid-auto-flow: row;
+  row-gap: 1em;
+  justify-items: end;
+  align-items: start;
+  min-height: 105px;
+}
+
+.input {
+  background: none;
+  border: none;
+  width: 8em;
+  font-size: 2.7em;
+  font-weight: 600;
+  text-align: end;
+  color: var(--primary-text-color);
+  line-height: 1em;
+  background-image: linear-gradient(
+      var(--secondary-color),
+      var(--secondary-color)
+    ),
+    linear-gradient(var(--secondary-color), var(--secondary-color));
+  background-repeat: no-repeat;
+  background-size: 3px 58%, 27% 3px;
+  background-position: right bottom, right bottom;
+  padding: 0.2em 0.2em;
+}
+
+.input::placeholder {
+  color: var(--placeholder-color);
+}
+
+.status {
+  color: var(--secondary-color);
+  font-size: 1.2em;
+  margin: 0;
+}
