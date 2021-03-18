@@ -1,6 +1,6 @@
-import { ButtonProps } from "./BackBtn";
 import "./Button.module.css";
 import styles from "./Button.module.css";
+import { ButtonProps } from "./types";
 
 function StartGameBtn({ onClick }: ButtonProps) {
   return (
