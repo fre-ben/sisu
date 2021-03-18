@@ -10,6 +10,7 @@
   background-repeat: no-repeat;
   background-size: 3px 58%, 38% 3px;
   background-position: right bottom, right bottom;
+  cursor: pointer;
 }
 
 .rulesBtn {

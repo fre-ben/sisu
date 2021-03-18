@@ -1,10 +1,6 @@
 import "./Button.module.css";
 import styles from "./Button.module.css";
-import { MouseEventHandler } from "react";
-
-export type ButtonProps = {
-  onClick: MouseEventHandler<HTMLButtonElement>;
-};
+import { ButtonProps } from "./types";
 
 function BackBtn({ onClick }: ButtonProps) {
   return (
