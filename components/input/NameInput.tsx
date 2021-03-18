@@ -3,15 +3,10 @@ import "./Input.module.css";
 import styles from "./Input.module.css";
 
 function NameInput() {
-  const [nameStatus, setNameStatus] = useState("");
+  const [isMaxLength, setIsMaxLength] = useState(false);
 
   const checkValueLength = (event) => {
-    const valueLength = event.target.value.length;
-    if (valueLength >= 11) {
-      setNameStatus("Character limit reached!");
-    } else {
-      setNameStatus("");
-    }
+    setIsMaxLength(event.target.value.length >= 11);
   };
 
   return (
@@ -24,7 +19,9 @@ function NameInput() {
           maxLength={11}
           onChange={(event) => checkValueLength(event)}
         />
-        <p className={styles.status}>{nameStatus}</p>
+        {isMaxLength && (
+          <p className={styles.status}>Character limit reached!</p>
+        )}
       </div>
     </>
   );
