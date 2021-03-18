@@ -1,8 +1,9 @@
 import ConfirmBtn from "./ConfirmBtn";
 import { Meta, Story } from "@storybook/react/types-6-0";
-import BackBtn, { ButtonProps } from "./BackBtn";
+import BackBtn from "./BackBtn";
 import RulesBtn from "./RulesBtn";
 import StartGameBtn from "./StartGameBtn";
+import { ButtonProps } from "./types";
 
 export default {
   title: "Common/Button",
