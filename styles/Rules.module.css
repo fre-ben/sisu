@@ -1,0 +1,28 @@
+.container {
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  grid-template-rows: 1fr 70%;
+  row-gap: 4em;
+  padding: 5% 10%;
+}
+
+.menuItems {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: start;
+  column-gap: 3.5em;
+  height: 100%;
+  width: 90%;
+}
+
+.rules {
+  font-size: 1.5em;
+  overflow-y: auto;
+  max-height: 100%;
+  padding-right: 1em;
+}
+
+.rules p {
+  margin-top: 0;
+}
