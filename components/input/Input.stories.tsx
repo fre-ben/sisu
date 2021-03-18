@@ -9,6 +9,4 @@ const Template: Story = (args) => <NameInput {...args} />;
 
 export const Name = Template.bind({});
 
-Name.args = {
-  onClick: () => alert("Hello"),
-};
+Name.args = {};
