@@ -1,25 +1,28 @@
 .container {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  grid-template-rows: 1fr 70%;
+  row-gap: 4em;
+  padding: 5% 10%;
 }
 
 .menuItems {
-  margin-top: 4em;
-  max-width: 90vw;
   display: grid;
   grid-auto-flow: column;
-  row-gap: 1.5em;
   align-items: start;
-  justify-items: center;
   column-gap: 3.5em;
+  height: 100%;
+  width: 90%;
 }
 
 .rules {
   font-size: 1.5em;
-  max-width: 40rem;
   overflow-y: auto;
-  max-height: 60vh;
+  max-height: 100%;
+  padding-right: 1em;
+}
+
+.rules p {
+  margin-top: 0;
 }
