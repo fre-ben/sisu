@@ -4,7 +4,11 @@ import { ButtonProps } from "./types";
 
 function ConfirmBtn({ onClick }: ButtonProps) {
   return (
-    <button className={`${styles.btn} ${styles.confirmBtn}`} onClick={onClick}>
+    <button
+      className={`${styles.btn} ${styles.confirmBtn}`}
+      onClick={onClick}
+      type="submit"
+    >
       Confirm
     </button>
   );
