@@ -3,8 +3,8 @@
   display: grid;
   place-items: center;
   grid-template-rows: 1fr 70%;
-  row-gap: 4em;
-  padding: 5% 10%;
+  row-gap: 2.2em;
+  padding: 3% 10%;
 }
 
 .menuItems {
