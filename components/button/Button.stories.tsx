@@ -4,6 +4,7 @@ import BackBtn from "./BackBtn";
 import RulesBtn from "./RulesBtn";
 import StartGameBtn from "./StartGameBtn";
 import { ButtonProps } from "./types";
+import JoinBtn from "./JoinBtn";
 
 export default {
   title: "Common/Button",
@@ -20,3 +21,4 @@ Back.args = {
 export const startgame = () => <StartGameBtn onClick={() => alert("test")} />;
 export const rules = () => <RulesBtn onClick={() => alert("test")} />;
 export const confirm = () => <ConfirmBtn onClick={() => alert("test")} />;
+export const join = () => <JoinBtn onClick={() => alert("test")} />;
