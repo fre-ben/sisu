@@ -7,7 +7,7 @@
       var(--secondary-color)
     ),
     linear-gradient(var(--secondary-color), var(--secondary-color));
-  background-size: 3px 58%, var(--btn-width) 3px;
+  background-size: 3px 58%, var(--bottom-border-length) 3px;
   background-repeat: no-repeat;
   background-position: right bottom, right bottom;
   cursor: pointer;
@@ -15,21 +15,21 @@
 }
 
 .btn:hover {
-  background-size: 3px 58%, calc(var(--btn-width) + 10%) 3px;
+  background-size: 3px 58%, calc(var(--bottom-border-length) + 10%) 3px;
 }
 
 .startBtn {
-  --btn-width: 38%;
+  --bottom-border-length: 38%;
 }
 
 .rulesBtn {
-  --btn-width: 25%;
+  --bottom-border-length: 25%;
 
   padding: 0.25em 0.2em;
 }
 
 .confirmBtn {
-  --btn-width: 77%;
+  --bottom-border-length: 77%;
 }
 
 .backContainer {
@@ -40,7 +40,7 @@
 }
 
 .backBtn {
-  --btn-width: 51%;
+  --bottom-border-length: 51%;
 
   padding: 0.05em 0.22em;
 }
