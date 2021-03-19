@@ -10,7 +10,7 @@ function PlayerCount({ playerCount }: PlayerCountProps) {
 
   return (
     <div className={styles.container}>
-      <span className={styles.counter}>
+      <span>
         {playerCount}/{maxPlayers}
       </span>
       <img src="/players.svg" alt="players" />
