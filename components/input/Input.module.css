@@ -25,10 +25,15 @@
   background-size: 3px 58%, 27% 3px;
   background-position: right bottom, right bottom;
   padding: 0.2em 0.2em;
+  transition: var(--bottom-transition);
 }
 
 .input::placeholder {
   color: var(--placeholder-color);
+}
+
+.input:hover {
+  background-size: 3px 58%, calc(27% + 10%) 3px;
 }
 
 .status {
