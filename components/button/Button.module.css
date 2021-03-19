@@ -46,8 +46,9 @@
 }
 
 .joinBtn {
+  --bottom-border-length: 62%;
+
   font-size: 2.2em;
-  background-size: 3px 58%, 62% 3px;
   padding: 0.25em 0.22em;
 }
 
