@@ -33,3 +33,16 @@
   background-size: 3px 58%, 51% 3px;
   padding: 0.05em 0.22em;
 }
+
+.joinBtn {
+  font-size: 2.2em;
+  background-size: 3px 58%, 62% 3px;
+  padding: 0.25em 0.22em;
+}
+
+.joinBackground {
+  background-color: var(--primary-color);
+  padding: 0.05em 0.23em;
+  box-shadow: 0 3px 10px #000000c7;
+  border-radius: 5px;
+}
