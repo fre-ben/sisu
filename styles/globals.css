@@ -22,6 +22,7 @@
   --placeholder-color: #8a8a8a;
   --background-gradient-color: #62606d;
   --bottom-transition: background-size 250ms ease-out;
+  --shadow: 0 3px 10px #000000c7;
 }
 
 html,
