@@ -21,6 +21,7 @@
   --primary-text-color: #fff;
   --placeholder-color: #8a8a8a;
   --background-gradient-color: #62606d;
+  --bottom-transition: background-size 250ms ease-out;
 }
 
 html,
