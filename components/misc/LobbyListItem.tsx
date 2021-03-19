@@ -1,6 +1,5 @@
 import { MouseEventHandler } from "react";
 import JoinBtn from "../button/JoinBtn";
-import "./LobbyListItem.module.css";
 import styles from "./LobbyListItem.module.css";
 import PlayerCount from "./PlayerCount";
 
