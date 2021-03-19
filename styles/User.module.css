@@ -7,10 +7,14 @@
   padding: 3% 10%;
 }
 
-.menuItems {
+.pageItems {
   margin-top: 6em;
   display: grid;
-  grid-auto-flow: row;
-  row-gap: 1.5em;
-  justify-items: center;
+  grid-auto-flow: column;
+  column-gap: 3em;
+}
+
+.form {
+  display: grid;
+  justify-items: end;
 }

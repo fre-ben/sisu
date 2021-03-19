@@ -17,7 +17,11 @@ export default function Home() {
         <div className={styles.container}>
           <Logo size="big" />
           <div className={styles.menuItems}>
-            <StartGameBtn onClick={() => console.log("Clicked")} />
+            <Link href="/user">
+              <a>
+                <StartGameBtn onClick={() => console.log("Clicked")} />
+              </a>
+            </Link>
             <Link href="/rules">
               <a>
                 <RulesBtn onClick={() => console.log("Clicked")} />
