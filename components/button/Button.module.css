@@ -44,3 +44,17 @@
 
   padding: 0.05em 0.22em;
 }
+
+.joinBtn {
+  --bottom-border-length: 62%;
+
+  font-size: 2.2em;
+  padding: 0.25em 0.22em;
+}
+
+.joinBackground {
+  background-color: var(--primary-color);
+  padding: 0.05em 0.23em;
+  box-shadow: var(--shadow);
+  border-radius: 5px;
+}
