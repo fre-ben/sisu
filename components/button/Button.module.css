@@ -55,6 +55,6 @@
 .joinBackground {
   background-color: var(--primary-color);
   padding: 0.05em 0.23em;
-  box-shadow: 0 3px 10px #000000c7;
+  box-shadow: var(--shadow);
   border-radius: 5px;
 }
