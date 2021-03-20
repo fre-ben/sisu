@@ -72,3 +72,42 @@
   font-size: 1.7em;
   padding: 0.3em 0.25em;
 }
+
+.keepDiscardBackground {
+  background-color: var(--primary-color);
+  padding: 0.2em 0.4em;
+  box-shadow: var(--shadow);
+  border-radius: 5px;
+}
+
+.keepBtn {
+  --bottom-border-length: 62%;
+
+  font-size: 1.8em;
+  padding: 0.3em 0.27em;
+}
+
+.discardBtn {
+  --bottom-border-length: 70.5%;
+
+  font-size: 1.8em;
+  padding: 0.3em 0.27em;
+}
+
+.readyBackground {
+  background-color: var(--primary-color);
+  padding: 0.2em 0.4em;
+  box-shadow: var(--shadow);
+  border-radius: 5px;
+}
+
+.readyBackground span {
+  color: var(--secondary-color);
+}
+
+.readyBtn {
+  --bottom-border-length: 26%;
+
+  font-size: 1.8em;
+  padding: 0.3em 0.27em;
+}
