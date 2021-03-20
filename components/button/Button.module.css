@@ -14,6 +14,15 @@
   transition: var(--bottom-transition);
 }
 
+.btn:disabled {
+  background-image: linear-gradient(
+      var(--placeholder-color),
+      var(--placeholder-color)
+    ),
+    linear-gradient(var(--placeholder-color), var(--placeholder-color));
+  color: var(--placeholder-color);
+}
+
 .btn:hover {
   background-size: 3px 58%, calc(var(--bottom-border-length) + 10%) 3px;
 }
