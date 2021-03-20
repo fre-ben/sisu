@@ -23,4 +23,5 @@ Lobbylistitem.args = {
   playerCount: 4,
   lobbyNr: 1,
   onClick: null,
+  lobbyIsFull: false,
 };
