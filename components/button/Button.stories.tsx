@@ -3,7 +3,7 @@ import { Meta, Story } from "@storybook/react/types-6-0";
 import BackBtn from "./BackBtn";
 import RulesBtn from "./RulesBtn";
 import StartGameBtn from "./StartGameBtn";
-import { ButtonProps } from "./types";
+import { ButtonProps, JoinBtnProps } from "./types";
 import JoinBtn from "./JoinBtn";
 import CreateBtn from "./CreateBtn";
 
@@ -17,6 +17,15 @@ export const Back = Template.bind({});
 
 Back.args = {
   onClick: () => alert("Hello"),
+};
+
+const TemplateJoin: Story<JoinBtnProps> = (args) => <JoinBtn {...args} />;
+
+export const Join = TemplateJoin.bind({});
+
+Join.args = {
+  onClick: () => alert("Hello"),
+  lobbyIsFull: true,
 };
 
 export const startgame = () => <StartGameBtn onClick={() => alert("test")} />;

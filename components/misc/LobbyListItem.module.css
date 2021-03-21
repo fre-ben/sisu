@@ -1,8 +1,11 @@
-.container {
+.listItem {
   display: grid;
   grid-auto-flow: column;
   align-items: center;
-  column-gap: 0.5em;
-  font-size: 1.7em;
+  column-gap: 6em;
+}
+
+.lobbyNr {
+  font-size: 2.7em;
   font-weight: 500;
 }
