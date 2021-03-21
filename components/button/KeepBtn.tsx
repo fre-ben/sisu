@@ -3,8 +3,11 @@ import { ButtonProps } from "./types";
 
 function KeepBtn({ onClick }: ButtonProps) {
   return (
-    <button className={`${styles.btn} ${styles.keepBtn}`} onClick={onClick}>
-      <div className={styles.keepDiscardBackground}>Keep</div>
+    <button
+      className={`${styles.btn} ${styles.gameBoardBtn} ${styles.keepBtn}`}
+      onClick={onClick}
+    >
+      <div className={styles.btnBackground}>Keep</div>
     </button>
   );
 }

@@ -5,7 +5,9 @@ import { ButtonProps } from "./types";
 function JoinBtn({ onClick }: ButtonProps) {
   return (
     <button className={`${styles.btn} ${styles.joinBtn}`} onClick={onClick}>
-      <div className={styles.joinBackground}>Join</div>
+      <div className={`${styles.btnBackground} ${styles.joinBackground}`}>
+        Join
+      </div>
     </button>
   );
 }
