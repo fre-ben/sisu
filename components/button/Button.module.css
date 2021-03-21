@@ -61,18 +61,28 @@
   padding: 0.25em 0.22em;
 }
 
-.joinBackground {
+.btnBackground {
   background-color: var(--primary-color);
-  padding: 0.05em 0.23em;
+  padding: 0.2em 0.4em;
   box-shadow: var(--shadow);
   border-radius: 5px;
 }
 
+.btnBackground span {
+  color: var(--secondary-color);
+}
+
+.gameBoardBtn {
+  font-size: 1.8em;
+  padding: 0.3em 0.27em;
+}
+
+.joinBackground {
+  padding: 0.05em 0.23em;
+}
+
 .createBackground {
-  background-color: var(--primary-color);
   padding: 0.2em 0.2em;
-  box-shadow: var(--shadow);
-  border-radius: 5px;
 }
 
 .createBtn {
@@ -80,4 +90,16 @@
 
   font-size: 1.7em;
   padding: 0.3em 0.25em;
+}
+
+.keepBtn {
+  --bottom-border-length: 62%;
+}
+
+.discardBtn {
+  --bottom-border-length: 70.5%;
+}
+
+.readyBtn {
+  --bottom-border-length: 26%;
 }
