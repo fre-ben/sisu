@@ -67,3 +67,17 @@
   box-shadow: var(--shadow);
   border-radius: 5px;
 }
+
+.createBackground {
+  background-color: var(--primary-color);
+  padding: 0.2em 0.2em;
+  box-shadow: var(--shadow);
+  border-radius: 5px;
+}
+
+.createBtn {
+  --bottom-border-length: 37%;
+
+  font-size: 1.7em;
+  padding: 0.3em 0.25em;
+}
