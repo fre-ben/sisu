@@ -1,8 +1,8 @@
 import "./Button.module.css";
 import styles from "./Button.module.css";
-import { ButtonProps } from "./types";
+import { JoinBtnProps } from "./types";
 
-function JoinBtn({ onClick }: ButtonProps) {
+function JoinBtn({ onClick, lobbyIsFull }: JoinBtnProps) {
   return (
     <button className={`${styles.btn} ${styles.joinBtn}`} onClick={onClick}>
       <div className={`${styles.btnBackground} ${styles.joinBackground}`}>

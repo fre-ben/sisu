@@ -3,12 +3,13 @@ import { Meta, Story } from "@storybook/react/types-6-0";
 import BackBtn from "./BackBtn";
 import RulesBtn from "./RulesBtn";
 import StartGameBtn from "./StartGameBtn";
-import { ButtonProps } from "./types";
+import { ButtonProps, JoinBtnProps } from "./types";
 import JoinBtn from "./JoinBtn";
 import CreateBtn from "./CreateBtn";
 import KeepBtn from "./KeepBtn";
 import DiscardBtn from "./DiscardBtn";
 import ReadyBtn from "./ReadyBtn";
+
 
 export default {
   title: "Common/Button",
@@ -22,6 +23,15 @@ Back.args = {
   onClick: () => alert("Hello"),
 };
 
+const TemplateJoin: Story<JoinBtnProps> = (args) => <JoinBtn {...args} />;
+
+export const Join = TemplateJoin.bind({});
+
+Join.args = {
+  onClick: () => alert("Hello"),
+  lobbyIsFull: true,
+};
+
 export const startgame = () => <StartGameBtn onClick={() => alert("test")} />;
 export const rules = () => <RulesBtn onClick={() => alert("test")} />;
 export const confirm = () => <ConfirmBtn onClick={() => alert("test")} />;
@@ -30,3 +40,4 @@ export const create = () => <CreateBtn onClick={() => alert("test")} />;
 export const keep = () => <KeepBtn onClick={() => alert("test")} />;
 export const discard = () => <DiscardBtn onClick={() => alert("test")} />;
 export const ready = () => <ReadyBtn onClick={() => alert("test")} />;
+
