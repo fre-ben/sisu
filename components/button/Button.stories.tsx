@@ -10,7 +10,6 @@ import KeepBtn from "./KeepBtn";
 import DiscardBtn from "./DiscardBtn";
 import ReadyBtn from "./ReadyBtn";
 
-
 export default {
   title: "Common/Button",
 } as Meta;
@@ -35,9 +34,7 @@ Join.args = {
 export const startgame = () => <StartGameBtn onClick={() => alert("test")} />;
 export const rules = () => <RulesBtn onClick={() => alert("test")} />;
 export const confirm = () => <ConfirmBtn onClick={() => alert("test")} />;
-export const join = () => <JoinBtn onClick={() => alert("test")} />;
 export const create = () => <CreateBtn onClick={() => alert("test")} />;
 export const keep = () => <KeepBtn onClick={() => alert("test")} />;
 export const discard = () => <DiscardBtn onClick={() => alert("test")} />;
 export const ready = () => <ReadyBtn onClick={() => alert("test")} />;
-
