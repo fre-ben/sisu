@@ -33,7 +33,7 @@ Join.args = {
 
 export const startgame = () => <StartGameBtn onClick={() => alert("test")} />;
 export const rules = () => <RulesBtn onClick={() => alert("test")} />;
-export const confirm = () => <ConfirmBtn onClick={() => alert("test")} />;
+export const confirm = () => <ConfirmBtn />;
 export const create = () => <CreateBtn onClick={() => alert("test")} />;
 export const keep = () => <KeepBtn onClick={() => alert("test")} />;
 export const discard = () => <DiscardBtn onClick={() => alert("test")} />;
