@@ -8,7 +8,6 @@ function NameInput() {
   const checkValueLength = (event) => {
     setIsMaxLength(event.target.value.length >= 11);
   };
-
   return (
     <>
       <div className={styles.container}>
@@ -18,6 +17,8 @@ function NameInput() {
           placeholder="Enter Name"
           maxLength={11}
           onChange={(event) => checkValueLength(event)}
+          minLength={2}
+          required
         />
         {isMaxLength && (
           <p className={styles.status}>Character limit reached!</p>
