@@ -21,7 +21,7 @@ export default function Lobbies() {
           <div className={styles.pageItems}>
             <Link href="/user">
               <a>
-                <BackBtn onClick={() => console.log("Clicked")} />
+                <BackBtn />
               </a>
             </Link>
             <ul className={styles.list}>
