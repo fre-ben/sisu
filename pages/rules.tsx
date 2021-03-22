@@ -18,7 +18,7 @@ export default function Rules() {
           <div className={styles.menuItems}>
             <Link href="/">
               <a>
-                <BackBtn onClick={() => console.log("Clicked")} />
+                <BackBtn />
               </a>
             </Link>
             <article className={styles.rules}>
