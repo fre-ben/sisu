@@ -1,0 +1,34 @@
+.container {
+  display: grid;
+  justify-items: center;
+  row-gap: 1em;
+}
+
+.drawHeadline {
+  background-size: 3px 58%, 81% 3px;
+}
+
+.discardHeadline {
+  background-size: 3px 58%, 84.5% 3px;
+}
+
+.card {
+  width: 6.5em;
+  padding: 0.5em 0.5em;
+  background-image: linear-gradient(
+      var(--secondary-color),
+      var(--secondary-color)
+    ),
+    linear-gradient(var(--secondary-color), var(--secondary-color)),
+    linear-gradient(var(--secondary-color), var(--secondary-color)),
+    linear-gradient(var(--secondary-color), var(--secondary-color));
+  background-size: 3px 20%, 37% 3px;
+  background-repeat: no-repeat;
+  background-position: right bottom, right bottom, left top, left top;
+  transition: var(--bottom-transition);
+  cursor: pointer;
+}
+
+.card:hover {
+  background-size: 3px 20%, 47% 3px;
+}
