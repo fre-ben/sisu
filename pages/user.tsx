@@ -28,7 +28,7 @@ export default function User() {
           <div className={styles.pageItems}>
             <Link href="/">
               <a>
-                <BackBtn onClick={() => console.log("Clicked")} />
+                <BackBtn />
               </a>
             </Link>
             <form className={styles.form} onSubmit={handleSubmit}>
