@@ -1,0 +1,28 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3% 10%;
+}
+
+.container button:nth-child(2) {
+  margin: 1em 0;
+  padding-left: 1em;
+}
+
+.pageItems {
+  margin-top: 1.5em;
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 3em;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+}
+.list li {
+  margin-bottom: 1em;
+}

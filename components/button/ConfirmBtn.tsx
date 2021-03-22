@@ -1,14 +1,8 @@
-import "./Button.module.css";
 import styles from "./Button.module.css";
-import { ButtonProps } from "./types";
 
-function ConfirmBtn({ onClick }: ButtonProps) {
+function ConfirmBtn() {
   return (
-    <button
-      className={`${styles.btn} ${styles.confirmBtn}`}
-      onClick={onClick}
-      type="submit"
-    >
+    <button className={`${styles.btn} ${styles.confirmBtn}`} type="submit">
       Confirm
     </button>
   );

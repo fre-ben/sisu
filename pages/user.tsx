@@ -5,11 +5,14 @@ import Logo from "../components/logo/Logo";
 import BackBtn from "../components/button/BackBtn";
 import ConfirmBtn from "../components/button/ConfirmBtn";
 import NameInput from "../components/input/NameInput";
+import { useRouter } from "next/dist/client/router";
 
 export default function User() {
+  const router = useRouter();
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("Submitted!");
+    router.push("/lobbies");
   };
 
   return (
@@ -28,9 +31,9 @@ export default function User() {
                 <BackBtn onClick={() => console.log("Clicked")} />
               </a>
             </Link>
-            <form className={styles.form} onSubmit={() => handleSubmit}>
+            <form className={styles.form} onSubmit={handleSubmit}>
               <NameInput />
-              <ConfirmBtn onClick={() => console.log("clicked")} />
+              <ConfirmBtn />
             </form>
           </div>
         </div>
