@@ -103,3 +103,10 @@
 .readyBtn {
   --bottom-border-length: 26%;
 }
+
+.exitBtn {
+  --bottom-border-length: 41%;
+
+  font-size: 1.8em;
+  padding: 0.15em 0.27em;
+}
