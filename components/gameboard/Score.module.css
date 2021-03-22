@@ -1,0 +1,42 @@
+.container {
+  display: grid;
+  justify-items: center;
+  row-gap: 1em;
+}
+
+.container ul {
+  width: 85%;
+  margin: 0;
+  padding: 0.5em 0.7em;
+  background-image: linear-gradient(
+      var(--secondary-color),
+      var(--secondary-color)
+    ),
+    linear-gradient(var(--secondary-color), var(--secondary-color)),
+    linear-gradient(var(--secondary-color), var(--secondary-color)),
+    linear-gradient(var(--secondary-color), var(--secondary-color));
+  background-size: 3px 20%, 25% 3px;
+  background-repeat: no-repeat;
+  background-position: right bottom, right bottom, left top, left top;
+}
+
+.totalScoreHeadline {
+  background-size: 3px 58%, 86% 3px;
+}
+
+.playerListItem {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  font-size: 1.8em;
+}
+
+.playerScore {
+  color: var(--secondary-color);
+  justify-self: end;
+}
+
+.playerName {
+  justify-self: start;
+}
