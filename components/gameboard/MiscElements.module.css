@@ -29,3 +29,40 @@
   font-weight: 500;
   color: var(--secondary-color);
 }
+
+.modalContainer {
+  display: grid;
+  justify-items: center;
+  background-color: var(--primary-color);
+  padding: 1em 2em;
+  box-shadow: var(--shadow);
+  border-radius: 15px;
+}
+
+.modalContainer p {
+  font-size: 2.7em;
+  font-weight: 600;
+  margin: 0;
+}
+
+.scoreList {
+  padding: 0;
+  margin-top: 1.5em;
+  margin-bottom: 1em;
+  font-weight: 500;
+}
+
+.playerListItem {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  font-size: 1.8em;
+}
+
+.playerScore {
+  color: var(--secondary-color);
+  justify-self: end;
+}
+
+.playerName {
+  justify-self: start;
+}
