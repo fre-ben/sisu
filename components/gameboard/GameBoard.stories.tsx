@@ -8,5 +8,5 @@ export default {
 } as Meta;
 
 export const drawpile = () => <DrawPile onClick={() => alert("test")} />;
-export const discardile = () => <DiscardPile onClick={() => alert("test")} />;
+export const discardpile = () => <DiscardPile onClick={() => alert("test")} />;
 export const totalscore = () => <TotalScore />;
