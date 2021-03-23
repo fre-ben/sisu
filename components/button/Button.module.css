@@ -114,3 +114,14 @@
   font-size: 1.8em;
   padding: 0.15em 0.27em;
 }
+
+.continueBtn {
+  --bottom-border-length: 75%;
+
+  font-size: 1.8em;
+  padding: 0.32em 0.25em;
+}
+
+.continueBackground {
+  padding: 0.25em 0.3em;
+}
