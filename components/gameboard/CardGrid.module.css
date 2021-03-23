@@ -1,0 +1,112 @@
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "score name"
+    "cardgrid cardgrid";
+}
+
+.container p {
+  margin: 0;
+  margin-bottom: 0.2em;
+  font-size: 1.6em;
+  font-weight: 400;
+  padding: 0 1em;
+}
+
+.container p span {
+  color: var(--secondary-color);
+}
+
+.opponentContainer p {
+  margin: 0;
+  margin-top: 0.5em;
+  font-size: 1em;
+  font-weight: 300;
+  padding: 0 1em;
+}
+
+.container p:first-of-type {
+  grid-area: score;
+}
+
+.container p:last-of-type {
+  grid-area: name;
+  justify-self: end;
+}
+
+.lines {
+  grid-area: cardgrid;
+  padding: 0.7em;
+  background-image: linear-gradient(
+      var(--secondary-color),
+      var(--secondary-color)
+    ),
+    linear-gradient(var(--secondary-color), var(--secondary-color)),
+    linear-gradient(var(--secondary-color), var(--secondary-color)),
+    linear-gradient(var(--secondary-color), var(--secondary-color));
+  background-size: 3px 30%, 20% 3px;
+  background-repeat: no-repeat;
+  background-position: right bottom, right bottom, left top, left top;
+  transition: var(--bottom-transition);
+}
+
+.lines:hover {
+  background-size: 3px 30%, 30% 3px;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  column-gap: 1em;
+  row-gap: 0.5em;
+  background-color: var(--primary-color);
+  padding: 1.3em;
+  box-shadow: var(--shadow);
+  border-radius: 5px;
+}
+
+.cardGrid img {
+  width: 5.8em;
+  cursor: pointer;
+}
+
+.opponentContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "cardgrid cardgrid"
+    "score name";
+}
+
+.opponentContainer p span {
+  color: var(--secondary-color);
+}
+
+.opponentContainer p:first-of-type {
+  grid-area: score;
+}
+
+.opponentContainer p:last-of-type {
+  grid-area: name;
+  justify-self: end;
+}
+
+.oppCardGrid {
+  display: grid;
+  grid-area: cardgrid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  column-gap: 0.5em;
+  row-gap: 0.3em;
+  background-color: var(--primary-color);
+  padding: 0.6em;
+  box-shadow: var(--shadow);
+  border-radius: 5px;
+}
+
+.oppCardGrid img {
+  width: 2.1em;
+  cursor: pointer;
+}
