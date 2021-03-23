@@ -1,0 +1,62 @@
+.viewContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2% 2%;
+}
+
+.topBar {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  column-gap: 2em;
+  justify-items: center;
+  grid-area: topbar;
+}
+
+.sideBar {
+  display: grid;
+  grid-auto-flow: row;
+  justify-items: center;
+  row-gap: 2em;
+  grid-area: sidebar;
+}
+
+.pageElements {
+  display: grid;
+  grid-template-columns: 80% 20%;
+  grid-template-rows: auto 1fr;
+  align-items: start;
+  column-gap: 2em;
+  width: 100%;
+  grid-template-areas:
+    "topbar sidebar"
+    "game sidebar";
+}
+
+.gameElements8Player {
+  display: grid;
+  justify-items: center;
+}
+
+.opponents {
+  margin-top: 1em;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  justify-items: center;
+  align-items: start;
+  column-gap: 1em;
+}
+
+.op8row {
+  display: grid;
+  grid-auto-flow: row;
+  row-gap: 1em;
+}
+
+.playerCardGrid {
+  position: relative;
+  bottom: 10em;
+}
