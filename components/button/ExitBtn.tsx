@@ -1,5 +1,4 @@
 import { useRouter } from "next/dist/client/router";
-import "./Button.module.css";
 import styles from "./Button.module.css";
 
 function ExitBtn() {
