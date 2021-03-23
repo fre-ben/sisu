@@ -104,6 +104,10 @@
   --bottom-border-length: 26%;
 }
 
+.restartBtn {
+  --bottom-border-length: 23%;
+}
+
 .exitBtn {
   --bottom-border-length: 41%;
 
