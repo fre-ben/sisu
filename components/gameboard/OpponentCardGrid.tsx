@@ -37,15 +37,13 @@ function OpponentCardGrid(onClick) {
   ));
 
   return (
-    <>
-      <section className={styles.opponentContainer}>
-        <p>
-          Score: <span>{players[0].score}</span>
-        </p>
-        <p>{players[0].name}</p>
-        <div className={styles.oppCardGrid}>{createPlayerCardGrid}</div>
-      </section>
-    </>
+    <section className={styles.opponentContainer}>
+      <p>
+        Score: <span>{players[0].score}</span>
+      </p>
+      <p>{players[0].name}</p>
+      <div className={styles.oppCardGrid}>{createPlayerCardGrid}</div>
+    </section>
   );
 }
 
