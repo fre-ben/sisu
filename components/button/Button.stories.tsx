@@ -10,6 +10,7 @@ import KeepBtn from "./KeepBtn";
 import DiscardBtn from "./DiscardBtn";
 import ReadyBtn from "./ReadyBtn";
 import ExitBtn from "./ExitBtn";
+import RestartBtn from "./RestartBtn";
 
 export default {
   title: "Common/Button",
@@ -33,3 +34,4 @@ export const keep = () => <KeepBtn onClick={() => alert("test")} />;
 export const discard = () => <DiscardBtn onClick={() => alert("test")} />;
 export const ready = () => <ReadyBtn onClick={() => alert("test")} />;
 export const exit = () => <ExitBtn />;
+export const restart = () => <RestartBtn onClick={() => alert("test")} />;
