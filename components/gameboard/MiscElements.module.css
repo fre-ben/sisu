@@ -1,0 +1,31 @@
+.roundCounter {
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 0.3em;
+  font-size: 1.8em;
+  font-weight: 500;
+  padding: 0.15em 0.3em;
+  line-height: 1em;
+  background-image: linear-gradient(
+      var(--secondary-color),
+      var(--secondary-color)
+    ),
+    linear-gradient(var(--secondary-color), var(--secondary-color));
+  background-size: 3px 58%, 78% 3px;
+  background-repeat: no-repeat;
+  background-position: right bottom, right bottom;
+}
+
+.roundCounter span {
+  color: var(--secondary-color);
+}
+
+.statusbar {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  column-gap: 0.3em;
+  font-size: 1.8em;
+  font-weight: 500;
+  color: var(--secondary-color);
+}
