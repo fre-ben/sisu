@@ -39,6 +39,7 @@
 .gameElements8Player {
   display: grid;
   justify-items: center;
+  grid-area: game;
 }
 
 .opponents {
