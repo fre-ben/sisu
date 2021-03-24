@@ -5,8 +5,11 @@ import Logo from "../components/logo/Logo";
 import BackBtn from "../components/button/BackBtn";
 import CreateBtn from "../components/button/CreateBtn";
 import LobbyListItem from "../components/misc/LobbyListItem";
+import { useRouter } from "next/dist/client/router";
 
 export default function Lobbies() {
+  const router = useRouter();
+
   return (
     <>
       <Head>
@@ -21,14 +24,14 @@ export default function Lobbies() {
           <div className={styles.pageItems}>
             <Link href="/user">
               <a>
-                <BackBtn onClick={() => console.log("Clicked")} />
+                <BackBtn />
               </a>
             </Link>
             <ul className={styles.list}>
               <LobbyListItem
-                playerCount={6}
+                playerCount={7}
                 lobbyNr={1}
-                onClick={() => alert("joined")}
+                onClick={() => router.push("/game")}
                 lobbyIsFull={null}
               />
               <LobbyListItem
