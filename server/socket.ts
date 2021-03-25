@@ -9,6 +9,7 @@ function broadcastListGamesUpdate() {
 
 export function listenSocket(server) {
   io = new Server(server, {});
+  let lobbyNr = 1;
 
   io.on("connection", (socket: Socket) => {
     console.log(socket.id + " connected");
@@ -21,12 +22,15 @@ export function listenSocket(server) {
       socket.emit("list games", getGames());
     });
 
-    socket.on("game created", (lobbyNr) => {
+    socket.emit("");
+
+    socket.on("game created", () => {
       socket.join(`lobby${lobbyNr}`);
       console.log("Lobby nr " + lobbyNr + " was created");
       createGame(lobbyNr);
+      socket.emit("pass lobbynr", lobbyNr);
       broadcastListGamesUpdate();
-      socket.emit("hand down lobbynr", lobbyNr);
+      lobbyNr++;
     });
   });
 }

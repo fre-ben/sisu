@@ -17,7 +17,6 @@ type LobbiesProps = {
 
 export default function Lobbies({ socket }: LobbiesProps) {
   const router = useRouter();
-  const [lobbyNr, setLobbyNr] = useState(1);
   const [lobbyItems, setLobbyItems] = useState<LobbyListItemProps[]>([]);
 
   useEffect(() => {
@@ -37,10 +36,9 @@ export default function Lobbies({ socket }: LobbiesProps) {
   };
 
   const handleCreateBtnClick = () => {
-    socket.emit("game created", lobbyNr);
-    // goToLobby(lobbyNr);
-    socket.on("hand down lobbynr", (lob) => {
-      setLobbyNr(+lob + 1);
+    socket.emit("game created");
+    socket.on("pass lobbynr", (lobbyNr) => {
+      goToLobby(lobbyNr);
     });
   };
 

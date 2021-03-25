@@ -2,8 +2,6 @@ import { Game, Player, Card } from "./gameTypes";
 
 const games: unknown = {};
 
-//lobbyNr generieren
-
 export function createGame(lobbyNr) {
   console.log("Game created on server side");
   games[lobbyNr] = { lobbyNr, playerCount: 1, lobbyIsFull: false };
