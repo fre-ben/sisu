@@ -1,8 +1,4 @@
-type Game = {
-  lobbyNr: number;
-  playerCount: number;
-  lobbyIsFull: boolean;
-};
+import { Game, Player, Card } from "./gameTypes";
 
 const games: unknown = {};
 
