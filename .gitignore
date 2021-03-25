@@ -21,6 +21,7 @@
 *.pem
 .eslintcache
 *:Zone.Identifier
+api.json
 
 # debug
 npm-debug.log*
