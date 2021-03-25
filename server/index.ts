@@ -3,6 +3,7 @@ import { parse } from "url";
 import next from "next";
 import path from "path";
 import fs from "fs/promises";
+import { listenSocket } from "./socket";
 
 const dev = process.env.NODE_ENV !== "production";
 const port = process.env.PORT || 3000;
@@ -18,7 +19,7 @@ const readStorybookStatic = (filename) => {
 };
 
 app.prepare().then(() => {
-  createServer(async (req, res) => {
+  const httpServer = createServer(async (req, res) => {
     // Be sure to pass `true` as the second argument to `url.parse`.
     // This tells it to parse the query portion of the URL.
     const parsedUrl = parse(req.url, true);
@@ -45,7 +46,11 @@ app.prepare().then(() => {
     }
     // Forward to next handler
     handle(req, res, parsedUrl);
-  }).listen(port, () => {
+  });
+
+  listenSocket(httpServer);
+
+  httpServer.listen(port, () => {
     console.log(`> Ready on http://localhost:${port}`);
   });
 });
