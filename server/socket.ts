@@ -26,9 +26,13 @@ export function listenSocket(server) {
 
     // Hier müsste userName noch ankommen und in createGame() übergeben werden
     socket.on("create game", () => {
+      //Testdata
+      const userName = "Test";
+      const socketID = "socketTestID";
+
       socket.join(`lobby${lobbyNr}`);
       console.log("Lobby nr " + lobbyNr + " was created");
-      createGame(lobbyNr);
+      createGame(lobbyNr, userName, socketID);
       socket.emit("pass lobbynr", lobbyNr);
       broadcastListGamesUpdate();
       lobbyNr++;
