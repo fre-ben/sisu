@@ -36,7 +36,8 @@ export default function Lobbies({ socket }: LobbiesProps) {
   };
 
   const handleCreateBtnClick = () => {
-    socket.emit("game created");
+    //ich könnte in den emit noch den userName übergeben fürs game object + socketID
+    socket.emit("create game");
     socket.on("pass lobbynr", (lobbyNr) => {
       goToLobby(lobbyNr);
     });

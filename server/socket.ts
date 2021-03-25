@@ -24,7 +24,8 @@ export function listenSocket(server) {
 
     socket.emit("");
 
-    socket.on("game created", () => {
+    // Hier müsste userName noch ankommen und in createGame() übergeben werden
+    socket.on("create game", () => {
       socket.join(`lobby${lobbyNr}`);
       console.log("Lobby nr " + lobbyNr + " was created");
       createGame(lobbyNr);
