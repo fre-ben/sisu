@@ -4,11 +4,45 @@ import Link from "next/link";
 import Logo from "../components/logo/Logo";
 import BackBtn from "../components/button/BackBtn";
 import CreateBtn from "../components/button/CreateBtn";
-import LobbyListItem from "../components/misc/LobbyListItem";
-import { useRouter } from "next/dist/client/router";
+import LobbyListItem, {
+  LobbyListItemProps,
+} from "../components/misc/LobbyListItem";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { Socket } from "socket.io-client";
 
-export default function Lobbies() {
+type LobbiesProps = {
+  socket: Socket;
+};
+
+export default function Lobbies({ socket }: LobbiesProps) {
   const router = useRouter();
+  const [lobbyNr, setLobbyNr] = useState(1);
+  const [lobbyItems, setLobbyItems] = useState<LobbyListItemProps[]>([]);
+
+  useEffect(() => {
+    if (!socket) {
+      return;
+    }
+    function handleListGames(games) {
+      setLobbyItems(games);
+    }
+
+    socket.on("list games", handleListGames);
+    socket.emit("list games");
+  }, [socket]);
+
+  const goToLobby = (lobbyNr) => {
+    router.push(`/game?lobby=${lobbyNr}`);
+  };
+
+  const handleCreateBtnClick = () => {
+    socket.emit("game created", lobbyNr);
+    // goToLobby(lobbyNr);
+    socket.on("hand down lobbynr", (lob) => {
+      setLobbyNr(+lob + 1);
+    });
+  };
 
   return (
     <>
@@ -20,7 +54,7 @@ export default function Lobbies() {
       <main>
         <div className={styles.container}>
           <Logo size="big" />
-          <CreateBtn onClick={() => alert("Lobby create")} />
+          <CreateBtn onClick={handleCreateBtnClick} />
           <div className={styles.pageItems}>
             <Link href="/user">
               <a>
@@ -28,24 +62,17 @@ export default function Lobbies() {
               </a>
             </Link>
             <ul className={styles.list}>
-              <LobbyListItem
-                playerCount={7}
-                lobbyNr={1}
-                onClick={() => router.push("/game")}
-                lobbyIsFull={null}
-              />
-              <LobbyListItem
-                playerCount={8}
-                lobbyNr={2}
-                onClick={() => alert("joined")}
-                lobbyIsFull={null}
-              />
-              <LobbyListItem
-                playerCount={0}
-                lobbyNr={3}
-                onClick={() => alert("joined")}
-                lobbyIsFull={null}
-              />
+              {lobbyItems.map((lobby) => {
+                return (
+                  <LobbyListItem
+                    key={lobby.lobbyNr}
+                    playerCount={lobby.playerCount}
+                    lobbyNr={lobby.lobbyNr}
+                    onClick={() => goToLobby(lobby.lobbyNr)}
+                    lobbyIsFull={lobby.lobbyIsFull}
+                  />
+                );
+              })}
             </ul>
           </div>
         </div>
