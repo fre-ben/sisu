@@ -1,10 +1,36 @@
-import { Game, Player, Card } from "./gameTypes";
+import { generateCards } from "./cards";
+import { Game } from "./gameTypes";
 
-const games: unknown = {};
+type GamesType = {
+  [lobbyNr: number]: Game;
+};
 
-export function createGame(lobbyNr) {
+const games: GamesType = {};
+
+export function createGame(
+  lobbyNr: number,
+  userName: string,
+  socketID: string
+) {
   console.log("Game created on server side");
-  games[lobbyNr] = { lobbyNr, playerCount: 1, lobbyIsFull: false };
+  games[lobbyNr] = {
+    lobbyNr,
+    roundNr: 1,
+    playerCount: 1,
+    lobbyIsFull: false,
+    nextPlayer: "",
+    players: [
+      {
+        name: userName,
+        socketID: socketID,
+        cards: [],
+        totalScore: 0,
+        roundScore: [],
+      },
+    ],
+    drawPileCards: generateCards(),
+    discardPileCards: [],
+  };
 }
 
 export function getGames() {
