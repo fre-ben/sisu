@@ -9,7 +9,7 @@ const games: GamesType = {};
 
 export function createGame(
   lobbyNr: number,
-  userName: string,
+  playerName: string,
   socketID: string
 ) {
   console.log("Game created on server side");
@@ -21,7 +21,7 @@ export function createGame(
     nextPlayer: "",
     players: [
       {
-        name: userName,
+        name: playerName,
         socketID: socketID,
         cards: [],
         totalScore: 0,
@@ -31,6 +31,7 @@ export function createGame(
     drawPileCards: generateCards(),
     discardPileCards: [],
   };
+  console.log(JSON.stringify(games, null, 4));
 }
 
 export function getGames() {
