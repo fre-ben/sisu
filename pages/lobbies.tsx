@@ -35,6 +35,13 @@ export default function Lobbies({ socket }: LobbiesProps) {
     router.push(`/game?lobby=${lobbyNr}`);
   };
 
+  const handleJoinBtnClick = (lobbyNr) => {
+    const playerName = getPlayerName();
+    const socketID = getSocketID();
+    socket.emit("join game", lobbyNr, playerName, socketID);
+    // goToLobby(lobbyNr);
+  };
+
   function getPlayerName() {
     return localStorage.getItem("playerName");
   }
@@ -76,7 +83,7 @@ export default function Lobbies({ socket }: LobbiesProps) {
                     key={lobby.lobbyNr}
                     playerCount={lobby.playerCount}
                     lobbyNr={lobby.lobbyNr}
-                    onClick={() => goToLobby(lobby.lobbyNr)}
+                    onClick={() => handleJoinBtnClick(lobby.lobbyNr)}
                     lobbyIsFull={lobby.lobbyIsFull}
                   />
                 );
