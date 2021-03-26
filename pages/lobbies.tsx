@@ -35,9 +35,18 @@ export default function Lobbies({ socket }: LobbiesProps) {
     router.push(`/game?lobby=${lobbyNr}`);
   };
 
+  function getPlayerName() {
+    return localStorage.getItem("playerName");
+  }
+
+  function getSocketID() {
+    return localStorage.getItem("socketID");
+  }
+
   const handleCreateBtnClick = () => {
-    //ich könnte in den emit noch den userName übergeben fürs game object + socketID
-    socket.emit("create game");
+    const playerName = getPlayerName();
+    const socketID = getSocketID();
+    socket.emit("create game", playerName, socketID);
     socket.on("pass lobbynr", (lobbyNr) => {
       goToLobby(lobbyNr);
     });
