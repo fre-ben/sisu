@@ -1,13 +1,16 @@
-import { useState } from "react";
-import "./Input.module.css";
 import styles from "./Input.module.css";
 
-function NameInput() {
-  const [isMaxLength, setIsMaxLength] = useState(false);
+type NameInputProps = {
+  isMaxLength: boolean;
+  playerName: string;
+  onHandleChange(event): void;
+};
 
-  const checkValueLength = (event) => {
-    setIsMaxLength(event.target.value.length >= 11);
-  };
+function NameInput({
+  isMaxLength,
+  playerName,
+  onHandleChange,
+}: NameInputProps) {
   return (
     <>
       <div className={styles.container}>
@@ -16,9 +19,13 @@ function NameInput() {
           type="text"
           placeholder="Enter Name"
           maxLength={11}
-          onChange={(event) => checkValueLength(event)}
+          onChange={(event) => onHandleChange(event)}
           minLength={2}
           required
+          value={playerName}
+          autoFocus={true}
+          autoComplete="off"
+          autoCorrect="off"
         />
         {isMaxLength && (
           <p className={styles.status}>Character limit reached!</p>
