@@ -12,4 +12,4 @@ export default {
 export const index = () => <Home />;
 export const rules = () => <Rules />;
 export const user = () => <User />;
-export const lobbies = () => <Lobbies socket={null} />;
+export const lobbies = () => <Lobbies />;
