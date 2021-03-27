@@ -10,8 +10,25 @@ import DrawPile from "../components/gameboard/DrawPile";
 import DiscardPile from "../components/gameboard/DiscardPile";
 import CardGrid from "../components/gameboard/CardGrid";
 import OpponentCardGrid from "../components/gameboard/OpponentCardGrid";
+import { SocketContext } from "../contexts/SocketContext";
+import { useContext, useEffect } from "react";
+import { getPlayerName, getSocketID } from "../lib/functions";
 
 export default function Game() {
+  const { socket } = useContext(SocketContext);
+  const playerName = getPlayerName();
+  const socketID = getSocketID();
+
+  useEffect(() => {
+    if (!socket) {
+      return;
+    }
+    socket.emit("player joined", playerName, socketID);
+    socket.on("broadcast join", (player) => {
+      console.log(player + " joined ");
+    });
+  }, []);
+
   return (
     <>
       <Head>
