@@ -12,6 +12,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     newSocket.on("connect", () => {
       setSocket(newSocket);
       console.log(newSocket.id + " connected");
+      localStorage.setItem("socketID", newSocket.id);
     });
   }, []);
   return <Component socket={socket} {...pageProps} />;

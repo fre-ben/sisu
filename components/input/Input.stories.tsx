@@ -5,7 +5,14 @@ export default {
   title: "Common/Input",
 } as Meta;
 
-const Template: Story = (args) => <NameInput {...args} />;
+const Template: Story = (args) => (
+  <NameInput
+    isMaxLength={null}
+    playerName={"Test"}
+    onHandleChange={null}
+    {...args}
+  />
+);
 
 export const Name = Template.bind({});
 
