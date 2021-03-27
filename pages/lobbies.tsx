@@ -8,16 +8,13 @@ import LobbyListItem, {
   LobbyListItemProps,
 } from "../components/misc/LobbyListItem";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { Socket } from "socket.io-client";
+import { useContext, useEffect, useState } from "react";
+import { SocketContext } from "../contexts/SocketContext";
 
-type LobbiesProps = {
-  socket: Socket;
-};
-
-export default function Lobbies({ socket }: LobbiesProps) {
+export default function Lobbies() {
   const router = useRouter();
   const [lobbyItems, setLobbyItems] = useState<LobbyListItemProps[]>([]);
+  const { socket } = useContext(SocketContext);
 
   useEffect(() => {
     if (!socket) {
