@@ -1,5 +1,5 @@
 import { Server, Socket } from "socket.io";
-import { createGame, getGames } from "./lib/games";
+import { createGame, getGames, joinGame } from "./lib/games";
 
 let io;
 
@@ -22,9 +22,6 @@ export function listenSocket(server) {
       socket.emit("list games", getGames());
     });
 
-    socket.emit("");
-
-    // Hier müsste userName noch ankommen und in createGame() übergeben werden
     socket.on("create game", (playerName, socketID) => {
       socket.join(`lobby${lobbyNr}`);
       console.log("Lobby nr " + lobbyNr + " was created");
@@ -32,6 +29,12 @@ export function listenSocket(server) {
       socket.emit("pass lobbynr", lobbyNr);
       broadcastListGamesUpdate();
       lobbyNr++;
+    });
+
+    socket.on("join game", (lobbyNr, playerName, socketID) => {
+      socket.join(`lobby${lobbyNr}`);
+      joinGame(lobbyNr, playerName, socketID);
+      broadcastListGamesUpdate();
     });
   });
 }

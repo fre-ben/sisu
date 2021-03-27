@@ -28,9 +28,37 @@ export function createGame(
         roundScore: [],
       },
     ],
-    drawPileCards: generateCards(),
+    //commented out for easier reading of server log
+    // drawPileCards: generateCards(),
+    drawPileCards: [],
     discardPileCards: [],
   };
+  console.log(JSON.stringify(games, null, 4));
+}
+
+function checkIsLobbyFull(lobbyNr) {
+  if (games[lobbyNr].playerCount >= 8) {
+    games[lobbyNr].lobbyIsFull = true;
+    return true;
+  }
+}
+
+export function joinGame(lobbyNr, playerName, socketID) {
+  if (checkIsLobbyFull(lobbyNr)) {
+    console.log("Lobby is full");
+    return;
+  }
+  console.log(playerName + ":" + socketID + " joined " + lobbyNr);
+  const playersInGame = games[lobbyNr].players;
+  playersInGame.push({
+    name: playerName,
+    socketID: socketID,
+    cards: [],
+    totalScore: 0,
+    roundScore: [],
+  });
+  games[lobbyNr].playerCount++;
+
   console.log(JSON.stringify(games, null, 4));
 }
 
