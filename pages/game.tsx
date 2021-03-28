@@ -16,13 +16,14 @@ import { getPlayerName, getSocketID } from "../lib/functions";
 
 export default function Game() {
   const { socket } = useContext(SocketContext);
-  const playerName = getPlayerName();
-  const socketID = getSocketID();
 
   useEffect(() => {
     if (!socket) {
       return;
     }
+    const playerName = getPlayerName();
+    const socketID = getSocketID();
+
     socket.emit("player joined", playerName, socketID);
     socket.on("broadcast join", (player) => {
       console.log(player + " joined ");
