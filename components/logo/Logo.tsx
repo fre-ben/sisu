@@ -1,4 +1,3 @@
-import "./Logo.module.css";
 import styles from "./Logo.module.css";
 
 type LogoProps = {
