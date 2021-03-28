@@ -33,7 +33,8 @@ export function createGame(
     drawPileCards: [],
     discardPileCards: [],
   };
-  console.log(JSON.stringify(games, null, 4));
+  //commented out for now
+  // console.log(JSON.stringify(games, null, 4));
 }
 
 function checkIsLobbyFull(lobbyNr) {
@@ -70,4 +71,10 @@ export function getGames() {
       lobbyIsFull: game.lobbyIsFull,
     };
   });
+}
+
+export function getGameBySocketID(socketID) {
+  return Object.values(games).find((game) =>
+    game.players.find((id) => id.socketID === socketID)
+  ).lobbyNr;
 }

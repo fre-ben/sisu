@@ -10,6 +10,7 @@ import LobbyListItem, {
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { SocketContext } from "../contexts/SocketContext";
+import { getPlayerName, getSocketID } from "../lib/functions";
 
 export default function Lobbies() {
   const router = useRouter();
@@ -36,16 +37,8 @@ export default function Lobbies() {
     const playerName = getPlayerName();
     const socketID = getSocketID();
     socket.emit("join game", lobbyNr, playerName, socketID);
-    // goToLobby(lobbyNr);
+    goToLobby(lobbyNr);
   };
-
-  function getPlayerName() {
-    return localStorage.getItem("playerName");
-  }
-
-  function getSocketID() {
-    return localStorage.getItem("socketID");
-  }
 
   const handleCreateBtnClick = () => {
     const playerName = getPlayerName();
