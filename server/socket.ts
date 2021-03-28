@@ -1,5 +1,5 @@
 import { Server, Socket } from "socket.io";
-import { createGame, getGames, joinGame } from "./lib/games";
+import { createGame, getGameBySocketID, getGames, joinGame } from "./lib/games";
 
 let io;
 
@@ -35,6 +35,11 @@ export function listenSocket(server) {
       socket.join(`lobby${lobbyNr}`);
       joinGame(lobbyNr, playerName, socketID);
       broadcastListGamesUpdate();
+    });
+
+    socket.on("player joined", (playerName, socketID) => {
+      const currentGame = getGameBySocketID(socketID);
+      io.to(`lobby${currentGame}`).emit("broadcast join", playerName);
     });
   });
 }

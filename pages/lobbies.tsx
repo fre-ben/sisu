@@ -8,16 +8,14 @@ import LobbyListItem, {
   LobbyListItemProps,
 } from "../components/misc/LobbyListItem";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { Socket } from "socket.io-client";
+import { useContext, useEffect, useState } from "react";
+import { SocketContext } from "../contexts/SocketContext";
+import { getPlayerName, getSocketID } from "../lib/functions";
 
-type LobbiesProps = {
-  socket: Socket;
-};
-
-export default function Lobbies({ socket }: LobbiesProps) {
+export default function Lobbies() {
   const router = useRouter();
   const [lobbyItems, setLobbyItems] = useState<LobbyListItemProps[]>([]);
+  const { socket } = useContext(SocketContext);
 
   useEffect(() => {
     if (!socket) {
@@ -39,16 +37,8 @@ export default function Lobbies({ socket }: LobbiesProps) {
     const playerName = getPlayerName();
     const socketID = getSocketID();
     socket.emit("join game", lobbyNr, playerName, socketID);
-    // goToLobby(lobbyNr);
+    goToLobby(lobbyNr);
   };
-
-  function getPlayerName() {
-    return localStorage.getItem("playerName");
-  }
-
-  function getSocketID() {
-    return localStorage.getItem("socketID");
-  }
 
   const handleCreateBtnClick = () => {
     const playerName = getPlayerName();

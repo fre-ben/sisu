@@ -1,4 +1,5 @@
 import { Meta } from "@storybook/react/types-6-0";
+import { SocketContextProvider } from "../../contexts/SocketContext";
 import Home from "../../pages/index";
 import Lobbies from "../../pages/lobbies";
 import Rules from "../../pages/rules";
@@ -12,4 +13,8 @@ export default {
 export const index = () => <Home />;
 export const rules = () => <Rules />;
 export const user = () => <User />;
-export const lobbies = () => <Lobbies socket={null} />;
+export const lobbies = () => (
+  <SocketContextProvider>
+    <Lobbies />
+  </SocketContextProvider>
+);
