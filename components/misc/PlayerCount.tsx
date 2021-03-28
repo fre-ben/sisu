@@ -1,4 +1,3 @@
-import "./PlayerCount.module.css";
 import styles from "./PlayerCount.module.css";
 
 export type PlayerCountProps = {
