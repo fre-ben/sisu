@@ -65,15 +65,9 @@ export function joinGame(lobbyNr, playerName, socketID) {
 
 export async function leaveGame(socketID) {
   const currentGame = await getGame(socketID);
-  // const targetPlayer = await getPlayer(socketID);
 
-  // const indexOfTargetPlayer = currentGame.players.indexOf(targetPlayer);
-
-  const playersArr = currentGame.players;
-
-  const mapArr = playersArr.map((player) => player.socketID);
-
-  const indexOfTargetPlayer = mapArr.indexOf(socketID);
+  const playersArr = currentGame.players.map((player) => player.socketID);
+  const indexOfTargetPlayer = playersArr.indexOf(socketID);
 
   if (indexOfTargetPlayer > -1) {
     currentGame.players.splice(indexOfTargetPlayer, 1);
