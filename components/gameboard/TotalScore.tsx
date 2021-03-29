@@ -1,30 +1,42 @@
+import { useContext, useEffect, useState } from "react";
+import { SocketContext } from "../../contexts/SocketContext";
 import styles from "./Score.module.css";
 
-function TotalScore() {
-  // Example data, will be removed later by Props handed down to TotalScore
-  const players = [
-    { name: "Frederik", score: 20 },
-    { name: "Kalle", score: 10 },
-    { name: "Eva", score: 30 },
-    { name: "Louis", score: 60 },
-    { name: "Frederik", score: 20 },
-    { name: "Kalle", score: 10 },
-    { name: "Eva", score: 30 },
-    { name: "Peter", score: 30 },
-  ];
+type ScoreListProps = {
+  name: string;
+  score: number;
+};
 
-  const createTotalPlayerScoreList = players.map((player) => (
-    <li key={player.name} className={styles.playerListItem}>
-      <span className={styles.playerName}>{player.name}</span>{" "}
-      <span className={styles.playerScore}>{player.score}</span>
-    </li>
-  ));
+function TotalScore() {
+  const { socket } = useContext(SocketContext);
+  const [scoreList, setScoreList] = useState<ScoreListProps[]>([]);
+
+  const renderScoreList = scoreList.map((player) => {
+    return (
+      <li key={player.name} className={styles.playerListItem}>
+        <span className={styles.playerName}>{player.name}</span>{" "}
+        <span className={styles.playerScore}>{player.score}</span>
+      </li>
+    );
+  });
+
+  useEffect(() => {
+    if (!socket) {
+      return;
+    }
+    function handleDisplayScores(scores) {
+      setScoreList(scores);
+    }
+
+    socket.on("display scores", handleDisplayScores);
+    socket.emit("get scores to display", socket.id);
+  }, [socket, renderScoreList]);
 
   return (
     <>
       <section className={styles.container}>
         <h2 className={styles.totalScoreHeadline}>Total Score</h2>
-        <ul>{createTotalPlayerScoreList}</ul>
+        <ul>{renderScoreList}</ul>
       </section>
     </>
   );
