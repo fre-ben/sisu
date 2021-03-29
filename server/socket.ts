@@ -26,6 +26,12 @@ export function listenSocket(server) {
       broadcastListGamesUpdate();
     });
 
+    socket.on("leave game", async (socketID, lobbyNr) => {
+      socket.leave(`lobby${lobbyNr}`);
+      await leaveGame(socketID);
+      broadcastListGamesUpdate();
+    });
+
     socket.on("list games", () => {
       socket.emit("list games", getGames());
     });

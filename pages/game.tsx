@@ -13,7 +13,6 @@ import OpponentCardGrid from "../components/gameboard/OpponentCardGrid";
 import { SocketContext } from "../contexts/SocketContext";
 import { useContext, useEffect } from "react";
 import { getLobbyNr, getPlayerName, getSocketID } from "../lib/functions";
-import { leaveGame } from "../server/lib/games";
 import { useRouter } from "next/router";
 
 export default function Game() {
@@ -38,7 +37,7 @@ export default function Game() {
 
   const handleExitBtnClick = () => {
     const socketID = socket.id;
-    leaveGame(socketID);
+    socket.emit("leave game", socketID, lobbyNr);
     router.push("/lobbies");
   };
 
