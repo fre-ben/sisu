@@ -21,12 +21,12 @@ export default function Lobbies() {
     if (!socket) {
       return;
     }
-    function handleListGames(games) {
+    function handleDisplayGames(games) {
       setLobbyItems(games);
     }
 
-    socket.on("list games", handleListGames);
-    socket.emit("list games");
+    socket.on("display list of games", handleDisplayGames);
+    socket.emit("get list of games");
   }, [socket]);
 
   const goToLobby = (lobbyNr) => {
