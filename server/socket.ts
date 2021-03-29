@@ -11,7 +11,7 @@ import {
 let io;
 
 function broadcastListGamesUpdate() {
-  io.emit("list games", getGames());
+  io.emit("display list of games", getGames());
 }
 
 export function listenSocket(server) {
