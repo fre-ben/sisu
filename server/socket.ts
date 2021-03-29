@@ -1,5 +1,11 @@
 import { Server, Socket } from "socket.io";
-import { createGame, getGameBySocketID, getGames, joinGame } from "./lib/games";
+import {
+  createGame,
+  getGame,
+  getGames,
+  joinGame,
+  leaveGame,
+} from "./lib/games";
 
 let io;
 
@@ -14,8 +20,10 @@ export function listenSocket(server) {
   io.on("connection", (socket: Socket) => {
     console.log(socket.id + " connected");
 
-    socket.on("disconnect", () => {
+    socket.on("disconnect", async () => {
       console.log(socket.id + " disconnected");
+      await leaveGame(socket.id);
+      broadcastListGamesUpdate();
     });
 
     socket.on("list games", () => {
@@ -37,9 +45,9 @@ export function listenSocket(server) {
       broadcastListGamesUpdate();
     });
 
-    socket.on("player joined", (playerName, socketID) => {
-      const currentGame = getGameBySocketID(socketID);
-      io.to(`lobby${currentGame}`).emit("broadcast join", playerName);
+    socket.on("player joined", async (playerName, socketID) => {
+      const currentGame = await getGame(socketID);
+      io.to(`lobby${currentGame.lobbyNr}`).emit("broadcast join", playerName);
     });
   });
 }
