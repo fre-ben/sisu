@@ -66,6 +66,11 @@ export function joinGame(lobbyNr, playerName, socketID) {
 export async function leaveGame(socketID) {
   const currentGame = await getGame(socketID);
 
+  if (!currentGame) {
+    console.log("No game found");
+    return;
+  }
+
   const playersArr = currentGame.players.map((player) => player.socketID);
   const indexOfTargetPlayer = playersArr.indexOf(socketID);
 
