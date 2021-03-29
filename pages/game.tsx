@@ -12,10 +12,13 @@ import CardGrid from "../components/gameboard/CardGrid";
 import OpponentCardGrid from "../components/gameboard/OpponentCardGrid";
 import { SocketContext } from "../contexts/SocketContext";
 import { useContext, useEffect } from "react";
-import { getPlayerName, getSocketID } from "../lib/functions";
+import { getLobbyNr, getPlayerName, getSocketID } from "../lib/functions";
 
 export default function Game() {
   const { socket } = useContext(SocketContext);
+
+  const lobbyNr = getLobbyNr();
+  console.log(lobbyNr);
 
   useEffect(() => {
     if (!socket) {
