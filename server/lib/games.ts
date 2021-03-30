@@ -63,6 +63,27 @@ export function joinGame(lobbyNr, playerName, socketID) {
   console.log(JSON.stringify(games, null, 4));
 }
 
+export async function leaveGame(socketID) {
+  const currentGame = await getGame(socketID);
+  if (!currentGame) {
+    console.log("No game found");
+    return;
+  }
+
+  const currentGamePlayers = currentGame.players.map(
+    (player) => player.socketID
+  );
+  const indexOfTargetPlayer = currentGamePlayers.indexOf(socketID);
+
+  if (indexOfTargetPlayer > -1) {
+    currentGame.players.splice(indexOfTargetPlayer, 1);
+    currentGame.playerCount--;
+    console.log(JSON.stringify(games, null, 4));
+  } else {
+    console.log("Player not found!");
+  }
+}
+
 export function getGames() {
   return Object.values(games).map((game) => {
     return {
@@ -73,8 +94,23 @@ export function getGames() {
   });
 }
 
-export function getGameBySocketID(socketID) {
+export async function getGame(socketID) {
   return Object.values(games).find((game) =>
     game.players.find((id) => id.socketID === socketID)
-  ).lobbyNr;
+  );
+}
+
+export async function getPlayer(socketID) {
+  const currentGame = await getGame(socketID);
+  const player = currentGame.players.find((id) => id.socketID === socketID);
+
+  return player;
+}
+
+export async function createTotalScoreList(socketID) {
+  const currentGame = await getGame(socketID);
+
+  return currentGame.players.map((player) => {
+    return { name: player.name, score: player.totalScore };
+  });
 }

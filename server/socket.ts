@@ -1,10 +1,17 @@
 import { Server, Socket } from "socket.io";
-import { createGame, getGameBySocketID, getGames, joinGame } from "./lib/games";
+import {
+  createGame,
+  createTotalScoreList,
+  getGame,
+  getGames,
+  joinGame,
+  leaveGame,
+} from "./lib/games";
 
 let io;
 
 function broadcastListGamesUpdate() {
-  io.emit("list games", getGames());
+  io.emit("display list of games", getGames());
 }
 
 export function listenSocket(server) {
@@ -14,12 +21,24 @@ export function listenSocket(server) {
   io.on("connection", (socket: Socket) => {
     console.log(socket.id + " connected");
 
-    socket.on("disconnect", () => {
+    socket.on("disconnect", async () => {
       console.log(socket.id + " disconnected");
+      await leaveGame(socket.id);
+      broadcastListGamesUpdate();
     });
 
-    socket.on("list games", () => {
-      socket.emit("list games", getGames());
+    socket.on("leave game", async (socketID, lobbyNr) => {
+      socket.leave(`lobby${lobbyNr}`);
+      await leaveGame(socketID);
+      broadcastListGamesUpdate();
+    });
+
+    socket.on("get list of games", () => {
+      socket.emit("display list of games", getGames());
+    });
+
+    socket.on("get scores to display", async (socketID) => {
+      socket.emit("display scores", await createTotalScoreList(socketID));
     });
 
     socket.on("create game", (playerName, socketID) => {
@@ -37,9 +56,9 @@ export function listenSocket(server) {
       broadcastListGamesUpdate();
     });
 
-    socket.on("player joined", (playerName, socketID) => {
-      const currentGame = getGameBySocketID(socketID);
-      io.to(`lobby${currentGame}`).emit("broadcast join", playerName);
+    socket.on("player joined", async (playerName, socketID) => {
+      const currentGame = await getGame(socketID);
+      io.to(`lobby${currentGame.lobbyNr}`).emit("broadcast join", playerName);
     });
   });
 }

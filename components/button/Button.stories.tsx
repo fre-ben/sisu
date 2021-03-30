@@ -34,6 +34,6 @@ export const create = () => <CreateBtn onClick={() => alert("test")} />;
 export const keep = () => <KeepBtn onClick={() => alert("test")} />;
 export const discard = () => <DiscardBtn onClick={() => alert("test")} />;
 export const ready = () => <ReadyBtn onClick={() => alert("test")} />;
-export const exit = () => <ExitBtn />;
+export const exit = () => <ExitBtn onClick={() => alert("test")} />;
 export const restart = () => <RestartBtn onClick={() => alert("test")} />;
 export const cont = () => <ContinueBtn onClick={() => alert("test")} />;

@@ -13,9 +13,11 @@ import OpponentCardGrid from "../components/gameboard/OpponentCardGrid";
 import { SocketContext } from "../contexts/SocketContext";
 import { useContext, useEffect } from "react";
 import { getLobbyNr, getPlayerName, getSocketID } from "../lib/functions";
+import { useRouter } from "next/router";
 
 export default function Game() {
   const { socket } = useContext(SocketContext);
+  const router = useRouter();
 
   const lobbyNr = getLobbyNr();
   console.log(lobbyNr);
@@ -33,6 +35,18 @@ export default function Game() {
     });
   }, []);
 
+  const handleExitBtnClick = () => {
+    if (
+      confirm(
+        "Do you really want to leave the game? (Reconnecting is not possible)"
+      )
+    ) {
+      const socketID = socket.id;
+      socket.emit("leave game", socketID, lobbyNr);
+      router.push("/lobbies");
+    }
+  };
+
   return (
     <>
       <Head>
@@ -44,7 +58,7 @@ export default function Game() {
         <Logo size="small" />
         <div className={styles.pageElements}>
           <aside className={styles.topBar}>
-            <ExitBtn />
+            <ExitBtn onClick={handleExitBtnClick} />
             <RoundCounter roundNr={1} />
             <Statusbar
               statusMessage={"Start game if all players are connected"}
