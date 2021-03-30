@@ -1,6 +1,7 @@
 import { Server, Socket } from "socket.io";
 import {
   createGame,
+  createTotalScoreList,
   getGame,
   getGames,
   joinGame,
@@ -10,7 +11,7 @@ import {
 let io;
 
 function broadcastListGamesUpdate() {
-  io.emit("list games", getGames());
+  io.emit("display list of games", getGames());
 }
 
 export function listenSocket(server) {
@@ -32,8 +33,12 @@ export function listenSocket(server) {
       broadcastListGamesUpdate();
     });
 
-    socket.on("list games", () => {
-      socket.emit("list games", getGames());
+    socket.on("get list of games", () => {
+      socket.emit("display list of games", getGames());
+    });
+
+    socket.on("get scores to display", async (socketID) => {
+      socket.emit("display scores", await createTotalScoreList(socketID));
     });
 
     socket.on("create game", (playerName, socketID) => {

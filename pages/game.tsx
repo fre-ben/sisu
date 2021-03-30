@@ -36,9 +36,15 @@ export default function Game() {
   }, []);
 
   const handleExitBtnClick = () => {
-    const socketID = socket.id;
-    socket.emit("leave game", socketID, lobbyNr);
-    router.push("/lobbies");
+    if (
+      confirm(
+        "Do you really want to leave the game? (Reconnecting is not possible)"
+      )
+    ) {
+      const socketID = socket.id;
+      socket.emit("leave game", socketID, lobbyNr);
+      router.push("/lobbies");
+    }
   };
 
   return (
