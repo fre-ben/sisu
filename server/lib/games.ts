@@ -116,3 +116,7 @@ export function getTotalScores(lobbyNr) {
 export function getRoundNr(lobbyNr) {
   return games[lobbyNr].roundNr;
 }
+
+export function getPlayerCount(lobbyNr) {
+  return games[lobbyNr].playerCount;
+}
