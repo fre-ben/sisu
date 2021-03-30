@@ -7,21 +7,12 @@ import RoundScoreModal from "./RoundScoreModal";
 import RoundCounter from "./RoundCounter";
 import Statusbar from "./Statusbar";
 import TotalScore from "./TotalScore";
-import { RoundCounterProps, StatusbarProps } from "./types";
+import { StatusbarProps } from "./types";
+import { SocketContextProvider } from "../../contexts/SocketContext";
 
 export default {
   title: "Common/Gameboard",
 } as Meta;
-
-const TemplateRoundCounter: Story<RoundCounterProps> = (args) => (
-  <RoundCounter {...args} />
-);
-
-export const Roundcounter = TemplateRoundCounter.bind({});
-
-Roundcounter.args = {
-  roundNr: 1,
-};
 
 const TemplateStatusbar: Story<StatusbarProps> = (args) => (
   <Statusbar {...args} />
@@ -39,3 +30,8 @@ export const totalscore = () => <TotalScore />;
 export const cardgrid = () => <CardGrid />;
 export const opponentcardgrid = () => <OpponentCardGrid />;
 export const roundscoremodal = () => <RoundScoreModal />;
+export const roundcounter = () => (
+  <SocketContextProvider>
+    <RoundCounter />
+  </SocketContextProvider>
+);

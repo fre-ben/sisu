@@ -59,7 +59,7 @@ export default function Game() {
         <div className={styles.pageElements}>
           <aside className={styles.topBar}>
             <ExitBtn onClick={handleExitBtnClick} />
-            <RoundCounter roundNr={1} />
+            <RoundCounter />
             <Statusbar
               statusMessage={"Start game if all players are connected"}
             />

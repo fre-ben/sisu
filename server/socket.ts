@@ -1,9 +1,10 @@
 import { Server, Socket } from "socket.io";
 import {
   createGame,
-  createTotalScoreList,
   getGame,
   getGames,
+  getRoundNr,
+  getTotalScores,
   joinGame,
   leaveGame,
 } from "./lib/games";
@@ -37,8 +38,12 @@ export function listenSocket(server) {
       socket.emit("display list of games", getGames());
     });
 
-    socket.on("get scores to display", async (socketID) => {
-      socket.emit("display scores", await createTotalScoreList(socketID));
+    socket.on("get scores to display", (lobbyNr) => {
+      socket.emit("display scores", getTotalScores(lobbyNr));
+    });
+
+    socket.on("get rounds to display", (lobbyNr) => {
+      socket.emit("display rounds", getRoundNr(lobbyNr));
     });
 
     socket.on("create game", (playerName, socketID) => {
