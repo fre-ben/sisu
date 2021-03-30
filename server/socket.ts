@@ -38,8 +38,8 @@ export function listenSocket(server) {
       socket.emit("display list of games", getGames());
     });
 
-    socket.on("get scores to display", async (socketID) => {
-      socket.emit("display scores", await getTotalScores(socketID));
+    socket.on("get scores to display", (lobbyNr) => {
+      socket.emit("display scores", getTotalScores(lobbyNr));
     });
 
     socket.on("get rounds to display", (lobbyNr) => {

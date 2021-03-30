@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { SocketContext } from "../../contexts/SocketContext";
+import { getLobbyNr } from "../../lib/functions";
 import styles from "./Score.module.css";
 
 type ScoreListProps = {
@@ -10,6 +11,7 @@ type ScoreListProps = {
 function TotalScore() {
   const { socket } = useContext(SocketContext);
   const [scoreList, setScoreList] = useState<ScoreListProps[]>([]);
+  const lobbyNr = getLobbyNr();
 
   const renderScoreList = scoreList.map((player) => {
     return (
@@ -29,7 +31,7 @@ function TotalScore() {
     }
 
     socket.on("display scores", handleDisplayScores);
-    socket.emit("get scores to display", socket.id);
+    socket.emit("get scores to display", lobbyNr);
   }, [socket, renderScoreList]);
 
   return (
