@@ -107,10 +107,14 @@ export async function getPlayer(socketID) {
   return player;
 }
 
-export async function createTotalScoreList(socketID) {
+export async function getTotalScores(socketID) {
   const currentGame = await getGame(socketID);
 
   return currentGame.players.map((player) => {
     return { name: player.name, score: player.totalScore };
   });
+}
+
+export function getRoundNr(lobbyNr) {
+  return games[lobbyNr].roundNr;
 }
