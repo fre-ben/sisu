@@ -13,11 +13,11 @@ function TotalScore() {
   const [scoreList, setScoreList] = useState<ScoreListProps[]>([]);
   const lobbyNr = getLobbyNr();
 
-  const renderScoreList = scoreList.map((player) => {
+  const renderScoreList = scoreList.map(({ name, totalScore }) => {
     return (
-      <li key={player.name} className={styles.playerListItem}>
-        <span className={styles.playerName}>{player.name}</span>
-        <span className={styles.playerScore}>{player.totalScore}</span>
+      <li key={name} className={styles.playerListItem}>
+        <span className={styles.playerName}>{name}</span>
+        <span className={styles.playerScore}>{totalScore}</span>
       </li>
     );
   });
