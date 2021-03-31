@@ -35,15 +35,17 @@ export default function Game() {
     }
 
     function handleDisplayPlayers(players: PlayerForCardGrid[]) {
-      console.log("players", players);
-      setPlayers(players);
+      const opponentPlayers = players.filter(
+        (player) => player.socketID !== socketID
+      );
+      setPlayers(opponentPlayers);
     }
 
     socket.emit("get playercount", lobbyNr);
     socket.on("display current playercount", handleCurrentPlayerCount);
 
-    socket.emit("get opponent players", lobbyNr, socketID);
-    socket.on("display opponent players", handleDisplayPlayers);
+    socket.emit("get players", lobbyNr, socketID);
+    socket.on("display players", handleDisplayPlayers);
 
     socket.emit("player joined", playerName, socketID);
     socket.on("broadcast join", (player) => {
@@ -76,6 +78,7 @@ export default function Game() {
     }
   );
 
+  //Still saving this for the case of 8 players
   // const renderOpponentCardGrids = () => {
   //   // if (playerCount === 8) {
   //   //   return (
@@ -108,8 +111,6 @@ export default function Game() {
 
       <main className={styles.viewContainer}>
         <Logo size="small" />
-        {/* Just to check if the actual count is transmitted */}
-        {playerCount}
         <div className={styles.pageElements}>
           <aside className={styles.topBar}>
             <ExitBtn onClick={handleExitBtnClick} />
@@ -126,7 +127,9 @@ export default function Game() {
           </aside>
           <div className={styles.gameElements8Player}>
             <div className={styles.opponents}>{opponentCardGrids}</div>
-            <div className={styles.playerCardGrid}>{/* <CardGrid /> */}</div>
+            <div className={styles.playerCardGrid}>
+              <CardGrid />
+            </div>
           </div>
         </div>
       </main>
