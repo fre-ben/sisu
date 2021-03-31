@@ -21,7 +21,7 @@ export default function Game() {
   const router = useRouter();
   const lobbyNr = getLobbyNr();
   const [playerCount, setPlayerCount] = useState<number>(null);
-  const [players, setPlayers] = useState<PlayerForCardGrid[]>(null);
+  const [players, setPlayers] = useState<PlayerForCardGrid[]>([]);
 
   useEffect(() => {
     if (!socket || !lobbyNr) {
@@ -63,35 +63,41 @@ export default function Game() {
     }
   };
 
-  const renderOpponentCardGrids = () => {
-    // if (playerCount === 8) {
-    //   return (
-    //     <div className={styles.opponents}>
-    //       <div className={styles.op8row}>
-    //         <OpponentCardGrid />
-    //         <OpponentCardGrid />
-    //       </div>
-    //       <OpponentCardGrid />
-    //       <OpponentCardGrid />
-    //       <OpponentCardGrid />
-    //       <OpponentCardGrid />
-    //       <div className={styles.op8row}>
-    //         <OpponentCardGrid />
-    //         <OpponentCardGrid />
-    //       </div>
-    //     </div>
-    //   );
-    // }
+  const opponentCardGrids = players.map(
+    ({ name, cards, roundScore, socketID }) => {
+      return (
+        <OpponentCardGrid
+          key={socketID}
+          cards={cards}
+          name={name}
+          roundScore={roundScore}
+        />
+      );
+    }
+  );
 
-    return players.map(({ name, cards, roundScore, socketID }) => (
-      <OpponentCardGrid
-        key={socketID}
-        cards={cards}
-        name={name}
-        roundScore={roundScore}
-      />
-    ));
-  };
+  // const renderOpponentCardGrids = () => {
+  //   // if (playerCount === 8) {
+  //   //   return (
+  //   //     <div className={styles.opponents}>
+  //   //       <div className={styles.op8row}>
+  //   //         <OpponentCardGrid />
+  //   //         <OpponentCardGrid />
+  //   //       </div>
+  //   //       <OpponentCardGrid />
+  //   //       <OpponentCardGrid />
+  //   //       <OpponentCardGrid />
+  //   //       <OpponentCardGrid />
+  //   //       <div className={styles.op8row}>
+  //   //         <OpponentCardGrid />
+  //   //         <OpponentCardGrid />
+  //   //       </div>
+  //   //     </div>
+  //   //   );
+  //   // }
+
+  //   return opponentCardGrids;
+  // };
 
   return (
     <>
@@ -119,12 +125,8 @@ export default function Game() {
             <DiscardPile onClick={() => alert("click")} />
           </aside>
           <div className={styles.gameElements8Player}>
-            <div className={styles.opponents}>
-              {() => renderOpponentCardGrids}
-            </div>
-            <div className={styles.playerCardGrid}>
-              <CardGrid />
-            </div>
+            <div className={styles.opponents}>{opponentCardGrids}</div>
+            <div className={styles.playerCardGrid}>{/* <CardGrid /> */}</div>
           </div>
         </div>
       </main>
