@@ -11,16 +11,15 @@ import DiscardPile from "../components/gameboard/DiscardPile";
 import CardGrid from "../components/gameboard/CardGrid";
 import OpponentCardGrid from "../components/gameboard/OpponentCardGrid";
 import { SocketContext } from "../contexts/SocketContext";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getLobbyNr, getPlayerName, getSocketID } from "../lib/functions";
 import { useRouter } from "next/router";
 
 export default function Game() {
   const { socket } = useContext(SocketContext);
   const router = useRouter();
-
   const lobbyNr = getLobbyNr();
-  console.log(lobbyNr);
+  const [playerCount, setPlayerCount] = useState(null);
 
   useEffect(() => {
     if (!socket) {
@@ -29,11 +28,18 @@ export default function Game() {
     const playerName = getPlayerName();
     const socketID = getSocketID();
 
+    function handleCurrentPlayerCount(count) {
+      setPlayerCount(count);
+    }
+
+    socket.emit("get playercount", lobbyNr);
+    socket.on("display current playercount", handleCurrentPlayerCount);
+
     socket.emit("player joined", playerName, socketID);
     socket.on("broadcast join", (player) => {
       console.log(player + " joined ");
     });
-  }, []);
+  }, [socket]);
 
   const handleExitBtnClick = () => {
     if (
@@ -56,6 +62,8 @@ export default function Game() {
 
       <main className={styles.viewContainer}>
         <Logo size="small" />
+        {/* Just to check if the actual count is transmitted */}
+        {playerCount}
         <div className={styles.pageElements}>
           <aside className={styles.topBar}>
             <ExitBtn onClick={handleExitBtnClick} />
