@@ -128,11 +128,8 @@ export function getPlayerCount(lobbyNr: number): number {
   return games[lobbyNr].playerCount;
 }
 
-export function getOpponentPlayers(
-  lobbyNr: number,
-  socketID: string
-): PlayerForCardGrid[] {
-  const allPlayers = games[lobbyNr].players.map((player) => {
+export function getPlayersInLobby(lobbyNr: number): PlayerForCardGrid[] {
+  return games[lobbyNr].players.map((player) => {
     return {
       name: player.name,
       cards: player.cards,
@@ -140,9 +137,4 @@ export function getOpponentPlayers(
       socketID: player.socketID,
     };
   });
-  const opponentPlayers = allPlayers.filter(
-    (player) => player.socketID !== socketID
-  );
-  console.log("opponents are ", opponentPlayers);
-  return opponentPlayers;
 }
