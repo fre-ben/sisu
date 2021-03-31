@@ -3,6 +3,7 @@ import {
   createGame,
   getGame,
   getGamesForLobby,
+  getOpponentPlayers,
   getPlayerCount,
   getRoundNr,
   getTotalScores,
@@ -27,6 +28,17 @@ function broadcastTotalScoresToLobby(io, lobbyNr: number): void {
   io.to(`lobby${lobbyNr}`).emit("display scores", getTotalScores(lobbyNr));
 }
 
+function broadcastOpponentsToLobby(
+  io,
+  lobbyNr: number,
+  socketID: string
+): void {
+  io.to(`lobby${lobbyNr}`).emit(
+    "display opponent players",
+    getOpponentPlayers(lobbyNr, socketID)
+  );
+}
+
 export function listenSocket(server): void {
   io = new Server(server, {});
   let lobbyNr = 1;
@@ -42,6 +54,7 @@ export function listenSocket(server): void {
         const lobbyNr = (await getGame(socket.id)).lobbyNr;
         broadcastTotalScoresToLobby(io, lobbyNr);
         broadcastPlayerCountToLobby(io, lobbyNr);
+        broadcastOpponentsToLobby(io, lobbyNr, socket.id);
         broadcastListGamesUpdate();
       } catch (error) {
         console.log(error);
@@ -54,6 +67,7 @@ export function listenSocket(server): void {
       broadcastListGamesUpdate();
       broadcastTotalScoresToLobby(io, lobbyNr);
       broadcastPlayerCountToLobby(io, lobbyNr);
+      broadcastOpponentsToLobby(io, lobbyNr, socketID);
     });
 
     socket.on("get list of games", () => {
@@ -72,6 +86,10 @@ export function listenSocket(server): void {
       broadcastPlayerCountToLobby(io, lobbyNr);
     });
 
+    socket.on("get opponent players", (lobbyNr: number, socketID: string) => {
+      broadcastOpponentsToLobby(io, lobbyNr, socketID);
+    });
+
     socket.on("create game", (playerName: string, socketID: string) => {
       socket.join(`lobby${lobbyNr}`);
       console.log("Lobby nr " + lobbyNr + " was created");
@@ -79,6 +97,7 @@ export function listenSocket(server): void {
       socket.emit("pass lobbynr", lobbyNr);
       broadcastPlayerCountToLobby(io, lobbyNr);
       broadcastTotalScoresToLobby(io, lobbyNr);
+      broadcastOpponentsToLobby(io, lobbyNr, socketID);
       broadcastListGamesUpdate();
       lobbyNr++;
     });
@@ -90,6 +109,7 @@ export function listenSocket(server): void {
         joinGame(lobbyNr, playerName, socketID);
         broadcastPlayerCountToLobby(io, lobbyNr);
         broadcastTotalScoresToLobby(io, lobbyNr);
+        broadcastOpponentsToLobby(io, lobbyNr, socketID);
         broadcastListGamesUpdate();
       }
     );
