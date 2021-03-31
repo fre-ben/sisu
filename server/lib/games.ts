@@ -5,6 +5,7 @@ import {
   GameForLobby,
   Player,
   PlayerScoreList,
+  PlayerForCardGrid,
 } from "./gameTypes";
 
 const games: GamesType = {};
@@ -125,4 +126,26 @@ export function getRoundNr(lobbyNr: number): number {
 
 export function getPlayerCount(lobbyNr: number): number {
   return games[lobbyNr].playerCount;
+}
+
+export function getOpponentPlayers(
+  lobbyNr: number,
+  socketID: string
+): PlayerForCardGrid[] {
+  const allPlayers = games[lobbyNr].players.map((player) => {
+    return {
+      name: player.name,
+      cards: player.cards,
+      roundScore: player.roundScore,
+      socketID: player.socketID,
+    };
+  });
+
+  const indexOfSelf = allPlayers
+    .map((player) => player.socketID)
+    .indexOf(socketID);
+
+  const opponentPlayers = allPlayers.splice(indexOfSelf, 1);
+
+  return opponentPlayers;
 }
