@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { SocketContext } from "../../contexts/SocketContext";
 import { getLobbyNr } from "../../lib/functions";
+import { PlayerScoreList } from "../../server/lib/gameTypes";
 import styles from "./Score.module.css";
 type ScoreListProps = {
   name: string;
-  score: number;
+  totalScore: number;
 };
 
 function TotalScore() {
@@ -16,7 +17,7 @@ function TotalScore() {
     return (
       <li key={player.name} className={styles.playerListItem}>
         <span className={styles.playerName}>{player.name}</span>{" "}
-        <span className={styles.playerScore}>{player.score}</span>
+        <span className={styles.playerScore}>{player.totalScore}</span>
       </li>
     );
   });
@@ -25,7 +26,7 @@ function TotalScore() {
     if (!socket || !lobbyNr) {
       return;
     }
-    function handleDisplayScores(scores) {
+    function handleDisplayScores(scores: PlayerScoreList[]) {
       setScoreList(scores);
     }
 

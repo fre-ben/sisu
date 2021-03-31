@@ -28,7 +28,7 @@ export default function Game() {
     const playerName = getPlayerName();
     const socketID = getSocketID();
 
-    function handleCurrentPlayerCount(count) {
+    function handleCurrentPlayerCount(count: number) {
       setPlayerCount(count);
     }
 
@@ -41,7 +41,7 @@ export default function Game() {
     });
   }, [socket]);
 
-  const handleExitBtnClick = () => {
+  const handleExitBtnClick = (): void => {
     if (
       confirm(
         "Do you really want to leave the game? (Reconnecting is not possible)"

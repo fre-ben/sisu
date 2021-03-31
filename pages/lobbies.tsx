@@ -4,24 +4,23 @@ import Link from "next/link";
 import Logo from "../components/logo/Logo";
 import BackBtn from "../components/button/BackBtn";
 import CreateBtn from "../components/button/CreateBtn";
-import LobbyListItem, {
-  LobbyListItemProps,
-} from "../components/misc/LobbyListItem";
+import LobbyListItem from "../components/misc/LobbyListItem";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { SocketContext } from "../contexts/SocketContext";
 import { getPlayerName, getSocketID } from "../lib/functions";
+import { GameForLobby } from "../server/lib/gameTypes";
 
 export default function Lobbies() {
   const router = useRouter();
-  const [lobbyItems, setLobbyItems] = useState<LobbyListItemProps[]>([]);
+  const [lobbyItems, setLobbyItems] = useState<GameForLobby[]>([]);
   const { socket } = useContext(SocketContext);
 
   useEffect(() => {
     if (!socket) {
       return;
     }
-    function handleDisplayGames(games) {
+    function handleDisplayGames(games: GameForLobby[]) {
       setLobbyItems(games);
     }
 
@@ -29,22 +28,22 @@ export default function Lobbies() {
     socket.emit("get list of games");
   }, [socket]);
 
-  const goToLobby = (lobbyNr) => {
+  const goToLobby = (lobbyNr: number) => {
     router.push(`/game?lobby=${lobbyNr}`);
   };
 
-  const handleJoinBtnClick = (lobbyNr) => {
+  const handleJoinBtnClick = (lobbyNr: number): void => {
     const playerName = getPlayerName();
     const socketID = getSocketID();
     socket.emit("join game", lobbyNr, playerName, socketID);
     goToLobby(lobbyNr);
   };
 
-  const handleCreateBtnClick = () => {
+  const handleCreateBtnClick = (): void => {
     const playerName = getPlayerName();
     const socketID = getSocketID();
     socket.emit("create game", playerName, socketID);
-    socket.on("pass lobbynr", (lobbyNr) => {
+    socket.on("pass lobbynr", (lobbyNr: number) => {
       goToLobby(lobbyNr);
     });
   };

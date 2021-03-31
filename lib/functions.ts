@@ -1,10 +1,10 @@
 import { useRouter } from "next/router";
 
-export function getPlayerName() {
+export function getPlayerName(): string {
   return localStorage.getItem("playerName");
 }
 
-export function getSocketID() {
+export function getSocketID(): string {
   return localStorage.getItem("socketID");
 }
 
