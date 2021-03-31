@@ -140,12 +140,9 @@ export function getOpponentPlayers(
       socketID: player.socketID,
     };
   });
-
-  const indexOfSelf = allPlayers
-    .map((player) => player.socketID)
-    .indexOf(socketID);
-
-  const opponentPlayers = allPlayers.splice(indexOfSelf, 1);
-
+  const opponentPlayers = allPlayers.filter(
+    (player) => player.socketID !== socketID
+  );
+  console.log("opponents are ", opponentPlayers);
   return opponentPlayers;
 }
