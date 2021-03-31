@@ -14,15 +14,17 @@ import { SocketContext } from "../contexts/SocketContext";
 import { useContext, useEffect, useState } from "react";
 import { getLobbyNr, getPlayerName, getSocketID } from "../lib/functions";
 import { useRouter } from "next/router";
+import { PlayerForCardGrid } from "../server/lib/gameTypes";
 
 export default function Game() {
   const { socket } = useContext(SocketContext);
   const router = useRouter();
   const lobbyNr = getLobbyNr();
-  const [playerCount, setPlayerCount] = useState(null);
+  const [playerCount, setPlayerCount] = useState<number>(null);
+  const [players, setPlayers] = useState<PlayerForCardGrid[]>(null);
 
   useEffect(() => {
-    if (!socket) {
+    if (!socket || !lobbyNr) {
       return;
     }
     const playerName = getPlayerName();
@@ -32,14 +34,22 @@ export default function Game() {
       setPlayerCount(count);
     }
 
+    function handleDisplayPlayers(players: PlayerForCardGrid[]) {
+      console.log("players", players);
+      setPlayers(players);
+    }
+
     socket.emit("get playercount", lobbyNr);
     socket.on("display current playercount", handleCurrentPlayerCount);
+
+    socket.emit("get opponent players", lobbyNr, socketID);
+    socket.on("display opponent players", handleDisplayPlayers);
 
     socket.emit("player joined", playerName, socketID);
     socket.on("broadcast join", (player) => {
       console.log(player + " joined ");
     });
-  }, [socket]);
+  }, [socket, lobbyNr]);
 
   const handleExitBtnClick = (): void => {
     if (
@@ -51,6 +61,36 @@ export default function Game() {
       socket.emit("leave game", socketID, lobbyNr);
       router.push("/lobbies");
     }
+  };
+
+  const renderOpponentCardGrids = () => {
+    // if (playerCount === 8) {
+    //   return (
+    //     <div className={styles.opponents}>
+    //       <div className={styles.op8row}>
+    //         <OpponentCardGrid />
+    //         <OpponentCardGrid />
+    //       </div>
+    //       <OpponentCardGrid />
+    //       <OpponentCardGrid />
+    //       <OpponentCardGrid />
+    //       <OpponentCardGrid />
+    //       <div className={styles.op8row}>
+    //         <OpponentCardGrid />
+    //         <OpponentCardGrid />
+    //       </div>
+    //     </div>
+    //   );
+    // }
+
+    return players.map(({ name, cards, roundScore, socketID }) => (
+      <OpponentCardGrid
+        key={socketID}
+        cards={cards}
+        name={name}
+        roundScore={roundScore}
+      />
+    ));
   };
 
   return (
@@ -80,18 +120,7 @@ export default function Game() {
           </aside>
           <div className={styles.gameElements8Player}>
             <div className={styles.opponents}>
-              <div className={styles.op8row}>
-                <OpponentCardGrid />
-                <OpponentCardGrid />
-              </div>
-              <OpponentCardGrid />
-              <OpponentCardGrid />
-              <OpponentCardGrid />
-              <OpponentCardGrid />
-              <div className={styles.op8row}>
-                <OpponentCardGrid />
-                <OpponentCardGrid />
-              </div>
+              {() => renderOpponentCardGrids}
             </div>
             <div className={styles.playerCardGrid}>
               <CardGrid />
