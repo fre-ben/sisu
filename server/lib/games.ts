@@ -1,9 +1,11 @@
 import { generateCards } from "./cards";
-import { Game } from "./gameTypes";
-
-type GamesType = {
-  [lobbyNr: number]: Game;
-};
+import {
+  Game,
+  GamesType,
+  GameForLobby,
+  Player,
+  PlayerScoreList,
+} from "./gameTypes";
 
 const games: GamesType = {};
 
@@ -11,7 +13,7 @@ export function createGame(
   lobbyNr: number,
   playerName: string,
   socketID: string
-) {
+): void {
   console.log("Game created on server side");
   games[lobbyNr] = {
     lobbyNr,
@@ -37,14 +39,18 @@ export function createGame(
   // console.log(JSON.stringify(games, null, 4));
 }
 
-function checkIsLobbyFull(lobbyNr) {
+function checkIsLobbyFull(lobbyNr: number): boolean {
   if (games[lobbyNr].playerCount >= 8) {
     games[lobbyNr].lobbyIsFull = true;
     return true;
   }
 }
 
-export function joinGame(lobbyNr, playerName, socketID) {
+export function joinGame(
+  lobbyNr: number,
+  playerName: string,
+  socketID: string
+): void {
   if (checkIsLobbyFull(lobbyNr)) {
     console.log("Lobby is full");
     return;
@@ -63,7 +69,7 @@ export function joinGame(lobbyNr, playerName, socketID) {
   console.log(JSON.stringify(games, null, 4));
 }
 
-export async function leaveGame(socketID) {
+export async function leaveGame(socketID: string): Promise<void> {
   const currentGame = await getGame(socketID);
   if (!currentGame) {
     console.log("No game found");
@@ -84,7 +90,7 @@ export async function leaveGame(socketID) {
   }
 }
 
-export function getGames() {
+export function getGamesForLobby(): GameForLobby[] {
   return Object.values(games).map((game) => {
     return {
       lobbyNr: game.lobbyNr,
@@ -94,29 +100,29 @@ export function getGames() {
   });
 }
 
-export async function getGame(socketID) {
+export async function getGame(socketID: string): Promise<Game> {
   return Object.values(games).find((game) =>
     game.players.find((id) => id.socketID === socketID)
   );
 }
 
-export async function getPlayer(socketID) {
+export async function getPlayer(socketID: string): Promise<Player> {
   const currentGame = await getGame(socketID);
   const player = currentGame.players.find((id) => id.socketID === socketID);
 
   return player;
 }
 
-export function getTotalScores(lobbyNr) {
+export function getTotalScores(lobbyNr: number): PlayerScoreList[] {
   return games[lobbyNr].players.map((player) => {
-    return { name: player.name, score: player.totalScore };
+    return { name: player.name, totalScore: player.totalScore };
   });
 }
 
-export function getRoundNr(lobbyNr) {
+export function getRoundNr(lobbyNr: number): number {
   return games[lobbyNr].roundNr;
 }
 
-export function getPlayerCount(lobbyNr) {
+export function getPlayerCount(lobbyNr: number): number {
   return games[lobbyNr].playerCount;
 }
