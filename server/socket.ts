@@ -3,8 +3,8 @@ import {
   createGame,
   getGame,
   getGamesForLobby,
-  getOpponentPlayers,
   getPlayerCount,
+  getPlayersInLobby,
   getRoundNr,
   getTotalScores,
   joinGame,
@@ -28,15 +28,8 @@ function broadcastTotalScoresToLobby(io, lobbyNr: number): void {
   io.to(`lobby${lobbyNr}`).emit("display scores", getTotalScores(lobbyNr));
 }
 
-function broadcastOpponentsToLobby(
-  io,
-  lobbyNr: number,
-  socketID: string
-): void {
-  io.to(`lobby${lobbyNr}`).emit(
-    "display opponent players",
-    getOpponentPlayers(lobbyNr, socketID)
-  );
+function broadcastPlayersToLobby(io, lobbyNr: number): void {
+  io.to(`lobby${lobbyNr}`).emit("display players", getPlayersInLobby(lobbyNr));
 }
 
 export function listenSocket(server): void {
@@ -50,11 +43,11 @@ export function listenSocket(server): void {
       console.log(socket.id + " disconnected");
       await leaveGame(socket.id);
       try {
-        //Hier liegt evtl. das Problem - ich muss die lobbyNr irgendwo anders herbekommen
+        //Disconnect Problem: ich muss die lobbyNr irgendwo anders herbekommen
         const lobbyNr = (await getGame(socket.id)).lobbyNr;
         broadcastTotalScoresToLobby(io, lobbyNr);
         broadcastPlayerCountToLobby(io, lobbyNr);
-        broadcastOpponentsToLobby(io, lobbyNr, socket.id);
+        broadcastPlayersToLobby(io, lobbyNr);
         broadcastListGamesUpdate();
       } catch (error) {
         console.log(error);
@@ -67,7 +60,7 @@ export function listenSocket(server): void {
       broadcastListGamesUpdate();
       broadcastTotalScoresToLobby(io, lobbyNr);
       broadcastPlayerCountToLobby(io, lobbyNr);
-      broadcastOpponentsToLobby(io, lobbyNr, socketID);
+      broadcastPlayersToLobby(io, lobbyNr);
     });
 
     socket.on("get list of games", () => {
@@ -86,8 +79,8 @@ export function listenSocket(server): void {
       broadcastPlayerCountToLobby(io, lobbyNr);
     });
 
-    socket.on("get opponent players", (lobbyNr: number, socketID: string) => {
-      broadcastOpponentsToLobby(io, lobbyNr, socketID);
+    socket.on("get players", (lobbyNr: number) => {
+      broadcastPlayersToLobby(io, lobbyNr);
     });
 
     socket.on("create game", (playerName: string, socketID: string) => {
@@ -97,7 +90,7 @@ export function listenSocket(server): void {
       socket.emit("pass lobbynr", lobbyNr);
       broadcastPlayerCountToLobby(io, lobbyNr);
       broadcastTotalScoresToLobby(io, lobbyNr);
-      broadcastOpponentsToLobby(io, lobbyNr, socketID);
+      broadcastPlayersToLobby(io, lobbyNr);
       broadcastListGamesUpdate();
       lobbyNr++;
     });
@@ -109,7 +102,7 @@ export function listenSocket(server): void {
         joinGame(lobbyNr, playerName, socketID);
         broadcastPlayerCountToLobby(io, lobbyNr);
         broadcastTotalScoresToLobby(io, lobbyNr);
-        broadcastOpponentsToLobby(io, lobbyNr, socketID);
+        broadcastPlayersToLobby(io, lobbyNr);
         broadcastListGamesUpdate();
       }
     );
