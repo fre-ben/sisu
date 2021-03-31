@@ -16,7 +16,7 @@ function TotalScore() {
   const renderScoreList = scoreList.map((player) => {
     return (
       <li key={player.name} className={styles.playerListItem}>
-        <span className={styles.playerName}>{player.name}</span>{" "}
+        <span className={styles.playerName}>{player.name}</span>
         <span className={styles.playerScore}>{player.totalScore}</span>
       </li>
     );
