@@ -36,11 +36,15 @@ export function listenSocket(server) {
 
     socket.on("disconnect", async () => {
       console.log(socket.id + " disconnected");
-      await leaveGame(socket.id);
-      const lobbyNr = (await getGame(socket.id)).lobbyNr;
-      broadcastTotalScoresToLobby(io, lobbyNr);
-      broadcastPlayerCountToLobby(io, lobbyNr);
-      broadcastListGamesUpdate();
+      try {
+        await leaveGame(socket.id);
+        const lobbyNr = await getGame(socket.id);
+        broadcastTotalScoresToLobby(io, lobbyNr);
+        broadcastPlayerCountToLobby(io, lobbyNr);
+        broadcastListGamesUpdate();
+      } catch (error) {
+        console.log(error);
+      }
     });
 
     socket.on("leave game", async (socketID, lobbyNr) => {
