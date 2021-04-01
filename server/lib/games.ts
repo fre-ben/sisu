@@ -100,6 +100,7 @@ export function getGamesForLobby(): GameForLobby[] {
       lobbyNr: game.lobbyNr,
       playerCount: game.playerCount,
       lobbyIsFull: game.lobbyIsFull,
+      hasStarted: game.hasStarted,
     };
   });
 }
@@ -141,4 +142,13 @@ export function getPlayersInLobby(lobbyNr: number): PlayerForCardGrid[] {
       isReady: player.isReady,
     };
   });
+}
+
+export function checkAllPlayersReady(lobbyNr: number): boolean {
+  const players = games[lobbyNr].players;
+  return players.every((player) => player.isReady);
+}
+
+export function getGameByLobby(lobbyNr: number): Game {
+  return games[lobbyNr];
 }
