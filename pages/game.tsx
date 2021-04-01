@@ -67,14 +67,17 @@ export default function Game() {
         "Do you really want to leave the game? (Reconnecting is not possible)"
       )
     ) {
-      const socketID = socket.id;
-      socket.emit("leave game", socketID, lobbyNr);
+      socket.emit("leave game", socket.id, lobbyNr);
       router.push("/lobbies");
     }
   };
 
   const handleReadyBtnClick = (): void => {
-    alert("Test");
+    socket.emit("player is ready", socket.id, lobbyNr);
+    socket.emit("check all players ready", lobbyNr);
+    socket.on("all players ready", (game) => {
+      setGameHasStarted(game.hasStarted);
+    });
   };
 
   const opponentCardGrids = opponentPlayers.map(
@@ -130,7 +133,9 @@ export default function Game() {
             <Statusbar
               statusMessage={"Start game if all players are connected"}
             />
-            {!player.isReady && <ReadyBtn onClick={handleReadyBtnClick} />}
+            {playerCount >= 2 && player && !player.isReady && (
+              <ReadyBtn onClick={handleReadyBtnClick} />
+            )}
           </aside>
           <aside className={styles.sideBar}>
             <TotalScore />
