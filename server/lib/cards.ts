@@ -1,5 +1,9 @@
-export function generateCards() {
-  const cardsToGenerate = [
+import { Card } from "./gameTypes";
+
+type CardToGenerate = [Card, number];
+
+export function generateCards(): Card[] {
+  const cardsToGenerate: CardToGenerate[] = [
     [
       {
         value: -2,
@@ -122,10 +126,30 @@ export function generateCards() {
     ],
   ];
 
-  const cards = [];
+  const cards: Card[] = [];
 
   cardsToGenerate.forEach(([value, quantity]) => {
     cards.push(...Array(quantity).fill(value));
   });
   return cards;
+}
+
+export function generateBlankCards(): Card[] {
+  const cardsToGenerate: CardToGenerate[] = [
+    [
+      {
+        value: 0,
+        imgSrc: "/cards/blank.png",
+        hidden: false,
+      },
+      12,
+    ],
+  ];
+
+  const blankCards: Card[] = [];
+  cardsToGenerate.forEach(([value, quantity]) => {
+    blankCards.push(...Array(quantity).fill(value));
+  });
+
+  return blankCards;
 }
