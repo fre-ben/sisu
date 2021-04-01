@@ -1,6 +1,4 @@
-import { Card } from "./gameTypes";
-
-type CardToGenerate = [Card, number];
+import { Card, CardToGenerate } from "./gameTypes";
 
 export function generateCards(): Card[] {
   const cardsToGenerate: CardToGenerate[] = [

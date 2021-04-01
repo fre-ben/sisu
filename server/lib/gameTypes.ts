@@ -40,3 +40,5 @@ export type Card = {
   imgSrc: string;
   hidden: boolean;
 };
+
+export type CardToGenerate = [Card, number];
