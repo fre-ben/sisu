@@ -26,6 +26,11 @@ export type Player = {
   roundScore: number[];
 };
 
+export type PlayerForCardGrid = Pick<
+  Player,
+  "name" | "cards" | "roundScore" | "socketID"
+>;
+
 export type PlayerScoreList = Pick<Player, "name" | "totalScore">;
 
 export type Card = {

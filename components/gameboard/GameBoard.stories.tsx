@@ -28,7 +28,7 @@ export const drawpile = () => <DrawPile onClick={() => alert("test")} />;
 export const discardpile = () => <DiscardPile onClick={() => alert("test")} />;
 export const totalscore = () => <TotalScore />;
 export const cardgrid = () => <CardGrid />;
-export const opponentcardgrid = () => <OpponentCardGrid />;
+// export const opponentcardgrid = () => <OpponentCardGrid />;
 export const roundscoremodal = () => <RoundScoreModal />;
 export const roundcounter = () => (
   <SocketContextProvider>

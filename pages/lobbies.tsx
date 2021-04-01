@@ -66,14 +66,14 @@ export default function Lobbies() {
               </a>
             </Link>
             <ul className={styles.list}>
-              {lobbyItems.map((lobby) => {
+              {lobbyItems.map(({ lobbyNr, playerCount, lobbyIsFull }) => {
                 return (
                   <LobbyListItem
-                    key={lobby.lobbyNr}
-                    playerCount={lobby.playerCount}
-                    lobbyNr={lobby.lobbyNr}
-                    onClick={() => handleJoinBtnClick(lobby.lobbyNr)}
-                    lobbyIsFull={lobby.lobbyIsFull}
+                    key={lobbyNr}
+                    playerCount={playerCount}
+                    lobbyNr={lobbyNr}
+                    onClick={() => handleJoinBtnClick(lobbyNr)}
+                    lobbyIsFull={lobbyIsFull}
                   />
                 );
               })}
