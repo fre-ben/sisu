@@ -7,7 +7,7 @@ function DiscardPile({ onClick }: PileProps) {
       <section className={styles.container}>
         <h2 className={styles.discardHeadline}>Discard Pile</h2>
         <img
-          src="/cards/none.png"
+          src="/cards/blank.png"
           className={styles.card}
           onClick={() => onClick}
         />
