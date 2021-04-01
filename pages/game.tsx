@@ -21,7 +21,10 @@ export default function Game() {
   const router = useRouter();
   const lobbyNr = getLobbyNr();
   const [playerCount, setPlayerCount] = useState<number>(null);
-  const [players, setPlayers] = useState<PlayerForCardGrid[]>([]);
+  const [opponentPlayers, setOpponentPlayers] = useState<PlayerForCardGrid[]>(
+    []
+  );
+  const [player, setPlayer] = useState<PlayerForCardGrid>(null);
 
   useEffect(() => {
     if (!socket || !lobbyNr) {
@@ -38,7 +41,9 @@ export default function Game() {
       const opponentPlayers = players.filter(
         (player) => player.socketID !== socketID
       );
-      setPlayers(opponentPlayers);
+      const player = players.find((player) => player.socketID === socketID);
+      setOpponentPlayers(opponentPlayers);
+      setPlayer(player);
     }
 
     socket.emit("get playercount", lobbyNr);
@@ -65,7 +70,7 @@ export default function Game() {
     }
   };
 
-  const opponentCardGrids = players.map(
+  const opponentCardGrids = opponentPlayers.map(
     ({ name, cards, roundScore, socketID }) => {
       return (
         <OpponentCardGrid
@@ -128,7 +133,13 @@ export default function Game() {
           <div className={styles.gameElements8Player}>
             <div className={styles.opponents}>{opponentCardGrids}</div>
             <div className={styles.playerCardGrid}>
-              <CardGrid />
+              {player && (
+                <CardGrid
+                  cards={player.cards}
+                  name={player.name}
+                  roundScore={player.roundScore}
+                />
+              )}
             </div>
           </div>
         </div>
