@@ -7,4 +7,5 @@ export type ButtonProps = {
 export type JoinBtnProps = {
   onClick: MouseEventHandler<HTMLButtonElement>;
   lobbyIsFull: boolean;
+  hasStarted: boolean;
 };

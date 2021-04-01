@@ -16,7 +16,7 @@ export type GamesType = {
 
 export type GameForLobby = Pick<
   Game,
-  "lobbyNr" | "playerCount" | "lobbyIsFull"
+  "lobbyNr" | "playerCount" | "lobbyIsFull" | "hasStarted"
 >;
 
 export type Player = {
