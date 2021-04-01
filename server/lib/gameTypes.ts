@@ -3,6 +3,7 @@ export type Game = {
   roundNr: number;
   playerCount: number;
   lobbyIsFull: boolean;
+  hasStarted: boolean;
   nextPlayer: string;
   players: Player[];
   drawPileCards: Card[];
@@ -21,6 +22,7 @@ export type GameForLobby = Pick<
 export type Player = {
   name: string;
   socketID: string;
+  isReady: boolean;
   cards: Card[];
   totalScore: number;
   roundScore: number[];
@@ -28,7 +30,7 @@ export type Player = {
 
 export type PlayerForCardGrid = Pick<
   Player,
-  "name" | "cards" | "roundScore" | "socketID"
+  "name" | "cards" | "roundScore" | "socketID" | "isReady"
 >;
 
 export type PlayerScoreList = Pick<Player, "name" | "totalScore">;
