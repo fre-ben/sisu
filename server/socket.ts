@@ -2,6 +2,7 @@ import { Server, Socket } from "socket.io";
 import {
   checkAllPlayersReady,
   createGame,
+  getDiscardPile,
   getGame,
   getGameByLobby,
   getGamesForLobby,
@@ -37,6 +38,10 @@ function broadcastPlayersToLobby(io, lobbyNr: number): void {
 
 function broadcastGameStartToLobby(io, lobbyNr: number): void {
   io.to(`lobby${lobbyNr}`).emit("all players ready", getGameByLobby(lobbyNr));
+}
+
+function broadcastDiscardPileToLobby(io, lobbyNr: number): void {
+  io.to(`lobby${lobbyNr}`).emit("display discardpile", getDiscardPile(lobbyNr));
 }
 
 export function listenSocket(server): void {
@@ -90,6 +95,10 @@ export function listenSocket(server): void {
       broadcastPlayersToLobby(io, lobbyNr);
     });
 
+    socket.on("get discardpile", (lobbyNr) => {
+      broadcastDiscardPileToLobby(io, lobbyNr);
+    });
+
     socket.on("create game", (playerName: string, socketID: string) => {
       socket.join(`lobby${lobbyNr}`);
       console.log("Lobby nr " + lobbyNr + " was created");
@@ -130,9 +139,9 @@ export function listenSocket(server): void {
       }
     });
 
-    socket.on("player joined", async (playerName: string, socketID: string) => {
-      const currentGame = await getGame(socketID);
-      io.to(`lobby${currentGame.lobbyNr}`).emit("broadcast join", playerName);
-    });
+    // socket.on("player joined", async (playerName: string, socketID: string) => {
+    //   const currentGame = await getGame(socketID);
+    //   io.to(`lobby${currentGame.lobbyNr}`).emit("broadcast join", playerName);
+    // });
   });
 }
