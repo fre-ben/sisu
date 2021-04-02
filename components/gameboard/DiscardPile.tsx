@@ -1,13 +1,14 @@
 import styles from "./Piles.module.css";
-import { PileProps } from "./types";
+import { DiscardPileProps } from "./types";
 
-function DiscardPile({ onClick }: PileProps) {
+function DiscardPile({ onClick, card }: DiscardPileProps) {
   return (
     <>
       <section className={styles.container}>
         <h2 className={styles.discardHeadline}>Discard Pile</h2>
         <img
-          src="/cards/blank.png"
+          key={card ? card.value : ""}
+          src={card ? card.imgSrc : "/cards/blank.png"}
           className={styles.card}
           onClick={() => onClick}
         />
