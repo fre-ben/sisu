@@ -1,5 +1,5 @@
 import styles from "./MiscElements.module.css";
-import { StatusbarProps } from "./types";
+import type { StatusbarProps } from "./types";
 
 function Statusbar({ statusMessage }: StatusbarProps) {
   return (

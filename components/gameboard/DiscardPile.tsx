@@ -1,5 +1,5 @@
 import styles from "./Piles.module.css";
-import { DiscardPileProps } from "./types";
+import type { DiscardPileProps } from "./types";
 
 function DiscardPile({ onClick, card }: DiscardPileProps) {
   return (

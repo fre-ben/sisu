@@ -1,5 +1,5 @@
 import { generateCards } from "./cards";
-import {
+import type {
   Game,
   GamesType,
   GameForLobby,

@@ -14,7 +14,7 @@ import { SocketContext } from "../contexts/SocketContext";
 import { useContext, useEffect, useState } from "react";
 import { getLobbyNr, getSocketID } from "../lib/functions";
 import { useRouter } from "next/router";
-import { Card, PlayerForCardGrid } from "../server/lib/gameTypes";
+import type { Card, PlayerForCardGrid } from "../server/lib/gameTypes";
 import { generateBlankCards } from "../server/lib/cards";
 
 export default function Game() {
