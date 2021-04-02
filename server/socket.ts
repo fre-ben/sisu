@@ -1,8 +1,11 @@
 import { Server, Socket } from "socket.io";
 import {
+  checkAllPlayersReady,
   createGame,
   getGame,
+  getGameByLobby,
   getGamesForLobby,
+  getPlayer,
   getPlayerCount,
   getPlayersInLobby,
   getRoundNr,
@@ -30,6 +33,10 @@ function broadcastTotalScoresToLobby(io, lobbyNr: number): void {
 
 function broadcastPlayersToLobby(io, lobbyNr: number): void {
   io.to(`lobby${lobbyNr}`).emit("display players", getPlayersInLobby(lobbyNr));
+}
+
+function broadcastGameStartToLobby(io, lobbyNr: number): void {
+  io.to(`lobby${lobbyNr}`).emit("all players ready", getGameByLobby(lobbyNr));
 }
 
 export function listenSocket(server): void {
@@ -106,6 +113,22 @@ export function listenSocket(server): void {
         broadcastListGamesUpdate();
       }
     );
+
+    socket.on("player is ready", async (socketID, lobbyNr) => {
+      const player = await getPlayer(socketID);
+      player.isReady = true;
+      broadcastPlayersToLobby(io, lobbyNr);
+    });
+
+    socket.on("check all players ready", (lobbyNr) => {
+      if (checkAllPlayersReady(lobbyNr)) {
+        getGameByLobby(lobbyNr).hasStarted = true;
+        broadcastGameStartToLobby(io, lobbyNr);
+        broadcastListGamesUpdate();
+      } else {
+        return;
+      }
+    });
 
     socket.on("player joined", async (playerName: string, socketID: string) => {
       const currentGame = await getGame(socketID);

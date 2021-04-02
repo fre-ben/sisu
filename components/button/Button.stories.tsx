@@ -23,7 +23,8 @@ export const Join = TemplateJoin.bind({});
 
 Join.args = {
   onClick: () => alert("Hello"),
-  lobbyIsFull: true,
+  lobbyIsFull: false,
+  hasStarted: false,
 };
 
 export const back = () => <BackBtn />;

@@ -2,7 +2,7 @@ import { MouseEventHandler } from "react";
 import { Card } from "../../server/lib/gameTypes";
 import styles from "./CardGrid.module.css";
 
-export type OpponentCardGridProps = {
+export type CardGridProps = {
   onClick?: MouseEventHandler<HTMLButtonElement>;
   cards: Card[];
   name: string;
@@ -14,7 +14,7 @@ function OpponentCardGrid({
   cards,
   name,
   roundScore,
-}: OpponentCardGridProps) {
+}: CardGridProps) {
   const createPlayerCardGrid = cards.map((card) => (
     <img
       key={card.value}

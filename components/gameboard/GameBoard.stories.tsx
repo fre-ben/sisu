@@ -27,8 +27,22 @@ StatusBar.args = {
 export const drawpile = () => <DrawPile onClick={() => alert("test")} />;
 export const discardpile = () => <DiscardPile onClick={() => alert("test")} />;
 export const totalscore = () => <TotalScore />;
-export const cardgrid = () => <CardGrid />;
-// export const opponentcardgrid = () => <OpponentCardGrid />;
+export const cardgrid = () => (
+  <CardGrid
+    onClick={() => alert("test")}
+    cards={null}
+    name={"Fred"}
+    roundScore={[20]}
+  />
+);
+export const opponentcardgrid = () => (
+  <OpponentCardGrid
+    onClick={() => alert("test")}
+    cards={null}
+    name={"Fred"}
+    roundScore={[20]}
+  />
+);
 export const roundscoremodal = () => <RoundScoreModal />;
 export const roundcounter = () => (
   <SocketContextProvider>

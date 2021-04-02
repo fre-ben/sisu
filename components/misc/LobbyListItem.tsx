@@ -8,6 +8,7 @@ export type LobbyListItemProps = {
   lobbyNr: number;
   onClick: MouseEventHandler<HTMLButtonElement>;
   lobbyIsFull: boolean;
+  hasStarted: boolean;
 };
 
 function LobbyListItem({
@@ -15,6 +16,7 @@ function LobbyListItem({
   lobbyNr,
   onClick,
   lobbyIsFull,
+  hasStarted,
 }: LobbyListItemProps) {
   if (playerCount >= 8) {
     lobbyIsFull = true;
@@ -29,7 +31,11 @@ function LobbyListItem({
     <li className={styles.listItem}>
       <span className={styles.lobbyNr}>Lobby #{lobbyNr}</span>
       <PlayerCount playerCount={playerCount} />
-      <JoinBtn onClick={onClick} lobbyIsFull={lobbyIsFull} />
+      <JoinBtn
+        onClick={onClick}
+        lobbyIsFull={lobbyIsFull}
+        hasStarted={hasStarted}
+      />
     </li>
   );
 }

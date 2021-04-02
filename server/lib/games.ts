@@ -21,11 +21,13 @@ export function createGame(
     roundNr: 1,
     playerCount: 1,
     lobbyIsFull: false,
+    hasStarted: false,
     nextPlayer: "",
     players: [
       {
         name: playerName,
         socketID: socketID,
+        isReady: false,
         cards: [],
         totalScore: 0,
         roundScore: [],
@@ -61,6 +63,7 @@ export function joinGame(
   playersInGame.push({
     name: playerName,
     socketID: socketID,
+    isReady: false,
     cards: [],
     totalScore: 0,
     roundScore: [],
@@ -97,6 +100,7 @@ export function getGamesForLobby(): GameForLobby[] {
       lobbyNr: game.lobbyNr,
       playerCount: game.playerCount,
       lobbyIsFull: game.lobbyIsFull,
+      hasStarted: game.hasStarted,
     };
   });
 }
@@ -135,6 +139,16 @@ export function getPlayersInLobby(lobbyNr: number): PlayerForCardGrid[] {
       cards: player.cards,
       roundScore: player.roundScore,
       socketID: player.socketID,
+      isReady: player.isReady,
     };
   });
+}
+
+export function checkAllPlayersReady(lobbyNr: number): boolean {
+  const players = games[lobbyNr].players;
+  return players.every((player) => player.isReady);
+}
+
+export function getGameByLobby(lobbyNr: number): Game {
+  return games[lobbyNr];
 }
