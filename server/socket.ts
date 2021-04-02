@@ -6,6 +6,7 @@ import {
   getGame,
   getGameByLobby,
   getGamesForLobby,
+  getNumberOfGames,
   getPlayer,
   getPlayerCount,
   getPlayersInLobby,
@@ -53,16 +54,26 @@ export function listenSocket(server): void {
 
     socket.on("disconnect", async () => {
       console.log(socket.id + " disconnected");
-      await leaveGame(socket.id);
-      try {
-        //Disconnect Problem: ich muss die lobbyNr irgendwo anders herbekommen
-        const lobbyNr = (await getGame(socket.id)).lobbyNr;
-        broadcastTotalScoresToLobby(io, lobbyNr);
-        broadcastPlayerCountToLobby(io, lobbyNr);
-        broadcastPlayersToLobby(io, lobbyNr);
-        broadcastListGamesUpdate();
-      } catch (error) {
-        console.log(error);
+    });
+
+    socket.on("disconnecting", async () => {
+      console.log(socket.id, " disconnecting");
+      // check if socket is in a room
+      // console.log(socket.rooms.has("lobby1"));
+      // console.log(socket.rooms.size);
+      for (let i = 1; i <= 20; i++) {
+        if (socket.rooms.has(`lobby${i}`)) {
+          console.log(i, true);
+          const lobbyNr = (await getGame(socket.id)).lobbyNr;
+          await leaveGame(socket.id);
+          broadcastTotalScoresToLobby(io, lobbyNr);
+          broadcastPlayerCountToLobby(io, lobbyNr);
+          broadcastPlayersToLobby(io, lobbyNr);
+          broadcastListGamesUpdate();
+          return;
+        } else {
+          console.log(i, false);
+        }
       }
     });
 
