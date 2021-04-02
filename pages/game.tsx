@@ -12,7 +12,7 @@ import CardGrid from "../components/gameboard/CardGrid";
 import OpponentCardGrid from "../components/gameboard/OpponentCardGrid";
 import { SocketContext } from "../contexts/SocketContext";
 import { useContext, useEffect, useState } from "react";
-import { getLobbyNr, getPlayerName, getSocketID } from "../lib/functions";
+import { getLobbyNr, getSocketID } from "../lib/functions";
 import { useRouter } from "next/router";
 import { Card, PlayerForCardGrid } from "../server/lib/gameTypes";
 import { generateBlankCards } from "../server/lib/cards";
@@ -34,7 +34,6 @@ export default function Game() {
     if (!socket || !lobbyNr) {
       return;
     }
-    const playerName = getPlayerName();
     const socketID = getSocketID();
 
     function handleCurrentPlayerCount(count: number) {
@@ -62,11 +61,6 @@ export default function Game() {
 
     socket.emit("get players", lobbyNr, socketID);
     socket.on("display players", handleDisplayPlayers);
-
-    socket.emit("player joined", playerName, socketID);
-    socket.on("broadcast join", (player) => {
-      console.log(player + " joined ");
-    });
   }, [socket, lobbyNr]);
 
   const handleExitBtnClick = (): void => {

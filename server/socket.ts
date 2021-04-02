@@ -138,10 +138,5 @@ export function listenSocket(server): void {
         return;
       }
     });
-
-    // socket.on("player joined", async (playerName: string, socketID: string) => {
-    //   const currentGame = await getGame(socketID);
-    //   io.to(`lobby${currentGame.lobbyNr}`).emit("broadcast join", playerName);
-    // });
   });
 }
