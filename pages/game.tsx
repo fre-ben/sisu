@@ -14,7 +14,7 @@ import { SocketContext } from "../contexts/SocketContext";
 import { useContext, useEffect, useState } from "react";
 import { getLobbyNr, getPlayerName, getSocketID } from "../lib/functions";
 import { useRouter } from "next/router";
-import { PlayerForCardGrid } from "../server/lib/gameTypes";
+import { Card, PlayerForCardGrid } from "../server/lib/gameTypes";
 import { generateBlankCards } from "../server/lib/cards";
 
 export default function Game() {
@@ -27,7 +27,8 @@ export default function Game() {
     []
   );
   const [player, setPlayer] = useState<PlayerForCardGrid>(null);
-  const [gameHasStarted, setGameHasStarted] = useState(false);
+  const [gameHasStarted, setGameHasStarted] = useState<boolean>(false);
+  const [discardPileCard, setDiscardPileCard] = useState<Card>(null);
 
   useEffect(() => {
     if (!socket || !lobbyNr) {
@@ -48,6 +49,13 @@ export default function Game() {
       setOpponentPlayers(opponentPlayers);
       setPlayer(player);
     }
+
+    function handleDisplayDiscardPile(card: Card) {
+      setDiscardPileCard(card);
+    }
+
+    socket.emit("get discardpile", lobbyNr);
+    socket.on("display discardpile", handleDisplayDiscardPile);
 
     socket.emit("get playercount", lobbyNr);
     socket.on("display current playercount", handleCurrentPlayerCount);
@@ -140,7 +148,10 @@ export default function Game() {
           <aside className={styles.sideBar}>
             <TotalScore />
             <DrawPile onClick={() => alert("click")} />
-            <DiscardPile onClick={() => alert("click")} />
+            <DiscardPile
+              card={discardPileCard}
+              onClick={() => alert("click")}
+            />
           </aside>
           <div className={styles.gameElements8Player}>
             <div className={styles.opponents}>{opponentCardGrids}</div>
