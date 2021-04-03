@@ -34,9 +34,7 @@ export function createGame(
         roundScore: [],
       },
     ],
-    //commented out for easier reading of server log
-    // drawPileCards: generateCards(),
-    drawPileCards: [],
+    drawPileCards: generateCards(),
     discardPileCards: [],
   };
   //commented out for now
@@ -155,10 +153,36 @@ export function getGameByLobby(lobbyNr: number): Game {
 }
 
 export function getDiscardPile(lobbyNr: number): Card {
-  const discardpile = getGameByLobby(lobbyNr).discardPileCards;
-  return discardpile[discardpile.length - 1];
+  const discardPile = getGameByLobby(lobbyNr).discardPileCards;
+  return discardPile[discardPile.length - 1];
 }
 
 // export function getNumberOfGames(): number {
 //   return games[[0].length];
 // }
+
+export function getRandomCard(lobbyNr: number): Card {
+  const drawPile = getGameByLobby(lobbyNr).drawPileCards;
+  const randomIndex = Math.floor(Math.random() * (drawPile.length + 1));
+  const randomCard = drawPile[randomIndex];
+  drawPile.splice(randomIndex, 1);
+  if (randomCard === null) {
+    getRandomCard(lobbyNr);
+  } else {
+    return randomCard;
+  }
+}
+
+export function dealCardsToPlayers(amount: number, lobbyNr: number): void {
+  const playerCount = games[lobbyNr].playerCount;
+
+  for (let i = 0; i < playerCount; i++) {
+    const player = games[lobbyNr].players[i];
+    for (let j = 1; j <= amount; j++) {
+      const randomCard = getRandomCard(lobbyNr);
+      player.cards.push(randomCard);
+    }
+  }
+  console.log(JSON.stringify(games[lobbyNr], null, 4));
+  console.log("drawpile length is", games[lobbyNr].drawPileCards.length);
+}
