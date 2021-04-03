@@ -13,7 +13,7 @@
 }
 
 .pageItems {
-  margin-top: 1.5em;
+  margin-top: 1em;
   display: grid;
   grid-auto-flow: column;
   column-gap: 3em;
@@ -22,7 +22,9 @@
 
 .list {
   margin: 0;
-  padding: 0;
+  padding: 0 1em 0 0;
+  overflow-y: auto;
+  max-height: 18em;
 }
 .list li {
   margin-bottom: 1em;
