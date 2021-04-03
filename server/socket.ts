@@ -6,7 +6,6 @@ import {
   getGame,
   getGameByLobby,
   getGamesForLobby,
-  getNumberOfGames,
   getPlayer,
   getPlayerCount,
   getPlayersInLobby,
