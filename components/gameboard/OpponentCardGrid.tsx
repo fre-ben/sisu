@@ -1,5 +1,5 @@
 import { MouseEventHandler } from "react";
-import { Card } from "../../server/lib/gameTypes";
+import type { Card } from "../../server/lib/gameTypes";
 import styles from "./CardGrid.module.css";
 
 export type CardGridProps = {

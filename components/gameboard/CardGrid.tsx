@@ -1,5 +1,5 @@
 import styles from "./CardGrid.module.css";
-import { CardGridProps } from "./OpponentCardGrid";
+import type { CardGridProps } from "./OpponentCardGrid";
 
 function CardGrid({ onClick, cards, name, roundScore }: CardGridProps) {
   const createPlayerCardGrid = cards.map((card) => (

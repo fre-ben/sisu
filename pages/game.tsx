@@ -14,7 +14,7 @@ import { SocketContext } from "../contexts/SocketContext";
 import { useContext, useEffect, useState } from "react";
 import { getLobbyNr, getSocketID } from "../lib/functions";
 import { useRouter } from "next/router";
-import { Card, PlayerForCardGrid } from "../server/lib/gameTypes";
+import type { Card, PlayerForCardGrid } from "../server/lib/gameTypes";
 import { generateBlankCards } from "../server/lib/cards";
 
 export default function Game() {
@@ -95,29 +95,14 @@ export default function Game() {
     }
   );
 
-  //Still saving this for the case of 8 players
-  // const renderOpponentCardGrids = () => {
-  //   // if (playerCount === 8) {
-  //   //   return (
-  //   //     <div className={styles.opponents}>
-  //   //       <div className={styles.op8row}>
-  //   //         <OpponentCardGrid />
-  //   //         <OpponentCardGrid />
-  //   //       </div>
-  //   //       <OpponentCardGrid />
-  //   //       <OpponentCardGrid />
-  //   //       <OpponentCardGrid />
-  //   //       <OpponentCardGrid />
-  //   //       <div className={styles.op8row}>
-  //   //         <OpponentCardGrid />
-  //   //         <OpponentCardGrid />
-  //   //       </div>
-  //   //     </div>
-  //   //   );
-  //   // }
-
-  //   return opponentCardGrids;
-  // };
+  const opponentsLayout =
+    playerCount <= 7
+      ? {
+          gridTemplateColumns: `repeat(${playerCount - 1}, 1fr)`,
+        }
+      : {
+          gridTemplateColumns: `repeat(6, 1fr)`,
+        };
 
   return (
     <>
@@ -148,8 +133,10 @@ export default function Game() {
             />
           </aside>
           <div className={styles.gameElements8Player}>
-            <div className={styles.opponents}>{opponentCardGrids}</div>
-            <div className={styles.playerCardGrid}>
+            <div className={styles.opponents} style={opponentsLayout}>
+              {opponentCardGrids}
+            </div>
+            <div className={playerCount === 8 && styles.playerCardGrid}>
               {player && (
                 <CardGrid
                   cards={gameHasStarted ? player.cards : blankCards}
