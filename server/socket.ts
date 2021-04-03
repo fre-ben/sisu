@@ -58,9 +58,6 @@ export function listenSocket(server): void {
 
     socket.on("disconnecting", async () => {
       console.log(socket.id, " disconnecting");
-      // check if socket is in a room
-      // console.log(socket.rooms.has("lobby1"));
-      // console.log(socket.rooms.size);
       for (let i = 1; i <= 20; i++) {
         if (socket.rooms.has(`lobby${i}`)) {
           console.log(i, true);
