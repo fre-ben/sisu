@@ -2,6 +2,7 @@ import { Server, Socket } from "socket.io";
 import {
   checkAllPlayersReady,
   createGame,
+  getDiscardPile,
   getGame,
   getGameByLobby,
   getGamesForLobby,
@@ -39,6 +40,10 @@ function broadcastGameStartToLobby(io, lobbyNr: number): void {
   io.to(`lobby${lobbyNr}`).emit("all players ready", getGameByLobby(lobbyNr));
 }
 
+function broadcastDiscardPileToLobby(io, lobbyNr: number): void {
+  io.to(`lobby${lobbyNr}`).emit("display discardpile", getDiscardPile(lobbyNr));
+}
+
 export function listenSocket(server): void {
   io = new Server(server, {});
   let lobbyNr = 1;
@@ -48,16 +53,23 @@ export function listenSocket(server): void {
 
     socket.on("disconnect", async () => {
       console.log(socket.id + " disconnected");
-      await leaveGame(socket.id);
-      try {
-        //Disconnect Problem: ich muss die lobbyNr irgendwo anders herbekommen
-        const lobbyNr = (await getGame(socket.id)).lobbyNr;
-        broadcastTotalScoresToLobby(io, lobbyNr);
-        broadcastPlayerCountToLobby(io, lobbyNr);
-        broadcastPlayersToLobby(io, lobbyNr);
-        broadcastListGamesUpdate();
-      } catch (error) {
-        console.log(error);
+    });
+
+    socket.on("disconnecting", async () => {
+      console.log(socket.id, " disconnecting");
+      for (let i = 1; i <= 20; i++) {
+        if (socket.rooms.has(`lobby${i}`)) {
+          console.log(i, true);
+          const lobbyNr = (await getGame(socket.id)).lobbyNr;
+          await leaveGame(socket.id);
+          broadcastTotalScoresToLobby(io, lobbyNr);
+          broadcastPlayerCountToLobby(io, lobbyNr);
+          broadcastPlayersToLobby(io, lobbyNr);
+          broadcastListGamesUpdate();
+          return;
+        } else {
+          console.log(i, false);
+        }
       }
     });
 
@@ -88,6 +100,10 @@ export function listenSocket(server): void {
 
     socket.on("get players", (lobbyNr: number) => {
       broadcastPlayersToLobby(io, lobbyNr);
+    });
+
+    socket.on("get discardpile", (lobbyNr) => {
+      broadcastDiscardPileToLobby(io, lobbyNr);
     });
 
     socket.on("create game", (playerName: string, socketID: string) => {
@@ -128,11 +144,6 @@ export function listenSocket(server): void {
       } else {
         return;
       }
-    });
-
-    socket.on("player joined", async (playerName: string, socketID: string) => {
-      const currentGame = await getGame(socketID);
-      io.to(`lobby${currentGame.lobbyNr}`).emit("broadcast join", playerName);
     });
   });
 }

@@ -25,7 +25,9 @@ StatusBar.args = {
 };
 
 export const drawpile = () => <DrawPile onClick={() => alert("test")} />;
-export const discardpile = () => <DiscardPile onClick={() => alert("test")} />;
+export const discardpile = () => (
+  <DiscardPile onClick={() => alert("test")} card={null} />
+);
 export const totalscore = () => <TotalScore />;
 export const cardgrid = () => (
   <CardGrid

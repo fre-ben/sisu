@@ -29,7 +29,7 @@
   grid-template-columns: 80% 20%;
   grid-template-rows: auto 1fr;
   align-items: start;
-  column-gap: 2em;
+  column-gap: 1em;
   width: 100%;
   grid-template-areas:
     "topbar sidebar"
@@ -49,6 +49,8 @@
   justify-items: center;
   align-items: start;
   column-gap: 1em;
+  row-gap: 1.5em;
+  min-height: 230px;
 }
 
 .op8row {

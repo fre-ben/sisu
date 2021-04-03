@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { SocketContext } from "../../contexts/SocketContext";
 import { getLobbyNr } from "../../lib/functions";
-import { PlayerScoreList } from "../../server/lib/gameTypes";
+import type { PlayerScoreList } from "../../server/lib/gameTypes";
 import styles from "./Score.module.css";
 type ScoreListProps = {
   name: string;

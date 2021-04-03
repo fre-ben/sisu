@@ -1,11 +1,12 @@
 import { generateCards } from "./cards";
-import {
+import type {
   Game,
   GamesType,
   GameForLobby,
   Player,
   PlayerScoreList,
   PlayerForCardGrid,
+  Card,
 } from "./gameTypes";
 
 const games: GamesType = {};
@@ -152,3 +153,12 @@ export function checkAllPlayersReady(lobbyNr: number): boolean {
 export function getGameByLobby(lobbyNr: number): Game {
   return games[lobbyNr];
 }
+
+export function getDiscardPile(lobbyNr: number): Card {
+  const discardpile = getGameByLobby(lobbyNr).discardPileCards;
+  return discardpile[discardpile.length - 1];
+}
+
+// export function getNumberOfGames(): number {
+//   return games[[0].length];
+// }

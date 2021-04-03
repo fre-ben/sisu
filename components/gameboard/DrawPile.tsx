@@ -1,5 +1,5 @@
 import styles from "./Piles.module.css";
-import { PileProps } from "./types";
+import type { PileProps } from "./types";
 
 function DrawPile({ onClick }: PileProps) {
   return (

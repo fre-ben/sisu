@@ -12,9 +12,9 @@ import CardGrid from "../components/gameboard/CardGrid";
 import OpponentCardGrid from "../components/gameboard/OpponentCardGrid";
 import { SocketContext } from "../contexts/SocketContext";
 import { useContext, useEffect, useState } from "react";
-import { getLobbyNr, getPlayerName, getSocketID } from "../lib/functions";
+import { getLobbyNr, getSocketID } from "../lib/functions";
 import { useRouter } from "next/router";
-import { PlayerForCardGrid } from "../server/lib/gameTypes";
+import type { Card, PlayerForCardGrid } from "../server/lib/gameTypes";
 import { generateBlankCards } from "../server/lib/cards";
 
 export default function Game() {
@@ -27,13 +27,13 @@ export default function Game() {
     []
   );
   const [player, setPlayer] = useState<PlayerForCardGrid>(null);
-  const [gameHasStarted, setGameHasStarted] = useState(false);
+  const [gameHasStarted, setGameHasStarted] = useState<boolean>(false);
+  const [discardPileCard, setDiscardPileCard] = useState<Card>(null);
 
   useEffect(() => {
     if (!socket || !lobbyNr) {
       return;
     }
-    const playerName = getPlayerName();
     const socketID = getSocketID();
 
     function handleCurrentPlayerCount(count: number) {
@@ -49,16 +49,18 @@ export default function Game() {
       setPlayer(player);
     }
 
+    function handleDisplayDiscardPile(card: Card) {
+      setDiscardPileCard(card);
+    }
+
+    socket.emit("get discardpile", lobbyNr);
+    socket.on("display discardpile", handleDisplayDiscardPile);
+
     socket.emit("get playercount", lobbyNr);
     socket.on("display current playercount", handleCurrentPlayerCount);
 
     socket.emit("get players", lobbyNr, socketID);
     socket.on("display players", handleDisplayPlayers);
-
-    socket.emit("player joined", playerName, socketID);
-    socket.on("broadcast join", (player) => {
-      console.log(player + " joined ");
-    });
   }, [socket, lobbyNr]);
 
   const handleExitBtnClick = (): void => {
@@ -93,29 +95,14 @@ export default function Game() {
     }
   );
 
-  //Still saving this for the case of 8 players
-  // const renderOpponentCardGrids = () => {
-  //   // if (playerCount === 8) {
-  //   //   return (
-  //   //     <div className={styles.opponents}>
-  //   //       <div className={styles.op8row}>
-  //   //         <OpponentCardGrid />
-  //   //         <OpponentCardGrid />
-  //   //       </div>
-  //   //       <OpponentCardGrid />
-  //   //       <OpponentCardGrid />
-  //   //       <OpponentCardGrid />
-  //   //       <OpponentCardGrid />
-  //   //       <div className={styles.op8row}>
-  //   //         <OpponentCardGrid />
-  //   //         <OpponentCardGrid />
-  //   //       </div>
-  //   //     </div>
-  //   //   );
-  //   // }
-
-  //   return opponentCardGrids;
-  // };
+  const opponentsLayout =
+    playerCount <= 7
+      ? {
+          gridTemplateColumns: `repeat(${playerCount - 1}, 1fr)`,
+        }
+      : {
+          gridTemplateColumns: `repeat(6, 1fr)`,
+        };
 
   return (
     <>
@@ -140,11 +127,16 @@ export default function Game() {
           <aside className={styles.sideBar}>
             <TotalScore />
             <DrawPile onClick={() => alert("click")} />
-            <DiscardPile onClick={() => alert("click")} />
+            <DiscardPile
+              card={discardPileCard}
+              onClick={() => alert("click")}
+            />
           </aside>
           <div className={styles.gameElements8Player}>
-            <div className={styles.opponents}>{opponentCardGrids}</div>
-            <div className={styles.playerCardGrid}>
+            <div className={styles.opponents} style={opponentsLayout}>
+              {opponentCardGrids}
+            </div>
+            <div className={playerCount === 8 && styles.playerCardGrid}>
               {player && (
                 <CardGrid
                   cards={gameHasStarted ? player.cards : blankCards}

@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { SocketContext } from "../../contexts/SocketContext";
 import { getLobbyNr } from "../../lib/functions";
 import styles from "./MiscElements.module.css";
-import { RoundCounterProps } from "./types";
+import type { RoundCounterProps } from "./types";
 
 function RoundCounter() {
   const { socket } = useContext(SocketContext);
