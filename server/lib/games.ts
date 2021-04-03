@@ -159,6 +159,6 @@ export function getDiscardPile(lobbyNr: number): Card {
   return discardpile[discardpile.length - 1];
 }
 
-export function getNumberOfGames() {
-  return games[[].length];
-}
+// export function getNumberOfGames(): number {
+//   return games[[0].length];
+// }
