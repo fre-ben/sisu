@@ -1,5 +1,6 @@
 import { Server, Socket } from "socket.io";
 import {
+  calculateRoundScore,
   cardGridClick,
   checkAllPlayersReady,
   createGame,
@@ -152,6 +153,7 @@ export function listenSocket(server): void {
 
     socket.on("cardgrid click", async (socketID, lobbyNr, index) => {
       await cardGridClick(socketID, index);
+      await calculateRoundScore(socketID, lobbyNr);
       broadcastPlayersToLobby(io, lobbyNr);
     });
   });

@@ -193,3 +193,17 @@ export async function cardGridClick(
 ): Promise<void> {
   (await getPlayer(socketID)).cards[index].hidden = false;
 }
+
+export async function calculateRoundScore(socketID: string, lobbyNr: number) {
+  const player = await getPlayer(socketID);
+  const roundNr = games[lobbyNr].roundNr;
+  let roundScore = null;
+
+  player.cards.forEach((card) => {
+    if (card.hidden === false) {
+      roundScore = roundScore + card.value;
+    }
+  });
+
+  player.roundScore[roundNr - 1] = roundScore;
+}
