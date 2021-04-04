@@ -2,11 +2,11 @@ import styles from "./CardGrid.module.css";
 import type { CardGridProps } from "./OpponentCardGrid";
 
 function CardGrid({ onClick, cards, name, roundScore }: CardGridProps) {
-  const createPlayerCardGrid = cards.map((card) => (
+  const createPlayerCardGrid = cards.map((card, index) => (
     <img
-      key={card.value}
+      key={index}
       src={card.hidden ? "/cards/back.png" : card.imgSrc}
-      // onClick={onClick}
+      onClick={() => onClick(index)}
     />
   ));
 
