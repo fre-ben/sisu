@@ -82,6 +82,10 @@ export default function Game() {
     });
   };
 
+  const handleCardGridClick = (index: number) => {
+    socket.emit("card click", socket.id, lobbyNr, index);
+  };
+
   const opponentCardGrids = opponentPlayers.map(
     ({ name, cards, roundScore, socketID }) => {
       return (
@@ -142,6 +146,7 @@ export default function Game() {
                   cards={gameHasStarted ? player.cards : blankCards}
                   name={player.name}
                   roundScore={player.roundScore}
+                  onClick={handleCardGridClick}
                 />
               )}
             </div>
