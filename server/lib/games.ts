@@ -186,3 +186,10 @@ export function dealCardsToPlayers(amount: number, lobbyNr: number): void {
   console.log(JSON.stringify(games[lobbyNr], null, 4));
   console.log("drawpile length is", games[lobbyNr].drawPileCards.length);
 }
+
+export async function cardGridClick(
+  socketID: string,
+  index: number
+): Promise<void> {
+  (await getPlayer(socketID)).cards[index].hidden = false;
+}
