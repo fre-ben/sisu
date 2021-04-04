@@ -2,6 +2,7 @@ import { Server, Socket } from "socket.io";
 import {
   checkAllPlayersReady,
   createGame,
+  dealCardsToPlayers,
   getDiscardPile,
   getGame,
   getGameByLobby,
@@ -140,6 +141,8 @@ export function listenSocket(server): void {
       if (checkAllPlayersReady(lobbyNr)) {
         getGameByLobby(lobbyNr).hasStarted = true;
         broadcastGameStartToLobby(io, lobbyNr);
+        dealCardsToPlayers(12, lobbyNr);
+        broadcastPlayersToLobby(io, lobbyNr);
         broadcastListGamesUpdate();
       } else {
         return;
