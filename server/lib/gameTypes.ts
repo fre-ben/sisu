@@ -36,6 +36,7 @@ export type PlayerForCardGrid = Pick<
 export type PlayerScoreList = Pick<Player, "name" | "totalScore">;
 
 export type Card = {
+  id?: number;
   value: number;
   imgSrc: string;
   hidden: boolean;
