@@ -1,5 +1,6 @@
 import { Server, Socket } from "socket.io";
 import {
+  cardGridClick,
   checkAllPlayersReady,
   createGame,
   dealCardsToPlayers,
@@ -147,6 +148,11 @@ export function listenSocket(server): void {
       } else {
         return;
       }
+    });
+
+    socket.on("cardgrid click", async (socketID, lobbyNr, index) => {
+      await cardGridClick(socketID, index);
+      broadcastPlayersToLobby(io, lobbyNr);
     });
   });
 }

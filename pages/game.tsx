@@ -83,7 +83,7 @@ export default function Game() {
   };
 
   const handleCardGridClick = (index: number) => {
-    socket.emit("card click", socket.id, lobbyNr, index);
+    socket.emit("cardgrid click", socket.id, lobbyNr, index);
   };
 
   const opponentCardGrids = opponentPlayers.map(
