@@ -29,6 +29,7 @@ export default function Game() {
   const [player, setPlayer] = useState<PlayerForCardGrid>(null);
   const [gameHasStarted, setGameHasStarted] = useState<boolean>(false);
   const [discardPileCard, setDiscardPileCard] = useState<Card>(null);
+  const [roundStart, setRoundStart] = useState<boolean>(false);
 
   useEffect(() => {
     if (!socket || !lobbyNr) {
@@ -83,7 +84,13 @@ export default function Game() {
   };
 
   const handleCardGridClick = (index: number) => {
-    socket.emit("cardgrid click", socket.id, lobbyNr, index);
+    if (gameHasStarted) {
+      socket.emit("cardgrid click", socket.id, lobbyNr, index);
+      socket.emit("check 2 cards revealed", socket.id, lobbyNr);
+      socket.on("2 cards revealed", () => {
+        setRoundStart(true);
+      });
+    }
   };
 
   const opponentCardGrids = opponentPlayers.map(
@@ -146,7 +153,13 @@ export default function Game() {
                   cards={gameHasStarted ? player.cards : blankCards}
                   name={player.name}
                   roundScore={player.roundScore}
-                  onClick={handleCardGridClick}
+                  onClick={
+                    !roundStart
+                      ? handleCardGridClick
+                      : () => {
+                          return;
+                        }
+                  }
                 />
               )}
             </div>

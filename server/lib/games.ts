@@ -207,3 +207,17 @@ export async function calculateRoundScore(socketID: string, lobbyNr: number) {
 
   player.roundScore[roundNr - 1] = roundScore;
 }
+
+export async function checkIfTwoCardsAreRevealed(
+  socketID: string
+): Promise<boolean> {
+  const player = await getPlayer(socketID);
+  const revealedCards = player.cards.filter((card) => card.hidden === false);
+
+  console.log(revealedCards);
+  if (revealedCards.length === 2) {
+    return true;
+  } else {
+    return false;
+  }
+}
