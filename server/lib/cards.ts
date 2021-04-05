@@ -129,7 +129,15 @@ export function generateCards(): Card[] {
   cardsToGenerate.forEach(([value, quantity]) => {
     cards.push(...Array(quantity).fill(value));
   });
-  return cards;
+
+  return cards.map((card, index) => {
+    return {
+      id: index + 1,
+      value: card.value,
+      imgSrc: card.imgSrc,
+      hidden: card.hidden,
+    };
+  });
 }
 
 export function generateBlankCards(): Card[] {

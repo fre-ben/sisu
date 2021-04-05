@@ -1,6 +1,9 @@
 import { Server, Socket } from "socket.io";
 import {
+  calculateRoundScore,
+  cardGridClick,
   checkAllPlayersReady,
+  checkIfTwoCardsAreRevealed,
   createGame,
   dealCardsToPlayers,
   getDiscardPile,
@@ -92,7 +95,7 @@ export function listenSocket(server): void {
     });
 
     socket.on("get rounds to display", (lobbyNr: number) => {
-      socket.emit("display rounds", getRoundNr(lobbyNr));
+      io.to(`lobby${lobbyNr}`).emit("display rounds", getRoundNr(lobbyNr));
     });
 
     socket.on("get playercount", (lobbyNr: number) => {
@@ -146,6 +149,18 @@ export function listenSocket(server): void {
         broadcastListGamesUpdate();
       } else {
         return;
+      }
+    });
+
+    socket.on("cardgrid click", async (socketID, lobbyNr, index) => {
+      await cardGridClick(socketID, index);
+      await calculateRoundScore(socketID, lobbyNr);
+      broadcastPlayersToLobby(io, lobbyNr);
+    });
+
+    socket.on("check 2 cards revealed", async (socketID, lobbyNr) => {
+      if (await checkIfTwoCardsAreRevealed(socketID)) {
+        io.to(`lobby${lobbyNr}`).emit("2 cards revealed", true);
       }
     });
   });

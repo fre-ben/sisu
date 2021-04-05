@@ -186,3 +186,38 @@ export function dealCardsToPlayers(amount: number, lobbyNr: number): void {
   console.log(JSON.stringify(games[lobbyNr], null, 4));
   console.log("drawpile length is", games[lobbyNr].drawPileCards.length);
 }
+
+export async function cardGridClick(
+  socketID: string,
+  index: number
+): Promise<void> {
+  (await getPlayer(socketID)).cards[index].hidden = false;
+}
+
+export async function calculateRoundScore(socketID: string, lobbyNr: number) {
+  const player = await getPlayer(socketID);
+  const roundNr = games[lobbyNr].roundNr;
+  let roundScore = null;
+
+  player.cards.forEach((card) => {
+    if (card.hidden === false) {
+      roundScore = roundScore + card.value;
+    }
+  });
+
+  player.roundScore[roundNr - 1] = roundScore;
+}
+
+export async function checkIfTwoCardsAreRevealed(
+  socketID: string
+): Promise<boolean> {
+  const player = await getPlayer(socketID);
+  const revealedCards = player.cards.filter((card) => card.hidden === false);
+
+  console.log(revealedCards);
+  if (revealedCards.length === 2) {
+    return true;
+  } else {
+    return false;
+  }
+}
