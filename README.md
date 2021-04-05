@@ -3,7 +3,7 @@
 
 This is my capstone project for the Neue Fische Web Development bootcamp I attended in spring of 2021.
 It's a web app multiplayer card game for up to 8 players, best played in a web browser.
-The rules of this game are based on the rules for the fantastic card game __Skyjo__
+The rules of this game are based on the fantastic card game __Skyjo__
 
 ## Installing / Getting started
 
