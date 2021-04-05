@@ -1,9 +1,10 @@
 # SISU &middot; [![Build Status](https://img.shields.io/travis/npm/npm/latest.svg?style=flat-square)](https://travis-ci.org/npm/npm) [![npm](https://img.shields.io/npm/v/npm.svg?style=flat-square)](https://www.npmjs.com/package/npm) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/your/your-project/blob/master/LICENSE)
+
 > A multiplayer card game for up to 8 players
 
 This is my capstone project for the Neue Fische Web Development bootcamp I attended in spring of 2021.
 It's a web app multiplayer card game for up to 8 players, best played in a web browser.
-The rules of this game are based on the fantastic card game __Skyjo__
+The rules of this game are based on the fantastic card game **Skyjo**
 
 ## Installing / Getting started
 
@@ -13,17 +14,20 @@ To run locally, install the dependencies and run the development server.
 npm install
 npm run dev
 ```
+
 Now you should be able to run the game on port 3000.
 
 ## Developing
 
 ### Built With
+
 - React.js
 - Next.js
 - Socket.io
 - TypeScript
 
 ### Prerequisites
+
 None needed, just install the dependencies with `npm install`
 
 ### Setting up Dev
@@ -37,13 +41,9 @@ npm install
 npm run dev
 ```
 
-
-
-
 ## Tests
 
 No tests implemented yet.
-
 
 ## Project Dependencies
 
