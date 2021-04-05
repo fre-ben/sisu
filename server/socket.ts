@@ -2,8 +2,9 @@ import { Server, Socket } from "socket.io";
 import {
   calculateRoundScore,
   cardGridClick,
+  checkAllPlayers2CardsRevealed,
   checkAllPlayersReady,
-  checkIfTwoCardsAreRevealed,
+  checkTwoCardsRevealed,
   createGame,
   dealCardsToPlayers,
   getDiscardPile,
@@ -159,8 +160,11 @@ export function listenSocket(server): void {
     });
 
     socket.on("check 2 cards revealed", async (socketID, lobbyNr) => {
-      if (await checkIfTwoCardsAreRevealed(socketID)) {
+      if (await checkTwoCardsRevealed(socketID)) {
         io.to(`lobby${lobbyNr}`).emit("2 cards revealed", true);
+      }
+      if (checkAllPlayers2CardsRevealed(lobbyNr)) {
+        io.to(`lobby${lobbyNr}`).emit("all players 2 cards revealed", true);
       }
     });
   });
