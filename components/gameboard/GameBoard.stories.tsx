@@ -31,19 +31,14 @@ export const discardpile = () => (
 export const totalscore = () => <TotalScore />;
 export const cardgrid = () => (
   <CardGrid
-    onClick={() => alert("test")}
+    onCardClick={() => alert("test")}
     cards={null}
     name={"Fred"}
     roundScore={[20]}
   />
 );
 export const opponentcardgrid = () => (
-  <OpponentCardGrid
-    onClick={() => alert("test")}
-    cards={null}
-    name={"Fred"}
-    roundScore={[20]}
-  />
+  <OpponentCardGrid cards={null} name={"Fred"} roundScore={[20]} />
 );
 export const roundscoremodal = () => <RoundScoreModal />;
 export const roundcounter = () => (
