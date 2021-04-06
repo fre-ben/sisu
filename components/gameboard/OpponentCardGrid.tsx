@@ -10,7 +10,10 @@ export type CardGridProps = {
 
 function OpponentCardGrid({ cards, name, roundScore }: CardGridProps) {
   const createPlayerCardGrid = cards.map((card, index) => (
-    <img key={index} src={card.hidden ? "/cards/back.png" : card.imgSrc} />
+    <img
+      key={index}
+      src={card && card.hidden ? "/cards/back.png" : card && card.imgSrc}
+    />
   ));
 
   return (

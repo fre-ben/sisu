@@ -5,7 +5,7 @@ function CardGrid({ onCardClick, cards, name, roundScore }: CardGridProps) {
   const createPlayerCardGrid = cards.map((card, index) => (
     <img
       key={index}
-      src={card.hidden ? "/cards/back.png" : card.imgSrc}
+      src={card && card.hidden ? "/cards/back.png" : card && card.imgSrc}
       onClick={() => onCardClick(index)}
     />
   ));
