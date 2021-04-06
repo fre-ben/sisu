@@ -184,6 +184,11 @@ export function dealCardsToPlayers(amount: number, lobbyNr: number): void {
       player.cards.push(randomCard);
     }
   }
+
+  const randomCardDiscardPile = getRandomCard(lobbyNr);
+  randomCardDiscardPile.hidden = false;
+  games[lobbyNr].discardPileCards.push(randomCardDiscardPile);
+
   console.log(JSON.stringify(games[lobbyNr], null, 4));
   console.log("drawpile length is", games[lobbyNr].drawPileCards.length);
 }
