@@ -35,6 +35,10 @@ export type PlayerForCardGrid = Pick<
 
 export type PlayerScoreList = Pick<Player, "name" | "totalScore">;
 
+export type PlayerRoundScore = Pick<Player, "name" | "roundScore">;
+
+export type ActivePlayer = Pick<Player, "name" | "socketID" | "roundScore">;
+
 export type Card = {
   id?: number;
   value: number;
