@@ -208,7 +208,7 @@ export async function calculateRoundScore(socketID: string, lobbyNr: number) {
   player.roundScore[roundNr - 1] = roundScore;
 }
 
-export async function checkIfTwoCardsAreRevealed(
+export async function checkTwoCardsRevealed(
   socketID: string
 ): Promise<boolean> {
   const player = await getPlayer(socketID);
@@ -220,4 +220,14 @@ export async function checkIfTwoCardsAreRevealed(
   } else {
     return false;
   }
+}
+
+export function checkAllPlayers2CardsRevealed(lobbyNr: number): boolean {
+  const currentGame = getGameByLobby(lobbyNr);
+  return currentGame.players.every((player) => {
+    const revealedCards = player.cards.filter((card) => card.hidden === false);
+    if (revealedCards.length === 2) {
+      return true;
+    }
+  });
 }

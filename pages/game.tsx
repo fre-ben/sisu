@@ -90,6 +90,9 @@ export default function Game() {
       socket.on("2 cards revealed", () => {
         setRoundStart(true);
       });
+      socket.on("all players 2 cards revealed", () => {
+        alert("all players ready");
+      });
     }
   };
 
