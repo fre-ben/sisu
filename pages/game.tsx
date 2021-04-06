@@ -27,8 +27,8 @@ export default function Game() {
     []
   );
   const [player, setPlayer] = useState<PlayerForCardGrid>(null);
-  const [gameHasStarted, setGameHasStarted] = useState<boolean>(false);
   const [discardPileCard, setDiscardPileCard] = useState<Card>(null);
+  const [gameHasStarted, setGameHasStarted] = useState<boolean>(false);
   const [roundStart, setRoundStart] = useState<boolean>(false);
 
   useEffect(() => {
@@ -62,6 +62,10 @@ export default function Game() {
 
     socket.emit("get players", lobbyNr, socketID);
     socket.on("display players", handleDisplayPlayers);
+
+    socket.on("all players 2 cards revealed", () => {
+      alert("all players 2 cards revealed");
+    });
   }, [socket, lobbyNr]);
 
   const handleExitBtnClick = (): void => {
@@ -83,16 +87,24 @@ export default function Game() {
     });
   };
 
-  const handleCardGridClick = (index: number) => {
-    if (gameHasStarted) {
+  const handleCardGridClick = (index: number): void => {
+    // example for further functionality
+    // if (activePlayer === player) {
+    //   switch (phase) {
+    //     case 'PICK': pickCard(index)
+    //     break;
+    //   }
+    // }
+
+    if (gameHasStarted && !roundStart) {
       socket.emit("cardgrid click", socket.id, lobbyNr, index);
       socket.emit("check 2 cards revealed", socket.id, lobbyNr);
       socket.on("2 cards revealed", () => {
         setRoundStart(true);
       });
-      socket.on("all players 2 cards revealed", () => {
-        alert("all players ready");
-      });
+    }
+    if (roundStart) {
+      return;
     }
   };
 
@@ -156,13 +168,7 @@ export default function Game() {
                   cards={gameHasStarted ? player.cards : blankCards}
                   name={player.name}
                   roundScore={player.roundScore}
-                  onClick={
-                    !roundStart
-                      ? handleCardGridClick
-                      : () => {
-                          return;
-                        }
-                  }
+                  onCardClick={handleCardGridClick}
                 />
               )}
             </div>

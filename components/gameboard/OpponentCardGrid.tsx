@@ -2,7 +2,7 @@ import type { Card } from "../../server/lib/gameTypes";
 import styles from "./CardGrid.module.css";
 
 export type CardGridProps = {
-  onClick?(index: number): void;
+  onCardClick?(index: number): void;
   cards: Card[];
   name: string;
   roundScore: number[];
