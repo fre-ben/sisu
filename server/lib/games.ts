@@ -23,7 +23,7 @@ export function createGame(
     playerCount: 1,
     lobbyIsFull: false,
     hasStarted: false,
-    nextPlayer: "",
+    activePlayerIndex: null,
     players: [
       {
         name: playerName,

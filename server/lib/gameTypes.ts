@@ -4,7 +4,7 @@ export type Game = {
   playerCount: number;
   lobbyIsFull: boolean;
   hasStarted: boolean;
-  nextPlayer: string;
+  activePlayerIndex: number;
   players: Player[];
   drawPileCards: Card[];
   discardPileCards: Card[];
