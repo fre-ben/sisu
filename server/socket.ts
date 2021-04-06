@@ -155,6 +155,7 @@ export function listenSocket(server): void {
         broadcastGameStartToLobby(io, lobbyNr);
         dealCardsToPlayers(12, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
+        broadcastDiscardPileToLobby(io, lobbyNr);
         broadcastListGamesUpdate();
       } else {
         return;
