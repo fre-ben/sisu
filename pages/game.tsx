@@ -14,7 +14,11 @@ import { SocketContext } from "../contexts/SocketContext";
 import { useContext, useEffect, useState } from "react";
 import { getLobbyNr, getSocketID } from "../lib/functions";
 import { useRouter } from "next/router";
-import type { Card, PlayerForCardGrid } from "../server/lib/gameTypes";
+import type {
+  ActivePlayer,
+  Card,
+  PlayerForCardGrid,
+} from "../server/lib/gameTypes";
 import { generateBlankCards } from "../server/lib/cards";
 
 export default function Game() {
@@ -27,9 +31,10 @@ export default function Game() {
     []
   );
   const [player, setPlayer] = useState<PlayerForCardGrid>(null);
-  const [gameHasStarted, setGameHasStarted] = useState<boolean>(false);
   const [discardPileCard, setDiscardPileCard] = useState<Card>(null);
+  const [gameHasStarted, setGameHasStarted] = useState<boolean>(false);
   const [roundStart, setRoundStart] = useState<boolean>(false);
+  const [activePlayer, setActivePlayer] = useState<ActivePlayer>(null);
 
   useEffect(() => {
     if (!socket || !lobbyNr) {
@@ -62,6 +67,8 @@ export default function Game() {
 
     socket.emit("get players", lobbyNr, socketID);
     socket.on("display players", handleDisplayPlayers);
+
+    socket.on("set first active player", setActivePlayer);
   }, [socket, lobbyNr]);
 
   const handleExitBtnClick = (): void => {
@@ -83,16 +90,24 @@ export default function Game() {
     });
   };
 
-  const handleCardGridClick = (index: number) => {
-    if (gameHasStarted) {
+  const handleCardGridClick = (index: number): void => {
+    // example for further functionality
+    // if (activePlayer === player) {
+    //   switch (phase) {
+    //     case 'PICK': pickCard(index)
+    //     break;
+    //   }
+    // }
+
+    if (gameHasStarted && !roundStart) {
       socket.emit("cardgrid click", socket.id, lobbyNr, index);
       socket.emit("check 2 cards revealed", socket.id, lobbyNr);
       socket.on("2 cards revealed", () => {
         setRoundStart(true);
       });
-      socket.on("all players 2 cards revealed", () => {
-        alert("all players ready");
-      });
+    }
+    if (roundStart) {
+      return;
     }
   };
 
@@ -127,6 +142,8 @@ export default function Game() {
 
       <main className={styles.viewContainer}>
         <Logo size="small" />
+        {/* Just to check if activePlayer works */}
+        <p>{activePlayer && `Active player is ${activePlayer.name}`}</p>
         <div className={styles.pageElements}>
           <aside className={styles.topBar}>
             <ExitBtn onClick={handleExitBtnClick} />
@@ -156,13 +173,7 @@ export default function Game() {
                   cards={gameHasStarted ? player.cards : blankCards}
                   name={player.name}
                   roundScore={player.roundScore}
-                  onClick={
-                    !roundStart
-                      ? handleCardGridClick
-                      : () => {
-                          return;
-                        }
-                  }
+                  onCardClick={handleCardGridClick}
                 />
               )}
             </div>

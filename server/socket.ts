@@ -8,6 +8,7 @@ import {
   createGame,
   dealCardsToPlayers,
   getDiscardPile,
+  getFirstActivePlayer,
   getGame,
   getGameByLobby,
   getGamesForLobby,
@@ -47,6 +48,13 @@ function broadcastGameStartToLobby(io, lobbyNr: number): void {
 
 function broadcastDiscardPileToLobby(io, lobbyNr: number): void {
   io.to(`lobby${lobbyNr}`).emit("display discardpile", getDiscardPile(lobbyNr));
+}
+
+function broadcastFirstActivePlayerToLobby(io, lobbyNr: number): void {
+  io.to(`lobby${lobbyNr}`).emit(
+    "set first active player",
+    getFirstActivePlayer(lobbyNr)
+  );
 }
 
 export function listenSocket(server): void {
@@ -141,7 +149,7 @@ export function listenSocket(server): void {
       broadcastPlayersToLobby(io, lobbyNr);
     });
 
-    socket.on("check all players ready", (lobbyNr) => {
+    socket.on("check all players ready", (lobbyNr: number) => {
       if (checkAllPlayersReady(lobbyNr)) {
         getGameByLobby(lobbyNr).hasStarted = true;
         broadcastGameStartToLobby(io, lobbyNr);
@@ -153,19 +161,25 @@ export function listenSocket(server): void {
       }
     });
 
-    socket.on("cardgrid click", async (socketID, lobbyNr, index) => {
-      await cardGridClick(socketID, index);
-      await calculateRoundScore(socketID, lobbyNr);
-      broadcastPlayersToLobby(io, lobbyNr);
-    });
+    socket.on(
+      "cardgrid click",
+      async (socketID: string, lobbyNr: number, index: number) => {
+        await cardGridClick(socketID, index);
+        await calculateRoundScore(socketID, lobbyNr);
+        broadcastPlayersToLobby(io, lobbyNr);
+      }
+    );
 
-    socket.on("check 2 cards revealed", async (socketID, lobbyNr) => {
-      if (await checkTwoCardsRevealed(socketID)) {
-        io.to(`lobby${lobbyNr}`).emit("2 cards revealed", true);
+    socket.on(
+      "check 2 cards revealed",
+      async (socketID: string, lobbyNr: number) => {
+        if (await checkTwoCardsRevealed(socketID)) {
+          io.to(`lobby${lobbyNr}`).emit("2 cards revealed", true);
+        }
+        if (checkAllPlayers2CardsRevealed(lobbyNr)) {
+          broadcastFirstActivePlayerToLobby(io, lobbyNr);
+        }
       }
-      if (checkAllPlayers2CardsRevealed(lobbyNr)) {
-        io.to(`lobby${lobbyNr}`).emit("all players 2 cards revealed", true);
-      }
-    });
+    );
   });
 }

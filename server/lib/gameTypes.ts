@@ -4,7 +4,7 @@ export type Game = {
   playerCount: number;
   lobbyIsFull: boolean;
   hasStarted: boolean;
-  nextPlayer: string;
+  activePlayerIndex: number;
   players: Player[];
   drawPileCards: Card[];
   discardPileCards: Card[];
@@ -34,6 +34,10 @@ export type PlayerForCardGrid = Pick<
 >;
 
 export type PlayerScoreList = Pick<Player, "name" | "totalScore">;
+
+export type PlayerRoundScore = Pick<Player, "name" | "roundScore">;
+
+export type ActivePlayer = Pick<Player, "name" | "socketID" | "roundScore">;
 
 export type Card = {
   id?: number;
