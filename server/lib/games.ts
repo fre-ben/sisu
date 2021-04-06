@@ -7,6 +7,7 @@ import type {
   PlayerScoreList,
   PlayerForCardGrid,
   Card,
+  ActivePlayer,
 } from "./gameTypes";
 
 const games: GamesType = {};
@@ -214,7 +215,6 @@ export async function checkTwoCardsRevealed(
   const player = await getPlayer(socketID);
   const revealedCards = player.cards.filter((card) => card.hidden === false);
 
-  console.log(revealedCards);
   if (revealedCards.length === 2) {
     return true;
   } else {
@@ -230,4 +230,24 @@ export function checkAllPlayers2CardsRevealed(lobbyNr: number): boolean {
       return true;
     }
   });
+}
+
+export function getCurrentRoundscores(lobbyNr: number): number[] {
+  const currentGame = getGameByLobby(lobbyNr);
+  return currentGame.players.map((player) => {
+    const lastScore = player.roundScore.length - 1;
+    return player.roundScore[lastScore];
+  });
+}
+
+export function getFirstActivePlayer(lobbyNr: number): ActivePlayer {
+  const currentGame = getGameByLobby(lobbyNr);
+  const roundScores = getCurrentRoundscores(lobbyNr);
+  const indexHighestRoundScore = roundScores.indexOf(Math.max(...roundScores));
+  currentGame.activePlayerIndex = indexHighestRoundScore;
+  const { name, socketID, roundScore } = currentGame.players[
+    indexHighestRoundScore
+  ];
+
+  return { name: name, socketID: socketID, roundScore: roundScore };
 }
