@@ -20,7 +20,7 @@ import type {
   PlayerForCardGrid,
 } from "../server/lib/gameTypes";
 import { generateBlankCards } from "../server/lib/cards";
-import { phases } from "../lib/turnPhases";
+import { phase } from "../lib/turnPhases";
 
 export default function Game() {
   const { socket } = useContext(SocketContext);

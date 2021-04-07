@@ -1,4 +1,4 @@
-export const phases = {
+export const phase = {
   DRAWDECISION: "drawDecision",
   DRAWPILEDECISION: "drawPileDecision",
   DRAWPILEDISCARD: "drawPileDiscard",
