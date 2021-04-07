@@ -35,4 +35,4 @@ export const roundcounter = () => (
     <RoundCounter />
   </SocketContextProvider>
 );
-export const statusbar = () => <Statusbar />;
+export const statusbar = () => <Statusbar activePlayer={null} />;
