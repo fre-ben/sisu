@@ -155,8 +155,6 @@ export default function Game() {
 
       <main className={styles.viewContainer}>
         <Logo size="small" />
-        {/* Just to check if activePlayer works */}
-        <p>{activePlayer && `Active player is ${activePlayer.name}`}</p>
         <div className={styles.pageElements}>
           <aside className={styles.topBar}>
             <ExitBtn onClick={handleExitBtnClick} />
