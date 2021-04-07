@@ -6,8 +6,9 @@ export type PileProps = {
 };
 
 export type DiscardPileProps = {
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  onPileClick?: MouseEventHandler<HTMLImageElement>;
   card: Card;
+  turnPhase: string;
 };
 
 export type RoundCounterProps = {
