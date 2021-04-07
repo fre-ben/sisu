@@ -10,7 +10,7 @@ export const status = {
   DRAWPILEDISCARD:
     "Card added to discard pile. Reveal a hidden card on your grid",
   DRAWDISCARDPILEKEEP: "Replace open or hidden card on your grid",
-  DRAWPDISCARDILEKEEPOPEN:
+  DRAWDISCARDPILEKEEPOPEN:
     "Replaced open card. Replaced card added to discard pile",
   DRAWDISCARDPILEKEEPHIDDEN:
     "Replaced hidden card. Replaced card added to discard pile",
