@@ -20,10 +20,11 @@ export const discardpile = () => (
 export const totalscore = () => <TotalScore />;
 export const cardgrid = () => (
   <CardGrid
-    onCardClick={() => alert("test")}
     cards={null}
     name={"Fred"}
     roundScore={[20]}
+    turnPhase={null}
+    gameHasStarted={null}
   />
 );
 export const opponentcardgrid = () => (
