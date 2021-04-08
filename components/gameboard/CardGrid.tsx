@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { SocketContext } from "../../contexts/SocketContext";
-import { getLobbyNr, getSocketID } from "../../lib/functions";
+import { getLobbyNr } from "../../lib/functions";
 import styles from "./CardGrid.module.css";
 import type { PlayerCardGridProps } from "./OpponentCardGrid";
 
@@ -14,13 +14,12 @@ function CardGrid({
   const { socket } = useContext(SocketContext);
   const [roundStart, setRoundStart] = useState<boolean>(false);
   const lobbyNr = getLobbyNr();
-  const socketID = getSocketID();
 
   const notClickable = `${styles.card} ${styles.notClickable}`;
 
   const handleCardClick = (index: number): void => {
     if (gameHasStarted && !roundStart) {
-      socket.emit("cardgrid click", socketID, lobbyNr, index);
+      socket.emit("cardgrid click", socket.id, lobbyNr, index);
       socket.emit(
         "check 2 cards revealed",
         socket.id,
@@ -37,7 +36,7 @@ function CardGrid({
         case "drawDecision":
           return;
         case "discardPileDecision":
-          socket.emit("DISCARDPILE: replace card", socketID, lobbyNr, index);
+          socket.emit("DISCARDPILE: replace card", socket.id, lobbyNr, index);
           break;
         case "discardPileReplaceOpen":
           alert("dpo");
