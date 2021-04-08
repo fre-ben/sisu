@@ -69,6 +69,13 @@ export default function Game() {
     socket.on("display players", handleDisplayPlayers);
 
     socket.on("set first active player", setActivePlayer);
+
+    return () => {
+      socket.off("display discardpile", handleDisplayDiscardPile);
+      socket.off("display current playercount", handleCurrentPlayerCount);
+      socket.off("display players", handleDisplayPlayers);
+      socket.off("set first active player", setActivePlayer);
+    };
   }, [socket, lobbyNr]);
 
   const handleExitBtnClick = (): void => {
@@ -101,10 +108,16 @@ export default function Game() {
 
     if (gameHasStarted && !roundStart) {
       socket.emit("cardgrid click", socket.id, lobbyNr, index);
-      socket.emit("check 2 cards revealed", socket.id, lobbyNr);
-      socket.on("2 cards revealed", () => {
-        setRoundStart(true);
-      });
+      socket.emit(
+        "check 2 cards revealed",
+        socket.id,
+        lobbyNr,
+        (bothCardsRevealed) => {
+          if (bothCardsRevealed) {
+            setRoundStart(true);
+          }
+        }
+      );
     }
     if (roundStart) {
       return;
@@ -142,15 +155,11 @@ export default function Game() {
 
       <main className={styles.viewContainer}>
         <Logo size="small" />
-        {/* Just to check if activePlayer works */}
-        <p>{activePlayer && `Active player is ${activePlayer.name}`}</p>
         <div className={styles.pageElements}>
           <aside className={styles.topBar}>
             <ExitBtn onClick={handleExitBtnClick} />
             <RoundCounter />
-            <Statusbar
-              statusMessage={"Start game if all players are connected"}
-            />
+            <Statusbar activePlayer={activePlayer} />
             {playerCount >= 2 && player && !player.isReady && (
               <ReadyBtn onClick={handleReadyBtnClick} />
             )}

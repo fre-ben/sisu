@@ -1,5 +1,5 @@
 import { MouseEventHandler } from "react";
-import { Card } from "../../server/lib/gameTypes";
+import { ActivePlayer, Card } from "../../server/lib/gameTypes";
 
 export type PileProps = {
   onClick: MouseEventHandler<HTMLButtonElement>;
@@ -15,5 +15,5 @@ export type RoundCounterProps = {
 };
 
 export type StatusbarProps = {
-  statusMessage: string;
+  activePlayer: ActivePlayer;
 };
