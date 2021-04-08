@@ -210,13 +210,19 @@ export async function cardReplaceWithDiscardPileClick(
     JSON.stringify(games[lobbyNr].discardPileCards, null, 4)
   );
 
-  playerCards.splice(index, 0, discardPileCard);
-  games[lobbyNr].discardPileCards.splice(
-    indexLastDiscardPileCard,
-    1,
-    clickedCard
-  );
-  playerCards.splice(index + 1, 1);
+  const replaceClickedCardWithDiscardPileCard = () => {
+    clickedCard.hidden = false;
+    discardPileCard.hidden = false;
+
+    playerCards.splice(index, 0, discardPileCard);
+    games[lobbyNr].discardPileCards.splice(
+      indexLastDiscardPileCard,
+      1,
+      clickedCard
+    );
+    playerCards.splice(index + 1, 1);
+  };
+  replaceClickedCardWithDiscardPileCard();
 
   console.log("playercards", JSON.stringify(playerCards, null, 4));
   console.log(
@@ -295,4 +301,17 @@ export async function getActivePlayer(socketID: string): Promise<Player> {
   const indexActivePlayer = currentGame.activePlayerIndex;
   const activePlayer = currentGame.players[indexActivePlayer];
   return activePlayer;
+}
+
+export async function setNextActivePlayer(socketID: string): Promise<void> {
+  const currentGame = await getGame(socketID);
+  const indexCurrentActivePlayer = currentGame.activePlayerIndex;
+
+  if (currentGame.players[indexCurrentActivePlayer + 1]) {
+    const nextActivePlayer = currentGame.players[indexCurrentActivePlayer + 1];
+    const indexNextActivePlayer = currentGame.players.indexOf(nextActivePlayer);
+    currentGame.activePlayerIndex = indexNextActivePlayer;
+  } else {
+    currentGame.activePlayerIndex = 0;
+  }
 }
