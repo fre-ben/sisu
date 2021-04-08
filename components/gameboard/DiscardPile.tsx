@@ -1,23 +1,22 @@
 import { useContext } from "react";
 import { SocketContext } from "../../contexts/SocketContext";
-import { getLobbyNr } from "../../lib/functions";
+import { getLobbyNr, getSocketID } from "../../lib/functions";
 import styles from "./Piles.module.css";
 import type { DiscardPileProps } from "./types";
 
 function DiscardPile({ turnPhase, card }: DiscardPileProps) {
   const { socket } = useContext(SocketContext);
   const lobbyNr = getLobbyNr();
-
-  //evtl. activePlayer socketID als Props übergeben!
+  const socketID = getSocketID();
+  const notClickable = `${styles.card} ${styles.notClickable}`;
 
   function handlePileClick() {
     switch (turnPhase) {
       case "drawDecision":
-        alert("Drawdecision");
+        socket.emit("DRAWDECISION: click discardpile", socketID, lobbyNr);
         break;
       case "discardPileDecision":
-        alert("DiscardPileDecision");
-        break;
+        return;
       case "discardPileReplaceOpen":
         alert("dpo");
         break;
@@ -31,13 +30,26 @@ function DiscardPile({ turnPhase, card }: DiscardPileProps) {
     }
   }
 
+  function cardStyle() {
+    switch (turnPhase) {
+      case "drawDecision":
+        return styles.card;
+      case "waitTurn":
+        return notClickable;
+      case "discardPileDecision":
+        return notClickable;
+      default:
+        return notClickable;
+    }
+  }
+
   return (
     <>
       <section className={styles.container}>
         <h2 className={styles.discardHeadline}>Discard Pile</h2>
         <img
           src={card ? card.imgSrc : "/cards/blank.png"}
-          className={styles.card}
+          className={cardStyle()}
           onClick={handlePileClick}
         />
       </section>
