@@ -13,7 +13,8 @@ import {
 } from "./lib/broadcasts";
 import {
   calculateRoundScore,
-  cardGridClick,
+  cardReplaceWithDiscardPileClick,
+  cardRevealClick,
   checkAllPlayers2CardsRevealed,
   checkAllPlayersReady,
   checkTwoCardsRevealed,
@@ -140,7 +141,7 @@ export function listenSocket(server): void {
     socket.on(
       "cardgrid click",
       async (socketID: string, lobbyNr: number, index: number) => {
-        await cardGridClick(socketID, index);
+        await cardRevealClick(socketID, index);
         await calculateRoundScore(socketID, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
       }
@@ -188,6 +189,19 @@ export function listenSocket(server): void {
           lobbyNr,
           phase.DISCARDPILEDECISION
         );
+      }
+    );
+
+    socket.on(
+      "DISCARDPILE: replace card",
+      async (socketID: string, lobbyNr: number, index: number) => {
+        await cardReplaceWithDiscardPileClick(socketID, lobbyNr, index);
+        await calculateRoundScore(socketID, lobbyNr);
+        broadcastPlayersToLobby(io, lobbyNr);
+        broadcastDiscardPileToLobby(io, lobbyNr);
+        // set next active Player
+        // change statusmessages
+        // change turnPhase of active player
       }
     );
   });
