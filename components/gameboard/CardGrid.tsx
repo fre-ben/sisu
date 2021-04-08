@@ -37,6 +37,7 @@ function CardGrid({
         case "drawDecision":
           return;
         case "discardPileDecision":
+          socket.emit("DISCARDPILE: replace card", socketID, lobbyNr, index);
           break;
         case "discardPileReplaceOpen":
           alert("dpo");
