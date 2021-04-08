@@ -10,6 +10,7 @@ import {
   broadcastStatusToActivePlayer,
   broadcastTotalScoresToLobby,
   broadcastTurnPhaseToActivePlayer,
+  broadcastTurnStartToActivePlayer,
 } from "./lib/broadcasts";
 import {
   calculateRoundScore,
@@ -27,6 +28,7 @@ import {
   getRoundNr,
   joinGame,
   leaveGame,
+  setNextActivePlayer,
 } from "./lib/games";
 import { status } from "./lib/statusMessages";
 
@@ -200,8 +202,10 @@ export function listenSocket(server): void {
         broadcastPlayersToLobby(io, lobbyNr);
         broadcastDiscardPileToLobby(io, lobbyNr);
         // set next active Player
-        // change statusmessages
-        // change turnPhase of active player
+        await setNextActivePlayer(socketID);
+        await broadcastTurnStartToActivePlayer(io, socketID, lobbyNr);
+        // check 3 same cards in vertical row
+        // check 12 cards revealed
       }
     );
   });
