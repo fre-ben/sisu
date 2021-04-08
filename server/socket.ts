@@ -18,6 +18,7 @@ import {
   cardRevealClick,
   checkAllPlayers2CardsRevealed,
   checkAllPlayersReady,
+  checkCardsVerticalRow,
   checkTwoCardsRevealed,
   createGame,
   dealCardsToPlayers,
@@ -198,13 +199,13 @@ export function listenSocket(server): void {
       "DISCARDPILE: replace card",
       async (socketID: string, lobbyNr: number, index: number) => {
         await cardReplaceWithDiscardPileClick(socketID, lobbyNr, index);
+        await checkCardsVerticalRow(socketID);
         await calculateRoundScore(socketID, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
         broadcastDiscardPileToLobby(io, lobbyNr);
         // set next active Player
         await setNextActivePlayer(socketID);
         await broadcastTurnStartToActivePlayer(io, socketID, lobbyNr);
-        // check 3 same cards in vertical row
         // check 12 cards revealed
       }
     );
