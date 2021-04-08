@@ -67,9 +67,13 @@
   border-radius: 5px;
 }
 
-.cardGrid img {
+.card {
   width: 5.8em;
   cursor: pointer;
+}
+
+.notClickable {
+  cursor: default;
 }
 
 .opponentContainer {

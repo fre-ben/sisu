@@ -29,6 +29,10 @@
   cursor: pointer;
 }
 
+.notClickable {
+  cursor: default;
+}
+
 .card:hover {
   background-size: 3px 20%, 47% 3px;
 }
