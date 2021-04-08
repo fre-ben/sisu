@@ -8,6 +8,8 @@ function DiscardPile({ turnPhase, card }: DiscardPileProps) {
   const { socket } = useContext(SocketContext);
   const lobbyNr = getLobbyNr();
 
+  //evtl. activePlayer socketID als Props übergeben!
+
   function handlePileClick() {
     switch (turnPhase) {
       case "drawDecision":
