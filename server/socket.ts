@@ -1,5 +1,5 @@
 import { Server, Socket } from "socket.io";
-import { phase } from "../lib/turnPhases";
+import { phase } from "./lib/turnPhases";
 import {
   broadcastDiscardPileToLobby,
   broadcastFirstActivePlayerToLobby,
