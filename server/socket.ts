@@ -1,5 +1,15 @@
 import { Server, Socket } from "socket.io";
 import {
+  broadcastDiscardPileToLobby,
+  broadcastFirstActivePlayerToLobby,
+  broadcastGameStartToLobby,
+  broadcastListGamesUpdate,
+  broadcastPlayerCountToLobby,
+  broadcastPlayersToLobby,
+  broadcastStatusToActivePlayer,
+  broadcastTotalScoresToLobby,
+} from "./lib/broadcasts";
+import {
   calculateRoundScore,
   cardGridClick,
   checkAllPlayers2CardsRevealed,
@@ -7,55 +17,17 @@ import {
   checkTwoCardsRevealed,
   createGame,
   dealCardsToPlayers,
-  getDiscardPile,
-  getFirstActivePlayer,
   getGame,
   getGameByLobby,
   getGamesForLobby,
   getPlayer,
-  getPlayerCount,
-  getPlayersInLobby,
   getRoundNr,
-  getTotalScores,
   joinGame,
   leaveGame,
 } from "./lib/games";
+import { status } from "./lib/statusMessages";
 
 let io;
-
-function broadcastListGamesUpdate(): void {
-  io.emit("display list of games", getGamesForLobby());
-}
-
-function broadcastPlayerCountToLobby(io, lobbyNr: number): void {
-  io.to(`lobby${lobbyNr}`).emit(
-    "display current playercount",
-    getPlayerCount(lobbyNr)
-  );
-}
-
-function broadcastTotalScoresToLobby(io, lobbyNr: number): void {
-  io.to(`lobby${lobbyNr}`).emit("display scores", getTotalScores(lobbyNr));
-}
-
-function broadcastPlayersToLobby(io, lobbyNr: number): void {
-  io.to(`lobby${lobbyNr}`).emit("display players", getPlayersInLobby(lobbyNr));
-}
-
-function broadcastGameStartToLobby(io, lobbyNr: number): void {
-  io.to(`lobby${lobbyNr}`).emit("all players ready", getGameByLobby(lobbyNr));
-}
-
-function broadcastDiscardPileToLobby(io, lobbyNr: number): void {
-  io.to(`lobby${lobbyNr}`).emit("display discardpile", getDiscardPile(lobbyNr));
-}
-
-function broadcastFirstActivePlayerToLobby(io, lobbyNr: number): void {
-  io.to(`lobby${lobbyNr}`).emit(
-    "set first active player",
-    getFirstActivePlayer(lobbyNr)
-  );
-}
 
 export function listenSocket(server): void {
   io = new Server(server, {});
@@ -78,7 +50,7 @@ export function listenSocket(server): void {
           broadcastTotalScoresToLobby(io, lobbyNr);
           broadcastPlayerCountToLobby(io, lobbyNr);
           broadcastPlayersToLobby(io, lobbyNr);
-          broadcastListGamesUpdate();
+          broadcastListGamesUpdate(io);
           return;
         } else {
           console.log(i, false);
@@ -89,7 +61,7 @@ export function listenSocket(server): void {
     socket.on("leave game", async (socketID: string, lobbyNr: number) => {
       socket.leave(`lobby${lobbyNr}`);
       await leaveGame(socketID);
-      broadcastListGamesUpdate();
+      broadcastListGamesUpdate(io);
       broadcastTotalScoresToLobby(io, lobbyNr);
       broadcastPlayerCountToLobby(io, lobbyNr);
       broadcastPlayersToLobby(io, lobbyNr);
@@ -127,7 +99,7 @@ export function listenSocket(server): void {
       broadcastPlayerCountToLobby(io, lobbyNr);
       broadcastTotalScoresToLobby(io, lobbyNr);
       broadcastPlayersToLobby(io, lobbyNr);
-      broadcastListGamesUpdate();
+      broadcastListGamesUpdate(io);
       lobbyNr++;
     });
 
@@ -139,7 +111,7 @@ export function listenSocket(server): void {
         broadcastPlayerCountToLobby(io, lobbyNr);
         broadcastTotalScoresToLobby(io, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
-        broadcastListGamesUpdate();
+        broadcastListGamesUpdate(io);
       }
     );
 
@@ -155,7 +127,9 @@ export function listenSocket(server): void {
         broadcastGameStartToLobby(io, lobbyNr);
         dealCardsToPlayers(12, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
-        broadcastListGamesUpdate();
+        broadcastDiscardPileToLobby(io, lobbyNr);
+        broadcastListGamesUpdate(io);
+        io.to(`lobby${lobbyNr}`).emit("display status", status.PRESTART);
       } else {
         return;
       }
@@ -172,13 +146,22 @@ export function listenSocket(server): void {
 
     socket.on(
       "check 2 cards revealed",
-      async (socketID: string, lobbyNr: number) => {
-        if (await checkTwoCardsRevealed(socketID)) {
-          io.to(`lobby${lobbyNr}`).emit("2 cards revealed", true);
+      async (socketID: string, lobbyNr: number, callback) => {
+        const bothCardsRevealed = await checkTwoCardsRevealed(socketID);
+
+        if (bothCardsRevealed) {
+          io.to(socketID).emit("display status", status.PRESTARTWAIT);
         }
         if (checkAllPlayers2CardsRevealed(lobbyNr)) {
-          broadcastFirstActivePlayerToLobby(io, lobbyNr);
+          await broadcastFirstActivePlayerToLobby(io, lobbyNr, socketID);
+          await broadcastStatusToActivePlayer(
+            io,
+            socketID,
+            lobbyNr,
+            status.DRAWDECISION
+          );
         }
+        callback(bothCardsRevealed);
       }
     );
   });

@@ -69,8 +69,6 @@ export function joinGame(
     roundScore: [],
   });
   games[lobbyNr].playerCount++;
-
-  console.log(JSON.stringify(games, null, 4));
 }
 
 export async function leaveGame(socketID: string): Promise<void> {
@@ -88,7 +86,6 @@ export async function leaveGame(socketID: string): Promise<void> {
   if (indexOfTargetPlayer > -1) {
     currentGame.players.splice(indexOfTargetPlayer, 1);
     currentGame.playerCount--;
-    console.log(JSON.stringify(games, null, 4));
   } else {
     console.log("Player not found!");
   }
@@ -184,8 +181,10 @@ export function dealCardsToPlayers(amount: number, lobbyNr: number): void {
       player.cards.push(randomCard);
     }
   }
-  console.log(JSON.stringify(games[lobbyNr], null, 4));
-  console.log("drawpile length is", games[lobbyNr].drawPileCards.length);
+
+  const randomCardDiscardPile = getRandomCard(lobbyNr);
+  randomCardDiscardPile.hidden = false;
+  games[lobbyNr].discardPileCards.push(randomCardDiscardPile);
 }
 
 export async function cardGridClick(
@@ -240,8 +239,11 @@ export function getCurrentRoundscores(lobbyNr: number): number[] {
   });
 }
 
-export function getFirstActivePlayer(lobbyNr: number): ActivePlayer {
-  const currentGame = getGameByLobby(lobbyNr);
+export async function getFirstActivePlayer(
+  lobbyNr: number,
+  socketid: string
+): Promise<ActivePlayer> {
+  const currentGame = await getGame(socketid);
   const roundScores = getCurrentRoundscores(lobbyNr);
   const indexHighestRoundScore = roundScores.indexOf(Math.max(...roundScores));
   currentGame.activePlayerIndex = indexHighestRoundScore;
@@ -249,5 +251,17 @@ export function getFirstActivePlayer(lobbyNr: number): ActivePlayer {
     indexHighestRoundScore
   ];
 
-  return { name: name, socketID: socketID, roundScore: roundScore };
+  const activePlayer: ActivePlayer = {
+    name: name,
+    socketID: socketID,
+    roundScore: roundScore,
+  };
+  return activePlayer;
+}
+
+export async function getActivePlayer(socketID: string): Promise<Player> {
+  const currentGame = await getGame(socketID);
+  const indexActivePlayer = currentGame.activePlayerIndex;
+  const activePlayer = currentGame.players[indexActivePlayer];
+  return activePlayer;
 }
