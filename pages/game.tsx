@@ -20,6 +20,7 @@ import type {
   PlayerForCardGrid,
 } from "../server/lib/gameTypes";
 import { generateBlankCards } from "../server/lib/cards";
+import { phase } from "../lib/turnPhases";
 
 export default function Game() {
   const { socket } = useContext(SocketContext);
@@ -35,6 +36,7 @@ export default function Game() {
   const [gameHasStarted, setGameHasStarted] = useState<boolean>(false);
   const [roundStart, setRoundStart] = useState<boolean>(false);
   const [activePlayer, setActivePlayer] = useState<ActivePlayer>(null);
+  const [turnPhase, setTurnPhases] = useState<string>(null);
 
   useEffect(() => {
     if (!socket || !lobbyNr) {
@@ -69,6 +71,8 @@ export default function Game() {
     socket.on("display players", handleDisplayPlayers);
 
     socket.on("set first active player", setActivePlayer);
+
+    socket.on("set turn status", setTurnPhases);
 
     return () => {
       socket.off("display discardpile", handleDisplayDiscardPile);
@@ -167,10 +171,7 @@ export default function Game() {
           <aside className={styles.sideBar}>
             <TotalScore />
             <DrawPile onClick={() => alert("click")} />
-            <DiscardPile
-              card={discardPileCard}
-              onClick={() => alert("click")}
-            />
+            <DiscardPile card={discardPileCard} turnPhase={turnPhase} />
           </aside>
           <div className={styles.gameElements8Player}>
             <div className={styles.opponents} style={opponentsLayout}>

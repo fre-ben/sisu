@@ -15,7 +15,7 @@ export default {
 
 export const drawpile = () => <DrawPile onClick={() => alert("test")} />;
 export const discardpile = () => (
-  <DiscardPile onClick={() => alert("test")} card={null} />
+  <DiscardPile onPileClick={() => alert("test")} card={null} turnPhase={null} />
 );
 export const totalscore = () => <TotalScore />;
 export const cardgrid = () => (
