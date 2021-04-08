@@ -187,11 +187,42 @@ export function dealCardsToPlayers(amount: number, lobbyNr: number): void {
   games[lobbyNr].discardPileCards.push(randomCardDiscardPile);
 }
 
-export async function cardGridClick(
+export async function cardRevealClick(
   socketID: string,
   index: number
 ): Promise<void> {
   (await getPlayer(socketID)).cards[index].hidden = false;
+}
+
+export async function cardReplaceWithDiscardPileClick(
+  socketID: string,
+  lobbyNr: number,
+  index: number
+): Promise<void> {
+  const playerCards = (await getPlayer(socketID)).cards;
+  const clickedCard = (await getPlayer(socketID)).cards[index];
+  const indexLastDiscardPileCard = games[lobbyNr].discardPileCards.length - 1;
+  const discardPileCard =
+    games[lobbyNr].discardPileCards[indexLastDiscardPileCard];
+  console.log("playercards", JSON.stringify(playerCards, null, 4));
+  console.log(
+    "discardpile",
+    JSON.stringify(games[lobbyNr].discardPileCards, null, 4)
+  );
+
+  playerCards.splice(index, 0, discardPileCard);
+  games[lobbyNr].discardPileCards.splice(
+    indexLastDiscardPileCard,
+    1,
+    clickedCard
+  );
+  playerCards.splice(index + 1, 1);
+
+  console.log("playercards", JSON.stringify(playerCards, null, 4));
+  console.log(
+    "discardpile",
+    JSON.stringify(games[lobbyNr].discardPileCards, null, 4)
+  );
 }
 
 export async function calculateRoundScore(socketID: string, lobbyNr: number) {
