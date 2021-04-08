@@ -1,19 +1,18 @@
 import { useContext } from "react";
 import { SocketContext } from "../../contexts/SocketContext";
-import { getLobbyNr, getSocketID } from "../../lib/functions";
+import { getLobbyNr } from "../../lib/functions";
 import styles from "./Piles.module.css";
 import type { DiscardPileProps } from "./types";
 
 function DiscardPile({ turnPhase, card }: DiscardPileProps) {
   const { socket } = useContext(SocketContext);
   const lobbyNr = getLobbyNr();
-  const socketID = getSocketID();
   const notClickable = `${styles.card} ${styles.notClickable}`;
 
   function handlePileClick() {
     switch (turnPhase) {
       case "drawDecision":
-        socket.emit("DRAWDECISION: click discardpile", socketID, lobbyNr);
+        socket.emit("DRAWDECISION: click discardpile", socket.id, lobbyNr);
         break;
       case "discardPileDecision":
         return;
