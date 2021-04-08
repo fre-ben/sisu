@@ -1,4 +1,5 @@
 import { Server, Socket } from "socket.io";
+import { phase } from "../lib/turnPhases";
 import {
   broadcastDiscardPileToLobby,
   broadcastFirstActivePlayerToLobby,
@@ -8,6 +9,7 @@ import {
   broadcastPlayersToLobby,
   broadcastStatusToActivePlayer,
   broadcastTotalScoresToLobby,
+  broadcastTurnPhaseToActivePlayer,
 } from "./lib/broadcasts";
 import {
   calculateRoundScore,
@@ -160,8 +162,32 @@ export function listenSocket(server): void {
             lobbyNr,
             status.DRAWDECISION
           );
+          await broadcastTurnPhaseToActivePlayer(
+            io,
+            socketID,
+            lobbyNr,
+            phase.DRAWDECISION
+          );
         }
         callback(bothCardsRevealed);
+      }
+    );
+
+    socket.on(
+      "DRAWDECISION: click discardpile",
+      async (socketID: string, lobbyNr: number) => {
+        await broadcastStatusToActivePlayer(
+          io,
+          socketID,
+          lobbyNr,
+          status.DRAWDISCARDPILEKEEP
+        );
+        await broadcastTurnPhaseToActivePlayer(
+          io,
+          socketID,
+          lobbyNr,
+          phase.DISCARDPILEDECISION
+        );
       }
     );
   });
