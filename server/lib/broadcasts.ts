@@ -1,3 +1,4 @@
+import { phase } from "../../lib/turnPhases";
 import {
   getActivePlayer,
   getDiscardPile,
@@ -60,4 +61,15 @@ export async function broadcastStatusToActivePlayer(
     status.WAITTURN(activePlayer.name)
   );
   io.to(activePlayer.socketID).emit("display status", activePlayerStatus);
+}
+
+export async function broadcastTurnPhaseToActivePlayer(
+  io,
+  socketID: string,
+  lobbyNr: number,
+  activePlayerTurnPhase: string
+) {
+  const activePlayer = await getActivePlayer(socketID);
+  io.to(`lobby${lobbyNr}`).emit("set turn phase", phase.WAITTURN);
+  io.to(activePlayer.socketID).emit("set turn phase", activePlayerTurnPhase);
 }
