@@ -20,7 +20,6 @@ import type {
   PlayerForCardGrid,
 } from "../server/lib/gameTypes";
 import { generateBlankCards } from "../server/lib/cards";
-import { phase } from "../lib/turnPhases";
 
 export default function Game() {
   const { socket } = useContext(SocketContext);
@@ -34,7 +33,6 @@ export default function Game() {
   const [player, setPlayer] = useState<PlayerForCardGrid>(null);
   const [discardPileCard, setDiscardPileCard] = useState<Card>(null);
   const [gameHasStarted, setGameHasStarted] = useState<boolean>(false);
-  const [roundStart, setRoundStart] = useState<boolean>(false);
   const [activePlayer, setActivePlayer] = useState<ActivePlayer>(null);
   const [turnPhase, setTurnPhases] = useState<string>(null);
 
@@ -72,7 +70,7 @@ export default function Game() {
 
     socket.on("set first active player", setActivePlayer);
 
-    socket.on("set turn status", setTurnPhases);
+    socket.on("set turn phase", setTurnPhases);
 
     return () => {
       socket.off("display discardpile", handleDisplayDiscardPile);
@@ -99,33 +97,6 @@ export default function Game() {
     socket.on("all players ready", (game) => {
       setGameHasStarted(game.hasStarted);
     });
-  };
-
-  const handleCardGridClick = (index: number): void => {
-    // example for further functionality
-    // if (activePlayer === player) {
-    //   switch (phase) {
-    //     case 'PICK': pickCard(index)
-    //     break;
-    //   }
-    // }
-
-    if (gameHasStarted && !roundStart) {
-      socket.emit("cardgrid click", socket.id, lobbyNr, index);
-      socket.emit(
-        "check 2 cards revealed",
-        socket.id,
-        lobbyNr,
-        (bothCardsRevealed) => {
-          if (bothCardsRevealed) {
-            setRoundStart(true);
-          }
-        }
-      );
-    }
-    if (roundStart) {
-      return;
-    }
   };
 
   const opponentCardGrids = opponentPlayers.map(
@@ -183,7 +154,8 @@ export default function Game() {
                   cards={gameHasStarted ? player.cards : blankCards}
                   name={player.name}
                   roundScore={player.roundScore}
-                  onCardClick={handleCardGridClick}
+                  gameHasStarted={gameHasStarted}
+                  turnPhase={turnPhase}
                 />
               )}
             </div>
