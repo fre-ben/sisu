@@ -73,3 +73,22 @@ export async function broadcastTurnPhaseToActivePlayer(
   io.to(`lobby${lobbyNr}`).emit("set turn phase", phase.WAITTURN);
   io.to(activePlayer.socketID).emit("set turn phase", activePlayerTurnPhase);
 }
+
+export async function broadcastTurnStartToActivePlayer(
+  io,
+  socketID: string,
+  lobbyNr: number
+) {
+  await broadcastStatusToActivePlayer(
+    io,
+    socketID,
+    lobbyNr,
+    status.DRAWDECISION
+  );
+  await broadcastTurnPhaseToActivePlayer(
+    io,
+    socketID,
+    lobbyNr,
+    phase.DRAWDECISION
+  );
+}
