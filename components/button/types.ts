@@ -9,3 +9,7 @@ export type JoinBtnProps = {
   lobbyIsFull: boolean;
   hasStarted: boolean;
 };
+
+export type KeepDiscardBtnProps = {
+  handleClick: MouseEventHandler<HTMLButtonElement>;
+};

@@ -8,6 +8,7 @@ import RoundCounter from "./RoundCounter";
 import Statusbar from "./Statusbar";
 import TotalScore from "./TotalScore";
 import { SocketContextProvider } from "../../contexts/SocketContext";
+import DrawPilePrompt from "./DrawPilePrompt";
 
 export default {
   title: "Common/Gameboard",
@@ -37,3 +38,6 @@ export const roundcounter = () => (
   </SocketContextProvider>
 );
 export const statusbar = () => <Statusbar activePlayer={null} />;
+export const drawpileprompt = () => (
+  <DrawPilePrompt turnPhase={null} card={null} />
+);
