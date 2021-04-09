@@ -68,7 +68,13 @@ export default function Game() {
     socket.on("display current playercount", handleCurrentPlayerCount);
 
     socket.emit("get players", lobbyNr, socketID);
-    socket.on("display players", handleDisplayPlayers);
+    socket.on("display players", (players) => {
+      if (!players) {
+        socket.emit("get players", lobbyNr, socketID);
+      } else {
+        handleDisplayPlayers(players);
+      }
+    });
 
     socket.on("set first active player", setActivePlayer);
 
