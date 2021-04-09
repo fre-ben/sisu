@@ -6,6 +6,7 @@ import {
   getGamesForLobby,
   getPlayerCount,
   getPlayersInLobby,
+  getRandomCard,
   getTotalScores,
 } from "./games";
 import { status } from "./statusMessages";
@@ -36,6 +37,18 @@ export function broadcastGameStartToLobby(io, lobbyNr: number): void {
 
 export function broadcastDiscardPileToLobby(io, lobbyNr: number): void {
   io.to(`lobby${lobbyNr}`).emit("display discardpile", getDiscardPile(lobbyNr));
+}
+
+export async function broadcastDrawPileCardToActivePlayer(
+  io,
+  lobbyNr: number,
+  socketID: string
+): Promise<void> {
+  const activePlayer = await getActivePlayer(socketID);
+  io.to(activePlayer.socketID).emit(
+    "display drawpilecard",
+    getRandomCard(lobbyNr)
+  );
 }
 
 export async function broadcastFirstActivePlayerToLobby(

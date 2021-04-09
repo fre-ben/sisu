@@ -2,6 +2,7 @@ import { Server, Socket } from "socket.io";
 import { phase } from "./lib/turnPhases";
 import {
   broadcastDiscardPileToLobby,
+  broadcastDrawPileCardToActivePlayer,
   broadcastFirstActivePlayerToLobby,
   broadcastGameStartToLobby,
   broadcastListGamesUpdate,
@@ -93,8 +94,12 @@ export function listenSocket(server): void {
       broadcastPlayersToLobby(io, lobbyNr);
     });
 
-    socket.on("get discardpile", (lobbyNr) => {
+    socket.on("get discardpile", (lobbyNr: number) => {
       broadcastDiscardPileToLobby(io, lobbyNr);
+    });
+
+    socket.on("get drawpilecard", async (lobbyNr: number, socketID: string) => {
+      await broadcastDrawPileCardToActivePlayer(io, lobbyNr, socketID);
     });
 
     socket.on("create game", (playerName: string, socketID: string) => {

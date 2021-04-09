@@ -25,11 +25,11 @@ function DrawPilePrompt({ turnPhase }: DrawPilePrompt) {
       setDrawPileCard(card);
     }
 
-    socket.emit("get drawpilecard", lobbyNr);
-    socket.on("display discardpilecard", handleDisplayDrawPileCard);
+    // socket.emit("get drawpilecard", lobbyNr, socket.id);
+    socket.on("display drawpilecard", handleDisplayDrawPileCard);
 
     return () => {
-      socket.off("display discardpilecard", handleDisplayDrawPileCard);
+      socket.off("display drawpilecard", handleDisplayDrawPileCard);
     };
   }, [socket, lobbyNr]);
 
