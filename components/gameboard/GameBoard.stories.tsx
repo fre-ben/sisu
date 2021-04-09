@@ -14,10 +14,8 @@ export default {
   title: "Common/Gameboard",
 } as Meta;
 
-export const drawpile = () => <DrawPile onClick={() => alert("test")} />;
-export const discardpile = () => (
-  <DiscardPile onPileClick={() => alert("test")} card={null} turnPhase={null} />
-);
+export const drawpile = () => <DrawPile turnPhase={null} />;
+export const discardpile = () => <DiscardPile card={null} turnPhase={null} />;
 export const totalscore = () => <TotalScore />;
 export const cardgrid = () => (
   <CardGrid
