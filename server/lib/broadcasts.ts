@@ -39,16 +39,8 @@ export function broadcastDiscardPileToLobby(io, lobbyNr: number): void {
   io.to(`lobby${lobbyNr}`).emit("display discardpile", getDiscardPile(lobbyNr));
 }
 
-export async function broadcastDrawPileCardToActivePlayer(
-  io,
-  lobbyNr: number,
-  socketID: string
-): Promise<void> {
-  const activePlayer = await getActivePlayer(socketID);
-  io.to(activePlayer.socketID).emit(
-    "display drawpilecard",
-    getRandomCard(lobbyNr)
-  );
+export function broadcastDrawPileCardToLobby(io, lobbyNr: number): void {
+  io.to(`lobby${lobbyNr}`).emit("display drawpilecard", getRandomCard(lobbyNr));
 }
 
 export async function broadcastFirstActivePlayerToLobby(
