@@ -8,15 +8,14 @@ import RoundCounter from "./RoundCounter";
 import Statusbar from "./Statusbar";
 import TotalScore from "./TotalScore";
 import { SocketContextProvider } from "../../contexts/SocketContext";
+import DrawPilePrompt from "./DrawPilePrompt";
 
 export default {
   title: "Common/Gameboard",
 } as Meta;
 
-export const drawpile = () => <DrawPile onClick={() => alert("test")} />;
-export const discardpile = () => (
-  <DiscardPile onPileClick={() => alert("test")} card={null} turnPhase={null} />
-);
+export const drawpile = () => <DrawPile turnPhase={null} />;
+export const discardpile = () => <DiscardPile card={null} turnPhase={null} />;
 export const totalscore = () => <TotalScore />;
 export const cardgrid = () => (
   <CardGrid
@@ -36,4 +35,13 @@ export const roundcounter = () => (
     <RoundCounter />
   </SocketContextProvider>
 );
-export const statusbar = () => <Statusbar activePlayer={null} />;
+export const statusbar = () => (
+  <SocketContextProvider>
+    <Statusbar activePlayer={null} />
+  </SocketContextProvider>
+);
+export const drawpileprompt = () => (
+  <SocketContextProvider>
+    <DrawPilePrompt turnPhase={null} />
+  </SocketContextProvider>
+);

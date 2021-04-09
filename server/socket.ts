@@ -2,6 +2,7 @@ import { Server, Socket } from "socket.io";
 import { phase } from "./lib/turnPhases";
 import {
   broadcastDiscardPileToLobby,
+  broadcastDrawPileCardToLobby,
   broadcastFirstActivePlayerToLobby,
   broadcastGameStartToLobby,
   broadcastListGamesUpdate,
@@ -93,8 +94,12 @@ export function listenSocket(server): void {
       broadcastPlayersToLobby(io, lobbyNr);
     });
 
-    socket.on("get discardpile", (lobbyNr) => {
+    socket.on("get discardpile", (lobbyNr: number) => {
       broadcastDiscardPileToLobby(io, lobbyNr);
+    });
+
+    socket.on("get drawpilecard", async (lobbyNr: number) => {
+      broadcastDrawPileCardToLobby(io, lobbyNr);
     });
 
     socket.on("create game", (playerName: string, socketID: string) => {
@@ -196,6 +201,24 @@ export function listenSocket(server): void {
     );
 
     socket.on(
+      "DRAWDECISION: click drawpile",
+      async (socketID: string, lobbyNr: number) => {
+        await broadcastStatusToActivePlayer(
+          io,
+          socketID,
+          lobbyNr,
+          status.DRAWPILEDECISION
+        );
+        await broadcastTurnPhaseToActivePlayer(
+          io,
+          socketID,
+          lobbyNr,
+          phase.DRAWPILEDECISION
+        );
+      }
+    );
+
+    socket.on(
       "DISCARDPILE: replace card",
       async (socketID: string, lobbyNr: number, index: number) => {
         await cardReplaceWithDiscardPileClick(socketID, lobbyNr, index);
@@ -203,7 +226,6 @@ export function listenSocket(server): void {
         await calculateRoundScore(socketID, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
         broadcastDiscardPileToLobby(io, lobbyNr);
-        // set next active Player
         await setNextActivePlayer(socketID);
         await broadcastTurnStartToActivePlayer(io, socketID, lobbyNr);
         // check 12 cards revealed

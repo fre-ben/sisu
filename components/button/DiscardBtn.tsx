@@ -1,11 +1,11 @@
 import styles from "./Button.module.css";
-import { ButtonProps } from "./types";
+import { KeepDiscardBtnProps } from "./types";
 
-function DiscardBtn({ onClick }: ButtonProps) {
+function DiscardBtn({ handleClick }: KeepDiscardBtnProps) {
   return (
     <button
       className={`${styles.btn} ${styles.gameBoardBtn} ${styles.discardBtn}`}
-      onClick={onClick}
+      onClick={handleClick}
     >
       <div className={styles.btnBackground}>Discard</div>
     </button>

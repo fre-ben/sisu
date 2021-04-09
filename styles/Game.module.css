@@ -36,7 +36,7 @@
     "game sidebar";
 }
 
-.gameElements8Player {
+.gameElements {
   display: grid;
   justify-items: center;
   grid-area: game;
@@ -53,12 +53,13 @@
   min-height: 230px;
 }
 
-.op8row {
+.playerCardGridDrawPilePrompt {
   display: grid;
-  grid-auto-flow: row;
-  row-gap: 1em;
+  grid-auto-flow: column;
+  width: 100%;
+  justify-items: end;
+  align-items: center;
 }
-
 .playerCardGrid {
   position: relative;
   bottom: 10em;

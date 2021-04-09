@@ -20,6 +20,8 @@ import type {
   PlayerForCardGrid,
 } from "../server/lib/gameTypes";
 import { generateBlankCards } from "../server/lib/cards";
+import DrawPilePrompt from "../components/gameboard/DrawPilePrompt";
+import { phase } from "../server/lib/turnPhases";
 
 export default function Game() {
   const { socket } = useContext(SocketContext);
@@ -66,7 +68,13 @@ export default function Game() {
     socket.on("display current playercount", handleCurrentPlayerCount);
 
     socket.emit("get players", lobbyNr, socketID);
-    socket.on("display players", handleDisplayPlayers);
+    socket.on("display players", (players) => {
+      if (!players) {
+        socket.emit("get players", lobbyNr, socketID);
+      } else {
+        handleDisplayPlayers(players);
+      }
+    });
 
     socket.on("set first active player", setActivePlayer);
 
@@ -141,22 +149,32 @@ export default function Game() {
           </aside>
           <aside className={styles.sideBar}>
             <TotalScore />
-            <DrawPile onClick={() => alert("click")} />
+            <DrawPile turnPhase={turnPhase} />
             <DiscardPile card={discardPileCard} turnPhase={turnPhase} />
           </aside>
-          <div className={styles.gameElements8Player}>
+          <div className={styles.gameElements}>
             <div className={styles.opponents} style={opponentsLayout}>
               {opponentCardGrids}
             </div>
-            <div className={playerCount === 8 && styles.playerCardGrid}>
-              {player && (
-                <CardGrid
-                  cards={gameHasStarted ? player.cards : blankCards}
-                  name={player.name}
-                  roundScore={player.roundScore}
-                  gameHasStarted={gameHasStarted}
-                  turnPhase={turnPhase}
-                />
+            <div
+              className={
+                turnPhase === phase.DRAWPILEDECISION &&
+                styles.playerCardGridDrawPilePrompt
+              }
+            >
+              <div className={playerCount === 8 && styles.playerCardGrid}>
+                {player && (
+                  <CardGrid
+                    cards={gameHasStarted ? player.cards : blankCards}
+                    name={player.name}
+                    roundScore={player.roundScore}
+                    gameHasStarted={gameHasStarted}
+                    turnPhase={turnPhase}
+                  />
+                )}
+              </div>
+              {turnPhase === phase.DRAWPILEDECISION && (
+                <DrawPilePrompt turnPhase={turnPhase} />
               )}
             </div>
           </div>

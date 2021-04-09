@@ -1,0 +1,16 @@
+.container {
+  display: grid;
+  row-gap: 1.5em;
+  justify-items: center;
+}
+
+.buttons {
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 1em;
+}
+
+.card {
+  width: 6.5em;
+  cursor: default;
+}

@@ -14,14 +14,6 @@ function DiscardPile({ turnPhase, card }: DiscardPileProps) {
       case "drawDecision":
         socket.emit("DRAWDECISION: click discardpile", socket.id, lobbyNr);
         break;
-      case "discardPileDecision":
-        return;
-      case "discardPileReplaceOpen":
-        alert("dpo");
-        break;
-      case "discardPileReplaceHidden":
-        alert("dprh");
-        break;
       case "waitTurn":
         return;
       default:
@@ -34,8 +26,6 @@ function DiscardPile({ turnPhase, card }: DiscardPileProps) {
       case "drawDecision":
         return styles.card;
       case "waitTurn":
-        return notClickable;
-      case "discardPileDecision":
         return notClickable;
       default:
         return notClickable;

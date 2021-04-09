@@ -7,4 +7,5 @@ export const phase = {
   DISCARDPILEREPLACEOPEN: "discardPileReplaceOpen",
   DISCARDPILEREPLACEHIDDEN: "discardPileReplaceHidden",
   WAITTURN: "waitTurn",
+  WAITTURNDRAWPILEDECISION: "waitTurnDrawPileDecision",
 };
