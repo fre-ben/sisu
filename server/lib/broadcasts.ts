@@ -1,4 +1,3 @@
-import { phase } from "../../lib/turnPhases";
 import {
   getActivePlayer,
   getDiscardPile,
@@ -10,6 +9,7 @@ import {
   getTotalScores,
 } from "./games";
 import { status } from "./statusMessages";
+import { phase } from "./turnPhases";
 
 export function broadcastListGamesUpdate(io): void {
   io.emit("display list of games", getGamesForLobby());

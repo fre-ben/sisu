@@ -231,6 +231,35 @@ export async function cardReplaceWithDiscardPileClick(
   );
 }
 
+export async function checkCardsVerticalRow(socketID: string): Promise<void> {
+  const activePlayer = await getPlayer(socketID);
+  const cards = activePlayer.cards;
+  const blankCard = {
+    value: 0,
+    imgSrc: "/cards/blank.png",
+    hidden: false,
+  };
+
+  function checkRow(cardOne: number, cardTwo: number, cardThree: number): void {
+    if (
+      cards[cardOne].hidden === false &&
+      cards[cardTwo].hidden === false &&
+      cards[cardThree].hidden === false &&
+      cards[cardOne].value === cards[cardTwo].value &&
+      cards[cardOne].value === cards[cardThree].value
+    ) {
+      cards.splice(cardOne, 1, blankCard);
+      cards.splice(cardTwo, 1, blankCard);
+      cards.splice(cardThree, 1, blankCard);
+    }
+  }
+
+  checkRow(0, 4, 8);
+  checkRow(1, 5, 9);
+  checkRow(2, 6, 10);
+  checkRow(3, 7, 11);
+}
+
 export async function calculateRoundScore(socketID: string, lobbyNr: number) {
   const player = await getPlayer(socketID);
   const roundNr = games[lobbyNr].roundNr;

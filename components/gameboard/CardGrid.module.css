@@ -113,5 +113,5 @@
 
 .oppCardGrid img {
   width: 2.1em;
-  cursor: pointer;
+  cursor: default;
 }
