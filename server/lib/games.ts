@@ -36,6 +36,7 @@ export function createGame(
       },
     ],
     drawPileCards: generateCards(),
+    tempDrawPileCard: null,
     discardPileCards: [],
   };
   //commented out for now
@@ -343,4 +344,10 @@ export async function setNextActivePlayer(socketID: string): Promise<void> {
   } else {
     currentGame.activePlayerIndex = 0;
   }
+}
+
+export function getDrawPileCard(lobbyNr: number): Card {
+  const randomCard = getRandomCard(lobbyNr);
+  games[lobbyNr].tempDrawPileCard = randomCard;
+  return randomCard;
 }
