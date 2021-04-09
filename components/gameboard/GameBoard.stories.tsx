@@ -38,6 +38,4 @@ export const roundcounter = () => (
   </SocketContextProvider>
 );
 export const statusbar = () => <Statusbar activePlayer={null} />;
-export const drawpileprompt = () => (
-  <DrawPilePrompt turnPhase={null} card={null} />
-);
+export const drawpileprompt = () => <DrawPilePrompt turnPhase={null} />;
