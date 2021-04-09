@@ -65,6 +65,7 @@
   padding: 1.3em;
   box-shadow: var(--shadow);
   border-radius: 5px;
+  min-width: 28em;
 }
 
 .card {
