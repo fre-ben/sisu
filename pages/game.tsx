@@ -143,7 +143,7 @@ export default function Game() {
           </aside>
           <aside className={styles.sideBar}>
             <TotalScore />
-            <DrawPile onClick={() => alert("click")} />
+            <DrawPile turnPhase={turnPhase} />
             <DiscardPile card={discardPileCard} turnPhase={turnPhase} />
           </aside>
           <div className={styles.gameElements}>
