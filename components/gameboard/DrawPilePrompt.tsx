@@ -21,15 +21,26 @@ function DrawPilePrompt({ turnPhase }: DrawPilePrompt) {
       return;
     }
 
+    switch (turnPhase) {
+      case phase.DRAWPILEDECISION:
+        socket.emit("get drawpilecard", lobbyNr);
+        break;
+    }
+
     function handleDisplayDrawPileCard(card: Card) {
       setDrawPileCard(card);
     }
 
-    socket.emit("get drawpilecard", lobbyNr);
-    socket.on("display discardpilecard", handleDisplayDrawPileCard);
+    socket.on("display drawpilecard", (card) => {
+      if (!card) {
+        socket.emit("get drawpilecard", lobbyNr);
+      } else {
+        handleDisplayDrawPileCard(card);
+      }
+    });
 
     return () => {
-      socket.off("display discardpilecard", handleDisplayDrawPileCard);
+      socket.off("display drawpilecard");
     };
   }, [socket, lobbyNr]);
 
