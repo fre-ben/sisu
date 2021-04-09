@@ -187,11 +187,77 @@ export function dealCardsToPlayers(amount: number, lobbyNr: number): void {
   games[lobbyNr].discardPileCards.push(randomCardDiscardPile);
 }
 
-export async function cardGridClick(
+export async function cardRevealClick(
   socketID: string,
   index: number
 ): Promise<void> {
   (await getPlayer(socketID)).cards[index].hidden = false;
+}
+
+export async function cardReplaceWithDiscardPileClick(
+  socketID: string,
+  lobbyNr: number,
+  index: number
+): Promise<void> {
+  const playerCards = (await getPlayer(socketID)).cards;
+  const clickedCard = (await getPlayer(socketID)).cards[index];
+  const indexLastDiscardPileCard = games[lobbyNr].discardPileCards.length - 1;
+  const discardPileCard =
+    games[lobbyNr].discardPileCards[indexLastDiscardPileCard];
+  console.log("playercards", JSON.stringify(playerCards, null, 4));
+  console.log(
+    "discardpile",
+    JSON.stringify(games[lobbyNr].discardPileCards, null, 4)
+  );
+
+  const replaceClickedCardWithDiscardPileCard = () => {
+    clickedCard.hidden = false;
+    discardPileCard.hidden = false;
+
+    playerCards.splice(index, 0, discardPileCard);
+    games[lobbyNr].discardPileCards.splice(
+      indexLastDiscardPileCard,
+      1,
+      clickedCard
+    );
+    playerCards.splice(index + 1, 1);
+  };
+  replaceClickedCardWithDiscardPileCard();
+
+  console.log("playercards", JSON.stringify(playerCards, null, 4));
+  console.log(
+    "discardpile",
+    JSON.stringify(games[lobbyNr].discardPileCards, null, 4)
+  );
+}
+
+export async function checkCardsVerticalRow(socketID: string): Promise<void> {
+  const activePlayer = await getPlayer(socketID);
+  const cards = activePlayer.cards;
+  const blankCard = {
+    value: 0,
+    imgSrc: "/cards/blank.png",
+    hidden: false,
+  };
+
+  function checkRow(cardOne: number, cardTwo: number, cardThree: number): void {
+    if (
+      cards[cardOne].hidden === false &&
+      cards[cardTwo].hidden === false &&
+      cards[cardThree].hidden === false &&
+      cards[cardOne].value === cards[cardTwo].value &&
+      cards[cardOne].value === cards[cardThree].value
+    ) {
+      cards.splice(cardOne, 1, blankCard);
+      cards.splice(cardTwo, 1, blankCard);
+      cards.splice(cardThree, 1, blankCard);
+    }
+  }
+
+  checkRow(0, 4, 8);
+  checkRow(1, 5, 9);
+  checkRow(2, 6, 10);
+  checkRow(3, 7, 11);
 }
 
 export async function calculateRoundScore(socketID: string, lobbyNr: number) {
@@ -264,4 +330,17 @@ export async function getActivePlayer(socketID: string): Promise<Player> {
   const indexActivePlayer = currentGame.activePlayerIndex;
   const activePlayer = currentGame.players[indexActivePlayer];
   return activePlayer;
+}
+
+export async function setNextActivePlayer(socketID: string): Promise<void> {
+  const currentGame = await getGame(socketID);
+  const indexCurrentActivePlayer = currentGame.activePlayerIndex;
+
+  if (currentGame.players[indexCurrentActivePlayer + 1]) {
+    const nextActivePlayer = currentGame.players[indexCurrentActivePlayer + 1];
+    const indexNextActivePlayer = currentGame.players.indexOf(nextActivePlayer);
+    currentGame.activePlayerIndex = indexNextActivePlayer;
+  } else {
+    currentGame.activePlayerIndex = 0;
+  }
 }

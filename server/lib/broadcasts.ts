@@ -9,6 +9,7 @@ import {
   getTotalScores,
 } from "./games";
 import { status } from "./statusMessages";
+import { phase } from "./turnPhases";
 
 export function broadcastListGamesUpdate(io): void {
   io.emit("display list of games", getGamesForLobby());
@@ -60,4 +61,34 @@ export async function broadcastStatusToActivePlayer(
     status.WAITTURN(activePlayer.name)
   );
   io.to(activePlayer.socketID).emit("display status", activePlayerStatus);
+}
+
+export async function broadcastTurnPhaseToActivePlayer(
+  io,
+  socketID: string,
+  lobbyNr: number,
+  activePlayerTurnPhase: string
+) {
+  const activePlayer = await getActivePlayer(socketID);
+  io.to(`lobby${lobbyNr}`).emit("set turn phase", phase.WAITTURN);
+  io.to(activePlayer.socketID).emit("set turn phase", activePlayerTurnPhase);
+}
+
+export async function broadcastTurnStartToActivePlayer(
+  io,
+  socketID: string,
+  lobbyNr: number
+) {
+  await broadcastStatusToActivePlayer(
+    io,
+    socketID,
+    lobbyNr,
+    status.DRAWDECISION
+  );
+  await broadcastTurnPhaseToActivePlayer(
+    io,
+    socketID,
+    lobbyNr,
+    phase.DRAWDECISION
+  );
 }

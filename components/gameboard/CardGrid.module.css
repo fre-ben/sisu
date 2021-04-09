@@ -67,9 +67,13 @@
   border-radius: 5px;
 }
 
-.cardGrid img {
+.card {
   width: 5.8em;
   cursor: pointer;
+}
+
+.notClickable {
+  cursor: default;
 }
 
 .opponentContainer {
@@ -109,5 +113,5 @@
 
 .oppCardGrid img {
   width: 2.1em;
-  cursor: pointer;
+  cursor: default;
 }

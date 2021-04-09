@@ -1,4 +1,5 @@
 import { Server, Socket } from "socket.io";
+import { phase } from "./lib/turnPhases";
 import {
   broadcastDiscardPileToLobby,
   broadcastFirstActivePlayerToLobby,
@@ -8,12 +9,16 @@ import {
   broadcastPlayersToLobby,
   broadcastStatusToActivePlayer,
   broadcastTotalScoresToLobby,
+  broadcastTurnPhaseToActivePlayer,
+  broadcastTurnStartToActivePlayer,
 } from "./lib/broadcasts";
 import {
   calculateRoundScore,
-  cardGridClick,
+  cardReplaceWithDiscardPileClick,
+  cardRevealClick,
   checkAllPlayers2CardsRevealed,
   checkAllPlayersReady,
+  checkCardsVerticalRow,
   checkTwoCardsRevealed,
   createGame,
   dealCardsToPlayers,
@@ -24,6 +29,7 @@ import {
   getRoundNr,
   joinGame,
   leaveGame,
+  setNextActivePlayer,
 } from "./lib/games";
 import { status } from "./lib/statusMessages";
 
@@ -138,7 +144,7 @@ export function listenSocket(server): void {
     socket.on(
       "cardgrid click",
       async (socketID: string, lobbyNr: number, index: number) => {
-        await cardGridClick(socketID, index);
+        await cardRevealClick(socketID, index);
         await calculateRoundScore(socketID, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
       }
@@ -160,8 +166,47 @@ export function listenSocket(server): void {
             lobbyNr,
             status.DRAWDECISION
           );
+          await broadcastTurnPhaseToActivePlayer(
+            io,
+            socketID,
+            lobbyNr,
+            phase.DRAWDECISION
+          );
         }
         callback(bothCardsRevealed);
+      }
+    );
+
+    socket.on(
+      "DRAWDECISION: click discardpile",
+      async (socketID: string, lobbyNr: number) => {
+        await broadcastStatusToActivePlayer(
+          io,
+          socketID,
+          lobbyNr,
+          status.DRAWDISCARDPILEKEEP
+        );
+        await broadcastTurnPhaseToActivePlayer(
+          io,
+          socketID,
+          lobbyNr,
+          phase.DISCARDPILEDECISION
+        );
+      }
+    );
+
+    socket.on(
+      "DISCARDPILE: replace card",
+      async (socketID: string, lobbyNr: number, index: number) => {
+        await cardReplaceWithDiscardPileClick(socketID, lobbyNr, index);
+        await checkCardsVerticalRow(socketID);
+        await calculateRoundScore(socketID, lobbyNr);
+        broadcastPlayersToLobby(io, lobbyNr);
+        broadcastDiscardPileToLobby(io, lobbyNr);
+        // set next active Player
+        await setNextActivePlayer(socketID);
+        await broadcastTurnStartToActivePlayer(io, socketID, lobbyNr);
+        // check 12 cards revealed
       }
     );
   });

@@ -2,10 +2,17 @@ import type { Card } from "../../server/lib/gameTypes";
 import styles from "./CardGrid.module.css";
 
 export type CardGridProps = {
-  onCardClick?(index: number): void;
   cards: Card[];
   name: string;
   roundScore: number[];
+};
+
+export type PlayerCardGridProps = {
+  cards: Card[];
+  name: string;
+  roundScore: number[];
+  gameHasStarted: boolean;
+  turnPhase: string;
 };
 
 function OpponentCardGrid({ cards, name, roundScore }: CardGridProps) {
