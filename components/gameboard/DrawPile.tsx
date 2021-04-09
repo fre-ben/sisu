@@ -14,7 +14,6 @@ function DrawPile({ turnPhase }: DrawPileProps) {
     switch (turnPhase) {
       case phase.DRAWDECISION:
         socket.emit("DRAWDECISION: click drawpile", socket.id, lobbyNr);
-        socket.emit("get drawpilecard", lobbyNr);
         break;
       case "waitTurn":
         return;
