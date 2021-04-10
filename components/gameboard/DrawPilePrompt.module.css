@@ -2,6 +2,7 @@
   display: grid;
   row-gap: 1.5em;
   justify-items: center;
+  min-width: 16em;
 }
 
 .buttons {

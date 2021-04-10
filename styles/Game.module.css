@@ -41,7 +41,7 @@
   justify-items: center;
   grid-area: game;
   grid-template-rows: auto auto;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto 30%;
   grid-template-areas: "opp opp";
 }
 
@@ -65,6 +65,7 @@
 
 .playerCardGrid {
   justify-self: end;
+  padding-right: 3em;
 }
 
 .playerCardGrid8 {
