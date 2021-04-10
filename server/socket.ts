@@ -25,6 +25,7 @@ import {
   checkTwoCardsRevealed,
   createGame,
   dealCardsToPlayers,
+  discardCurrentDrawPileCard,
   getGame,
   getGameByLobby,
   getGamesForLobby,
@@ -253,6 +254,27 @@ export function listenSocket(server): void {
           lobbyNr,
           phase.DRAWPILEKEEP
         );
+      }
+    );
+
+    socket.on(
+      "DRAWPILEDECISION: click discard",
+      async (socketID: string, lobbyNr: number) => {
+        await broadcastStatusToActivePlayer(
+          io,
+          socketID,
+          lobbyNr,
+          status.DRAWPILEDISCARD
+        );
+        await broadcastTurnPhaseToActivePlayer(
+          io,
+          socketID,
+          lobbyNr,
+          phase.DRAWPILEDISCARD
+        );
+        discardCurrentDrawPileCard(lobbyNr);
+        broadcastDiscardPileToLobby(io, lobbyNr);
+        broadcastCurrentDrawPileCardToLobby(io, lobbyNr);
       }
     );
 
