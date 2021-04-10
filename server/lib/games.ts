@@ -375,6 +375,4 @@ export function discardCurrentDrawPileCard(lobbyNr: number): void {
   const drawPileCard = games[lobbyNr].tempDrawPileCard;
   games[lobbyNr].discardPileCards.push(drawPileCard);
   games[lobbyNr].tempDrawPileCard = null;
-  console.log("tempCard", games[lobbyNr].tempDrawPileCard);
-  console.log("discardpile", games[lobbyNr].drawPileCards);
 }
