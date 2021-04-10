@@ -45,7 +45,7 @@ function CardGrid({
           break;
         case phase.DRAWPILEDISCARD:
           if (card.hidden === false) {
-            socket.emit("DRAWPILE: invalid replace card", socket.id, lobbyNr);
+            socket.emit("DRAWPILE: invalid reveal card", socket.id, lobbyNr);
             return;
           }
           socket.emit("DRAWPILE: reveal card", socket.id, lobbyNr, index);

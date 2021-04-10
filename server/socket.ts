@@ -279,6 +279,18 @@ export function listenSocket(server): void {
     );
 
     socket.on(
+      "DRAWPILE: invalid reveal card",
+      async (socketID: string, lobbyNr: number) => {
+        await broadcastStatusToActivePlayer(
+          io,
+          socketID,
+          lobbyNr,
+          status.DRAWPILEDISCARDINVALID
+        );
+      }
+    );
+
+    socket.on(
       "DRAWPILE: replace card",
       async (socketID: string, lobbyNr: number, index: number) => {
         await cardReplaceDrawPileKeepClick(socketID, lobbyNr, index);
@@ -287,6 +299,19 @@ export function listenSocket(server): void {
         broadcastCurrentDrawPileCardToLobby(io, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
         broadcastDiscardPileToLobby(io, lobbyNr);
+        await setNextActivePlayer(socketID);
+        await broadcastTurnStartToActivePlayer(io, socketID, lobbyNr);
+        // check 12 cards revealed
+      }
+    );
+
+    socket.on(
+      "DRAWPILE: reveal card",
+      async (socketID: string, lobbyNr: number, index: number) => {
+        await cardRevealClick(socketID, index);
+        await checkCardsVerticalRow(socketID);
+        await calculateRoundScore(socketID, lobbyNr);
+        broadcastPlayersToLobby(io, lobbyNr);
         await setNextActivePlayer(socketID);
         await broadcastTurnStartToActivePlayer(io, socketID, lobbyNr);
         // check 12 cards revealed
