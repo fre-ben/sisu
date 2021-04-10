@@ -348,6 +348,8 @@ export async function setNextActivePlayer(socketID: string): Promise<void> {
 
 export function getDrawPileCard(lobbyNr: number): Card {
   const randomCard = getRandomCard(lobbyNr);
+  randomCard.hidden = false;
   games[lobbyNr].tempDrawPileCard = randomCard;
+  console.log(games[lobbyNr].tempDrawPileCard);
   return randomCard;
 }

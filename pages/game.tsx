@@ -21,7 +21,6 @@ import type {
 } from "../server/lib/gameTypes";
 import { generateBlankCards } from "../server/lib/cards";
 import DrawPilePrompt from "../components/gameboard/DrawPilePrompt";
-import { phase } from "../server/lib/turnPhases";
 
 export default function Game() {
   const { socket } = useContext(SocketContext);
@@ -158,24 +157,23 @@ export default function Game() {
             </div>
             <div
               className={
-                turnPhase === phase.DRAWPILEDECISION &&
-                styles.playerCardGridDrawPilePrompt
+                playerCount === 8
+                  ? styles.playerCardGrid8
+                  : styles.playerCardGrid
               }
             >
-              <div className={playerCount === 8 && styles.playerCardGrid}>
-                {player && (
-                  <CardGrid
-                    cards={gameHasStarted ? player.cards : blankCards}
-                    name={player.name}
-                    roundScore={player.roundScore}
-                    gameHasStarted={gameHasStarted}
-                    turnPhase={turnPhase}
-                  />
-                )}
-              </div>
-              {turnPhase === phase.DRAWPILEDECISION && (
-                <DrawPilePrompt turnPhase={turnPhase} />
+              {player && (
+                <CardGrid
+                  cards={gameHasStarted ? player.cards : blankCards}
+                  name={player.name}
+                  roundScore={player.roundScore}
+                  gameHasStarted={gameHasStarted}
+                  turnPhase={turnPhase}
+                />
               )}
+            </div>
+            <div className={styles.playerCardGridDrawPilePrompt}>
+              <DrawPilePrompt turnPhase={turnPhase} />
             </div>
           </div>
         </div>

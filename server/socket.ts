@@ -231,5 +231,23 @@ export function listenSocket(server): void {
         // check 12 cards revealed
       }
     );
+
+    socket.on(
+      "DRAWPILEDECISION: click keep",
+      async (socketID: string, lobbyNr: number) => {
+        await broadcastStatusToActivePlayer(
+          io,
+          socketID,
+          lobbyNr,
+          status.DRAWDISCARDPILEKEEP
+        );
+        await broadcastTurnPhaseToActivePlayer(
+          io,
+          socketID,
+          lobbyNr,
+          phase.DRAWPILEKEEP
+        );
+      }
+    );
   });
 }

@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { SocketContext } from "../../contexts/SocketContext";
 import { getLobbyNr } from "../../lib/functions";
+import { phase } from "../../server/lib/turnPhases";
 import styles from "./CardGrid.module.css";
 import type { PlayerCardGridProps } from "./OpponentCardGrid";
 
@@ -33,18 +34,18 @@ function CardGrid({
     }
     if (roundStart) {
       switch (turnPhase) {
-        case "drawDecision":
+        case phase.DRAWDECISION:
           return;
-        case "discardPileDecision":
+        case phase.DISCARDPILEDECISION:
           socket.emit("DISCARDPILE: replace card", socket.id, lobbyNr, index);
           break;
-        case "discardPileReplaceOpen":
-          alert("dpo");
+        case phase.DRAWPILEKEEP:
+          socket.emit("DRAWPILE: replace card", socket.id, lobbyNr, index);
           break;
         case "discardPileReplaceHidden":
           alert("dprh");
           break;
-        case "waitTurn":
+        case phase.WAITTURN:
           return;
         default:
           return;
@@ -54,9 +55,11 @@ function CardGrid({
 
   function cardStyle() {
     switch (turnPhase) {
-      case "drawDecision":
+      case phase.DRAWDECISION:
         return notClickable;
-      case "waitTurn":
+      case phase.WAITTURN:
+        return notClickable;
+      case phase.DRAWPILEDECISION:
         return notClickable;
       case "discardPileDecision":
         return styles.card;

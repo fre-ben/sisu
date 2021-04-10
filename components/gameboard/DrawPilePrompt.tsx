@@ -49,8 +49,6 @@ function DrawPilePrompt({ turnPhase }: DrawPilePrompt) {
       case phase.DRAWPILEDECISION:
         socket.emit("DRAWPILEDECISION: click keep", socket.id, lobbyNr);
         break;
-      case phase.WAITTURNDRAWPILEDECISION:
-        return;
       case phase.WAITTURN:
         return;
       default:
@@ -63,8 +61,6 @@ function DrawPilePrompt({ turnPhase }: DrawPilePrompt) {
       case phase.DRAWPILEDECISION:
         socket.emit("DRAWPILEDECISION: click discard", socket.id, lobbyNr);
         break;
-      case phase.WAITTURNDRAWPILEDECISION:
-        return;
       case phase.WAITTURN:
         return;
       default:
@@ -74,10 +70,12 @@ function DrawPilePrompt({ turnPhase }: DrawPilePrompt) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.buttons}>
-        <KeepBtn handleClick={handleKeepClick} />
-        <DiscardBtn handleClick={handleDiscardClick} />
-      </div>
+      {turnPhase === phase.DRAWPILEDECISION && (
+        <div className={styles.buttons}>
+          <KeepBtn handleClick={handleKeepClick} />
+          <DiscardBtn handleClick={handleDiscardClick} />
+        </div>
+      )}
       <img
         src={drawPileCard ? drawPileCard.imgSrc : "/cards/blank.png"}
         className={styles.card}
