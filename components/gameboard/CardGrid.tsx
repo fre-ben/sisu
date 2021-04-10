@@ -72,8 +72,16 @@ function CardGrid({
     <img
       key={index}
       src={card && card.hidden ? "/cards/back.png" : card && card.imgSrc}
-      className={cardStyle()}
-      onClick={() => handleCardClick(index)}
+      className={
+        card.imgSrc !== "/cards/blank.png" ? cardStyle() : notClickable
+      }
+      onClick={
+        card.imgSrc !== "/cards/blank.png"
+          ? () => handleCardClick(index)
+          : () => {
+              return;
+            }
+      }
     />
   ));
 
