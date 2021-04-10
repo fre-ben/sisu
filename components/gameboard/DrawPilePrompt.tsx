@@ -23,7 +23,10 @@ function DrawPilePrompt({ turnPhase }: DrawPilePrompt) {
 
     switch (turnPhase) {
       case phase.DRAWPILEDECISION:
-        socket.emit("get drawpilecard", lobbyNr);
+        socket.emit("get new drawpilecard", lobbyNr);
+        break;
+      default:
+        socket.emit("get current drawpilecard", lobbyNr);
         break;
     }
 
@@ -31,16 +34,21 @@ function DrawPilePrompt({ turnPhase }: DrawPilePrompt) {
       setDrawPileCard(card);
     }
 
-    socket.on("display drawpilecard", (card) => {
+    socket.on("display new drawpilecard", (card) => {
       if (!card) {
-        socket.emit("get drawpilecard", lobbyNr);
+        socket.emit("get new drawpilecard", lobbyNr);
       } else {
         handleDisplayDrawPileCard(card);
       }
     });
 
+    socket.on("display current drawpilecard", (card) => {
+      handleDisplayDrawPileCard(card);
+    });
+
     return () => {
-      socket.off("display drawpilecard");
+      socket.off("display new drawpilecard");
+      socket.off("display current drawpilecard");
     };
   }, [socket, lobbyNr]);
 
