@@ -23,7 +23,10 @@ function DrawPilePrompt({ turnPhase }: DrawPilePrompt) {
 
     switch (turnPhase) {
       case phase.DRAWPILEDECISION:
-        socket.emit("get drawpilecard", lobbyNr);
+        socket.emit("get new drawpilecard", lobbyNr);
+        break;
+      default:
+        socket.emit("get current drawpilecard", lobbyNr);
         break;
     }
 
@@ -31,16 +34,21 @@ function DrawPilePrompt({ turnPhase }: DrawPilePrompt) {
       setDrawPileCard(card);
     }
 
-    socket.on("display drawpilecard", (card) => {
+    socket.on("display new drawpilecard", (card) => {
       if (!card) {
-        socket.emit("get drawpilecard", lobbyNr);
+        socket.emit("get new drawpilecard", lobbyNr);
       } else {
         handleDisplayDrawPileCard(card);
       }
     });
 
+    socket.on("display current drawpilecard", (card) => {
+      handleDisplayDrawPileCard(card);
+    });
+
     return () => {
-      socket.off("display drawpilecard");
+      socket.off("display new drawpilecard");
+      socket.off("display current drawpilecard");
     };
   }, [socket, lobbyNr]);
 
@@ -49,8 +57,6 @@ function DrawPilePrompt({ turnPhase }: DrawPilePrompt) {
       case phase.DRAWPILEDECISION:
         socket.emit("DRAWPILEDECISION: click keep", socket.id, lobbyNr);
         break;
-      case phase.WAITTURNDRAWPILEDECISION:
-        return;
       case phase.WAITTURN:
         return;
       default:
@@ -63,8 +69,6 @@ function DrawPilePrompt({ turnPhase }: DrawPilePrompt) {
       case phase.DRAWPILEDECISION:
         socket.emit("DRAWPILEDECISION: click discard", socket.id, lobbyNr);
         break;
-      case phase.WAITTURNDRAWPILEDECISION:
-        return;
       case phase.WAITTURN:
         return;
       default:
@@ -74,10 +78,12 @@ function DrawPilePrompt({ turnPhase }: DrawPilePrompt) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.buttons}>
-        <KeepBtn handleClick={handleKeepClick} />
-        <DiscardBtn handleClick={handleDiscardClick} />
-      </div>
+      {turnPhase === phase.DRAWPILEDECISION && (
+        <div className={styles.buttons}>
+          <KeepBtn handleClick={handleKeepClick} />
+          <DiscardBtn handleClick={handleDiscardClick} />
+        </div>
+      )}
       <img
         src={drawPileCard ? drawPileCard.imgSrc : "/cards/blank.png"}
         className={styles.card}

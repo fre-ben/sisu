@@ -36,6 +36,7 @@ export function createGame(
       },
     ],
     drawPileCards: generateCards(),
+    tempDrawPileCard: null,
     discardPileCards: [],
   };
   //commented out for now
@@ -194,7 +195,7 @@ export async function cardRevealClick(
   (await getPlayer(socketID)).cards[index].hidden = false;
 }
 
-export async function cardReplaceWithDiscardPileClick(
+export async function cardReplaceDiscardPileClick(
   socketID: string,
   lobbyNr: number,
   index: number
@@ -223,12 +224,25 @@ export async function cardReplaceWithDiscardPileClick(
     playerCards.splice(index + 1, 1);
   };
   replaceClickedCardWithDiscardPileCard();
+}
 
-  console.log("playercards", JSON.stringify(playerCards, null, 4));
-  console.log(
-    "discardpile",
-    JSON.stringify(games[lobbyNr].discardPileCards, null, 4)
-  );
+export async function cardReplaceDrawPileKeepClick(
+  socketID: string,
+  lobbyNr: number,
+  index: number
+): Promise<void> {
+  const playerCards = (await getPlayer(socketID)).cards;
+  const clickedCard = (await getPlayer(socketID)).cards[index];
+  const drawPileCard = games[lobbyNr].tempDrawPileCard;
+
+  const replaceClickedCardWithDrawPileCard = () => {
+    clickedCard.hidden = false;
+
+    const replacedCard = playerCards.splice(index, 1, drawPileCard);
+    games[lobbyNr].discardPileCards.push(replacedCard[0]);
+    games[lobbyNr].tempDrawPileCard = null;
+  };
+  replaceClickedCardWithDrawPileCard();
 }
 
 export async function checkCardsVerticalRow(socketID: string): Promise<void> {
@@ -343,4 +357,22 @@ export async function setNextActivePlayer(socketID: string): Promise<void> {
   } else {
     currentGame.activePlayerIndex = 0;
   }
+}
+
+export function getNewDrawPileCard(lobbyNr: number): Card {
+  const randomCard = getRandomCard(lobbyNr);
+  randomCard.hidden = false;
+  games[lobbyNr].tempDrawPileCard = randomCard;
+  console.log(games[lobbyNr].tempDrawPileCard);
+  return randomCard;
+}
+
+export function getCurrentDrawPileCard(lobbyNr: number): Card {
+  return games[lobbyNr].tempDrawPileCard;
+}
+
+export function discardCurrentDrawPileCard(lobbyNr: number): void {
+  const drawPileCard = games[lobbyNr].tempDrawPileCard;
+  games[lobbyNr].discardPileCards.push(drawPileCard);
+  games[lobbyNr].tempDrawPileCard = null;
 }

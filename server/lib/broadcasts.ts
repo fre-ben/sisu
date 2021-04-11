@@ -1,12 +1,13 @@
 import {
   getActivePlayer,
+  getCurrentDrawPileCard,
   getDiscardPile,
   getFirstActivePlayer,
   getGameByLobby,
   getGamesForLobby,
+  getNewDrawPileCard,
   getPlayerCount,
   getPlayersInLobby,
-  getRandomCard,
   getTotalScores,
 } from "./games";
 import { status } from "./statusMessages";
@@ -39,8 +40,18 @@ export function broadcastDiscardPileToLobby(io, lobbyNr: number): void {
   io.to(`lobby${lobbyNr}`).emit("display discardpile", getDiscardPile(lobbyNr));
 }
 
-export function broadcastDrawPileCardToLobby(io, lobbyNr: number): void {
-  io.to(`lobby${lobbyNr}`).emit("display drawpilecard", getRandomCard(lobbyNr));
+export function broadcastNewDrawPileCardToLobby(io, lobbyNr: number): void {
+  io.to(`lobby${lobbyNr}`).emit(
+    "display new drawpilecard",
+    getNewDrawPileCard(lobbyNr)
+  );
+}
+
+export function broadcastCurrentDrawPileCardToLobby(io, lobbyNr: number): void {
+  io.to(`lobby${lobbyNr}`).emit(
+    "display current drawpilecard",
+    getCurrentDrawPileCard(lobbyNr)
+  );
 }
 
 export async function broadcastFirstActivePlayerToLobby(

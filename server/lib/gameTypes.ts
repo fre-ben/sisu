@@ -7,6 +7,7 @@ export type Game = {
   activePlayerIndex: number;
   players: Player[];
   drawPileCards: Card[];
+  tempDrawPileCard: Card;
   discardPileCards: Card[];
 };
 
