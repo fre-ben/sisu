@@ -21,6 +21,7 @@
     ),
     linear-gradient(var(--placeholder-color), var(--placeholder-color));
   color: var(--placeholder-color);
+  cursor: default;
 }
 
 .btn:hover {
