@@ -9,6 +9,8 @@ export const status = {
   DRAWPILEDECISION: "Do you want to keep or discard your drawn card?",
   DRAWPILEDISCARD:
     "Card added to discard pile. Reveal a hidden card on your grid",
+  DRAWPILEDISCARDINVALID:
+    "Invalid card clicked. Please reveal a hidden card on your grid",
   DRAWDISCARDPILEKEEP: "Replace open or hidden card on your grid",
   DRAWDISCARDPILEKEEPOPEN:
     "Replaced open card. Replaced card added to discard pile",

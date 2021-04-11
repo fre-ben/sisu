@@ -370,3 +370,9 @@ export function getNewDrawPileCard(lobbyNr: number): Card {
 export function getCurrentDrawPileCard(lobbyNr: number): Card {
   return games[lobbyNr].tempDrawPileCard;
 }
+
+export function discardCurrentDrawPileCard(lobbyNr: number): void {
+  const drawPileCard = games[lobbyNr].tempDrawPileCard;
+  games[lobbyNr].discardPileCards.push(drawPileCard);
+  games[lobbyNr].tempDrawPileCard = null;
+}
