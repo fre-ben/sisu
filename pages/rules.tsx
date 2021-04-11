@@ -23,36 +23,28 @@ export default function Rules() {
             </Link>
             <article className={styles.rules}>
               <p>
-                Prow scuttle parrel provost Sail ho shrouds spirits boom
-                mizzenmast yardarm. Pinnace holystone mizzenmast quarter crows
-                nest nipperkin grog yardarm hempen halter furl. Swab barque
-                interloper chantey doubloon starboard grog black jack gangway
-                rutters. Deadlights jack lad schooner scallywag dance the hempen
-                jig carouser broadside cable strike colors. Bring a spring upon
-                her cable holystone blow the man down spanker Shiver me timbers
-                to go on account lookout wherry doubloon chase. Belay yo-ho-ho
-                keelhaul squiffy black spot yardarm spyglass sheet transom heave
-                to. Trysail Sail ho Corsair red ensign hulk smartly boom jib rum
-                gangway.
+                Every player has 12 hidden cards (arrangd in a 3x4 cardgrid). At
+                the start of the game two cards are turned face up, revealing
+                the card. <br />
+                The player whose two cards have the highest sum (score) goes
+                first. <br />
+                On your turn you can take the top card from the discard or draw
+                pile. You can exchange one card (hidden or open) from your
+                cardgrid. <br />
+                Round ends when one player has only open/revealed cards on his
+                cardgrid. <br />
+                When the round ends, every player has one more turn (except the
+                player, who ends the round). <br />
+                Afterwards all non-revealed cards will be revealed. When all
+                cards are revealed the numbers of the cards each player has will
+                be added for scoring. <br />
+                Game ends after one player has 100 or more points. Whoever has
+                the lowest number wins.
               </p>
               <p>
-                Case shot Shiver me timbers gangplank crack Jennys tea cup
-                ballast Blimey lee snow crows nest rutters. Fluke jib scourge of
-                the seven seas boatswain schooner gaff booty Jack Tar transom
-                spirits. Prow scuttle parrel provost Sail ho shrouds spirits
-                boom mizzenmast yardarm. Pinnace holystone mizzenmast quarter
-                crows nest nipperkin grog yardarm hempen halter furl. Swab
-                barque interloper chantey doubloon starboard grog black jack
-                gangway rutters. Deadlights jack lad schooner scallywag dance
-                the hempen jig carouser broadside cable strike colors. Bring a
-                spring upon her cable holystone blow the man down spanker Shiver
-                me timbers to go on account lookout wherry doubloon chase. Belay
-                yo-ho-ho keelhaul squiffy black spot yardarm spyglass sheet
-                transom heave to. Trysail Sail ho Corsair red ensign hulk
-                smartly boom jib rum gangway. Case shot Shiver me timbers
-                gangplank crack Jennys tea cup ballast Blimey lee snow crows
-                nest rutters. Fluke jib scourge of the seven seas boatswain
-                schooner gaff booty Jack Tar transom spirits.
+                Special rule: Whenever one row of 3 cards all have the same
+                value, they will be discarded and no longer scored. <br />
+                Cards are ranked from -2 up to 12.
               </p>
             </article>
           </div>
