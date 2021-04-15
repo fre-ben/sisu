@@ -119,14 +119,11 @@ export default function Game() {
     }
   );
 
-  const opponentsLayout =
-    playerCount <= 7
-      ? {
-          gridTemplateColumns: `repeat(${playerCount - 1}, 1fr)`,
-        }
-      : {
-          gridTemplateColumns: `repeat(6, 1fr)`,
-        };
+  const opponentsLayout = {
+    /* stylelint-disable */
+    gridTemplateColumns: `repeat(${Math.min(6, playerCount - 1)}, 1fr)`,
+    /* stylelint-enable */
+  };
 
   return (
     <>
