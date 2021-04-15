@@ -37,10 +37,8 @@ import {
 } from "./lib/games";
 import { status } from "./lib/statusMessages";
 
-let io;
-
 export function listenSocket(server): void {
-  io = new Server(server, {});
+  const io = new Server(server, {});
   let lobbyNr = 1;
 
   io.on("connection", (socket: Socket) => {
