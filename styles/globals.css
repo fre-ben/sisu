@@ -42,7 +42,7 @@ body {
 }
 
 button {
-  font-family: "Roboto", sans-serif;
+  font-family: inherit;
   font-weight: 500;
   color: var(--primary-text-color);
   background: none;
