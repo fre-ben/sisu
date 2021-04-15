@@ -18,7 +18,7 @@
 :root {
   --primary-color: #141225;
   --secondary-color: #ffce21;
-  --primary-text-color: #fff;
+  --text-color: #fff;
   --placeholder-color: #8a8a8a;
   --background-gradient-color: #62606d;
   --bottom-transition: background-size 250ms ease-out;
@@ -31,7 +31,7 @@ body {
   margin: 0;
   font-family: "Roboto", sans-serif;
   font-size: 16px;
-  color: var(--primary-text-color);
+  color: var(--text-color);
   background: transparent
     radial-gradient(
       closest-side at 50% 50%,
@@ -44,7 +44,7 @@ body {
 button {
   font-family: inherit;
   font-weight: 500;
-  color: var(--primary-text-color);
+  color: var(--text-color);
   background: none;
   border: none;
 }
