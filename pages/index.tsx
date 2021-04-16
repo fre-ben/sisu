@@ -5,7 +5,7 @@ import StartGameBtn from "../components/button/StartGameBtn";
 import Logo from "../components/logo/Logo";
 import styles from "../styles/Home.module.css";
 
-export default function Home() {
+export default function Index() {
   return (
     <>
       <Head>

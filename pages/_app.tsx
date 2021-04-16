@@ -2,7 +2,7 @@ import type { AppProps } from "next/app";
 import "../styles/globals.css";
 import { SocketContextProvider } from "../contexts/SocketContext";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   return (
     <SocketContextProvider>
       <Component {...pageProps} />
@@ -10,4 +10,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-export default MyApp;
+export default App;
