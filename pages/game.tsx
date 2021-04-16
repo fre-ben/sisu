@@ -12,7 +12,7 @@ import CardGrid from "../components/gameboard/CardGrid";
 import OpponentCardGrid from "../components/gameboard/OpponentCardGrid";
 import { SocketContext } from "../contexts/SocketContext";
 import { useContext, useEffect, useState } from "react";
-import { getLobbyNr, getSocketID } from "../lib/functions";
+import { getLobbyNr } from "../lib/functions";
 import { useRouter } from "next/router";
 import type {
   ActivePlayer,
@@ -41,7 +41,6 @@ export default function Game() {
     if (!socket || !lobbyNr) {
       return;
     }
-    const socketID = getSocketID();
 
     function handleCurrentPlayerCount(count: number) {
       setPlayerCount(count);
@@ -49,9 +48,9 @@ export default function Game() {
 
     function handleDisplayPlayers(players: PlayerForCardGrid[]) {
       const opponentPlayers = players.filter(
-        (player) => player.socketID !== socketID
+        (player) => player.socketID !== socket.id
       );
-      const player = players.find((player) => player.socketID === socketID);
+      const player = players.find((player) => player.socketID === socket.id);
       setOpponentPlayers(opponentPlayers);
       setPlayer(player);
     }
@@ -66,10 +65,10 @@ export default function Game() {
     socket.emit("get playercount", lobbyNr);
     socket.on("display current playercount", handleCurrentPlayerCount);
 
-    socket.emit("get players", lobbyNr, socketID);
+    socket.emit("get players", lobbyNr, socket.id);
     socket.on("display players", (players) => {
       if (!players) {
-        socket.emit("get players", lobbyNr, socketID);
+        socket.emit("get players", lobbyNr, socket.id);
       } else {
         handleDisplayPlayers(players);
       }
