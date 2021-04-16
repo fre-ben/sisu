@@ -228,7 +228,10 @@ export async function cardReplaceDrawPileKeepClick(
   replaceClickedCardWithDrawPileCard();
 }
 
-export async function checkCardsVerticalRow(socketID: string): Promise<void> {
+export async function checkCardsVerticalRow(
+  socketID: string,
+  lobbyNr: number
+): Promise<void> {
   const activePlayer = await getPlayer(socketID);
   const cards = activePlayer.cards;
   const blankCard = {
@@ -245,6 +248,11 @@ export async function checkCardsVerticalRow(socketID: string): Promise<void> {
       cards[cardOne].value === cards[cardTwo].value &&
       cards[cardOne].value === cards[cardThree].value
     ) {
+      games[lobbyNr].discardPileCards.push(
+        cards[cardOne],
+        cards[cardTwo],
+        cards[cardThree]
+      );
       cards.splice(cardOne, 1, blankCard);
       cards.splice(cardTwo, 1, blankCard);
       cards.splice(cardThree, 1, blankCard);

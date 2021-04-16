@@ -224,7 +224,7 @@ export function listenSocket(server): void {
       "DISCARDPILE: replace card",
       async (socketID: string, lobbyNr: number, index: number) => {
         await cardReplaceDiscardPileClick(socketID, lobbyNr, index);
-        await checkCardsVerticalRow(socketID);
+        await checkCardsVerticalRow(socketID, lobbyNr);
         await calculateRoundScore(socketID, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
         broadcastDiscardPileToLobby(io, lobbyNr);
@@ -289,7 +289,7 @@ export function listenSocket(server): void {
       "DRAWPILE: replace card",
       async (socketID: string, lobbyNr: number, index: number) => {
         await cardReplaceDrawPileKeepClick(socketID, lobbyNr, index);
-        await checkCardsVerticalRow(socketID);
+        await checkCardsVerticalRow(socketID, lobbyNr);
         await calculateRoundScore(socketID, lobbyNr);
         broadcastCurrentDrawPileCardToLobby(io, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
@@ -304,7 +304,7 @@ export function listenSocket(server): void {
       "DRAWPILE: reveal card",
       async (socketID: string, lobbyNr: number, index: number) => {
         await cardRevealClick(socketID, index);
-        await checkCardsVerticalRow(socketID);
+        await checkCardsVerticalRow(socketID, lobbyNr);
         await calculateRoundScore(socketID, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
         await setNextActivePlayer(socketID);
