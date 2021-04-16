@@ -256,8 +256,6 @@ export async function checkCardsVerticalRow(
       cards.splice(cardOne, 1, blankCard);
       cards.splice(cardTwo, 1, blankCard);
       cards.splice(cardThree, 1, blankCard);
-      console.log("active player cards", cards);
-      console.log("discardpile", games[lobbyNr].discardPileCards);
     }
   }
 
