@@ -271,24 +271,28 @@ export async function calculateRoundScore(socketID: string, lobbyNr: number) {
   player.roundScore[roundNr - 1] = roundScore;
 }
 
-export async function checkTwoCardsRevealed(
-  socketID: string
+export async function checkCardsRevealed(
+  socketID: string,
+  amount: number
 ): Promise<boolean> {
   const player = await getPlayer(socketID);
   const revealedCards = player.cards.filter((card) => card.hidden === false);
 
-  if (revealedCards.length === 2) {
+  if (revealedCards.length === amount) {
     return true;
   } else {
     return false;
   }
 }
 
-export function checkAllPlayers2CardsRevealed(lobbyNr: number): boolean {
+export function checkAllPlayersCardsRevealed(
+  lobbyNr: number,
+  amount: number
+): boolean {
   const currentGame = getGameByLobby(lobbyNr);
   return currentGame.players.every((player) => {
     const revealedCards = player.cards.filter((card) => card.hidden === false);
-    if (revealedCards.length === 2) {
+    if (revealedCards.length === amount) {
       return true;
     }
   });
