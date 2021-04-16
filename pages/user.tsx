@@ -13,7 +13,6 @@ export default function User() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("PlayerName is " + playerName);
     localStorage.setItem("playerName", playerName);
     router.push("/lobbies");
   };
