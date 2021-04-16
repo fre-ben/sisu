@@ -127,7 +127,7 @@ export default function Game() {
   return (
     <>
       <Head>
-        <title>Sisu Game</title>
+        <title>Sisu - Lobby #{lobbyNr}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
