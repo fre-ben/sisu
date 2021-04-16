@@ -17,7 +17,6 @@ export function createGame(
   playerName: string,
   socketID: string
 ): void {
-  console.log("Game created on server side");
   games[lobbyNr] = {
     lobbyNr,
     roundNr: 1,
@@ -43,10 +42,9 @@ export function createGame(
   // console.log(JSON.stringify(games, null, 4));
 }
 
-function checkIsLobbyFull(lobbyNr: number): boolean {
+export function checkIsLobbyFull(lobbyNr: number): void {
   if (games[lobbyNr].playerCount >= 8) {
     games[lobbyNr].lobbyIsFull = true;
-    return true;
   }
 }
 
@@ -55,10 +53,6 @@ export function joinGame(
   playerName: string,
   socketID: string
 ): void {
-  if (checkIsLobbyFull(lobbyNr)) {
-    console.log("Lobby is full");
-    return;
-  }
   console.log(playerName + ":" + socketID + " joined " + lobbyNr);
   const playersInGame = games[lobbyNr].players;
   playersInGame.push({
@@ -74,10 +68,6 @@ export function joinGame(
 
 export async function leaveGame(socketID: string): Promise<void> {
   const currentGame = await getGame(socketID);
-  if (!currentGame) {
-    console.log("No game found");
-    return;
-  }
 
   const currentGamePlayers = currentGame.players.map(
     (player) => player.socketID
@@ -87,8 +77,6 @@ export async function leaveGame(socketID: string): Promise<void> {
   if (indexOfTargetPlayer > -1) {
     currentGame.players.splice(indexOfTargetPlayer, 1);
     currentGame.playerCount--;
-  } else {
-    console.log("Player not found!");
   }
 }
 
@@ -205,11 +193,6 @@ export async function cardReplaceDiscardPileClick(
   const indexLastDiscardPileCard = games[lobbyNr].discardPileCards.length - 1;
   const discardPileCard =
     games[lobbyNr].discardPileCards[indexLastDiscardPileCard];
-  console.log("playercards", JSON.stringify(playerCards, null, 4));
-  console.log(
-    "discardpile",
-    JSON.stringify(games[lobbyNr].discardPileCards, null, 4)
-  );
 
   const replaceClickedCardWithDiscardPileCard = () => {
     clickedCard.hidden = false;
@@ -363,7 +346,6 @@ export function getNewDrawPileCard(lobbyNr: number): Card {
   const randomCard = getRandomCard(lobbyNr);
   randomCard.hidden = false;
   games[lobbyNr].tempDrawPileCard = randomCard;
-  console.log(games[lobbyNr].tempDrawPileCard);
   return randomCard;
 }
 

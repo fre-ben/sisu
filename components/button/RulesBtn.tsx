@@ -1,11 +1,8 @@
 import styles from "./Button.module.css";
-import { ButtonProps } from "./types";
 
-function RulesBtn({ onClick }: ButtonProps) {
+function RulesBtn() {
   return (
-    <button className={`${styles.btn} ${styles.rulesBtn}`} onClick={onClick}>
-      How to play
-    </button>
+    <button className={`${styles.btn} ${styles.rulesBtn}`}>How to play</button>
   );
 }
 

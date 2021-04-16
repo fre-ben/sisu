@@ -1,7 +1,7 @@
 import { MouseEventHandler } from "react";
 
 export type ButtonProps = {
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 };
 
 export type JoinBtnProps = {

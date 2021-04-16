@@ -23,6 +23,7 @@ import {
   checkAllPlayersReady,
   checkCardsVerticalRow,
   checkTwoCardsRevealed,
+  checkIsLobbyFull,
   createGame,
   dealCardsToPlayers,
   discardCurrentDrawPileCard,
@@ -37,10 +38,8 @@ import {
 } from "./lib/games";
 import { status } from "./lib/statusMessages";
 
-let io;
-
 export function listenSocket(server): void {
-  io = new Server(server, {});
+  const io = new Server(server, {});
   let lobbyNr = 1;
 
   io.on("connection", (socket: Socket) => {
@@ -51,10 +50,8 @@ export function listenSocket(server): void {
     });
 
     socket.on("disconnecting", async () => {
-      console.log(socket.id, " disconnecting");
-      for (let i = 1; i <= 20; i++) {
+      for (let i = 1; i <= 30; i++) {
         if (socket.rooms.has(`lobby${i}`)) {
-          console.log(i, true);
           const lobbyNr = (await getGame(socket.id)).lobbyNr;
           await leaveGame(socket.id);
           broadcastTotalScoresToLobby(io, lobbyNr);
@@ -62,8 +59,6 @@ export function listenSocket(server): void {
           broadcastPlayersToLobby(io, lobbyNr);
           broadcastListGamesUpdate(io);
           return;
-        } else {
-          console.log(i, false);
         }
       }
     });
@@ -111,7 +106,6 @@ export function listenSocket(server): void {
 
     socket.on("create game", (playerName: string, socketID: string) => {
       socket.join(`lobby${lobbyNr}`);
-      console.log("Lobby nr " + lobbyNr + " was created");
       createGame(lobbyNr, playerName, socketID);
       socket.emit("pass lobbynr", lobbyNr);
       broadcastPlayerCountToLobby(io, lobbyNr);
@@ -126,6 +120,7 @@ export function listenSocket(server): void {
       (lobbyNr: number, playerName: string, socketID: string) => {
         socket.join(`lobby${lobbyNr}`);
         joinGame(lobbyNr, playerName, socketID);
+        checkIsLobbyFull(lobbyNr);
         broadcastPlayerCountToLobby(io, lobbyNr);
         broadcastTotalScoresToLobby(io, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);

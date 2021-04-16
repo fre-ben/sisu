@@ -5,7 +5,7 @@ import StartGameBtn from "../components/button/StartGameBtn";
 import Logo from "../components/logo/Logo";
 import styles from "../styles/Home.module.css";
 
-export default function Home() {
+export default function Index() {
   return (
     <>
       <Head>
@@ -19,12 +19,12 @@ export default function Home() {
           <div className={styles.menuItems}>
             <Link href="/user">
               <a>
-                <StartGameBtn onClick={() => console.log("Clicked")} />
+                <StartGameBtn />
               </a>
             </Link>
             <Link href="/rules">
               <a>
-                <RulesBtn onClick={() => console.log("Clicked")} />
+                <RulesBtn />
               </a>
             </Link>
           </div>

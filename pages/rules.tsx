@@ -23,8 +23,8 @@ export default function Rules() {
             </Link>
             <article className={styles.rules}>
               <p>
-                Every player has 12 hidden cards (arrangd in a 3x4 cardgrid). At
-                the start of the game two cards are turned face up, revealing
+                Every player has 12 hidden cards (arranged in a 3x4 cardgrid).
+                At the start of the game two cards are turned face up, revealing
                 the card. <br />
                 The player whose two cards have the highest sum (score) goes
                 first. <br />

@@ -12,7 +12,7 @@ import CardGrid from "../components/gameboard/CardGrid";
 import OpponentCardGrid from "../components/gameboard/OpponentCardGrid";
 import { SocketContext } from "../contexts/SocketContext";
 import { useContext, useEffect, useState } from "react";
-import { getLobbyNr, getSocketID } from "../lib/functions";
+import { getLobbyNr } from "../lib/functions";
 import { useRouter } from "next/router";
 import type {
   ActivePlayer,
@@ -24,9 +24,6 @@ import DrawPilePrompt from "../components/gameboard/DrawPilePrompt";
 
 export default function Game() {
   const { socket } = useContext(SocketContext);
-  const router = useRouter();
-  const lobbyNr = getLobbyNr();
-  const blankCards = generateBlankCards();
   const [playerCount, setPlayerCount] = useState<number>(null);
   const [opponentPlayers, setOpponentPlayers] = useState<PlayerForCardGrid[]>(
     []
@@ -36,12 +33,14 @@ export default function Game() {
   const [gameHasStarted, setGameHasStarted] = useState<boolean>(false);
   const [activePlayer, setActivePlayer] = useState<ActivePlayer>(null);
   const [turnPhase, setTurnPhases] = useState<string>(null);
+  const router = useRouter();
+  const lobbyNr = getLobbyNr();
+  const blankCards = generateBlankCards();
 
   useEffect(() => {
     if (!socket || !lobbyNr) {
       return;
     }
-    const socketID = getSocketID();
 
     function handleCurrentPlayerCount(count: number) {
       setPlayerCount(count);
@@ -49,9 +48,9 @@ export default function Game() {
 
     function handleDisplayPlayers(players: PlayerForCardGrid[]) {
       const opponentPlayers = players.filter(
-        (player) => player.socketID !== socketID
+        (player) => player.socketID !== socket.id
       );
-      const player = players.find((player) => player.socketID === socketID);
+      const player = players.find((player) => player.socketID === socket.id);
       setOpponentPlayers(opponentPlayers);
       setPlayer(player);
     }
@@ -66,10 +65,10 @@ export default function Game() {
     socket.emit("get playercount", lobbyNr);
     socket.on("display current playercount", handleCurrentPlayerCount);
 
-    socket.emit("get players", lobbyNr, socketID);
+    socket.emit("get players", lobbyNr, socket.id);
     socket.on("display players", (players) => {
       if (!players) {
-        socket.emit("get players", lobbyNr, socketID);
+        socket.emit("get players", lobbyNr, socket.id);
       } else {
         handleDisplayPlayers(players);
       }
@@ -119,19 +118,16 @@ export default function Game() {
     }
   );
 
-  const opponentsLayout =
-    playerCount <= 7
-      ? {
-          gridTemplateColumns: `repeat(${playerCount - 1}, 1fr)`,
-        }
-      : {
-          gridTemplateColumns: `repeat(6, 1fr)`,
-        };
+  const opponentsLayout = {
+    /* stylelint-disable */
+    gridTemplateColumns: `repeat(${Math.min(6, playerCount - 1)}, 1fr)`,
+    /* stylelint-enable */
+  };
 
   return (
     <>
       <Head>
-        <title>Sisu Game</title>
+        <title>Sisu - Lobby #{lobbyNr}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

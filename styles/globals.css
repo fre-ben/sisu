@@ -1,24 +1,43 @@
 @font-face {
   font-family: "Roboto";
-  src: url("../public/fonts/Roboto-Black.ttf") format("truetype")
-      font-weight-black,
-    url("../public/fonts/Roboto-BlackItalic.ttf") format("truetype"),
-    url("../public/fonts/Roboto-Bold.ttf") format("truetype"),
-    url("../public/fonts/Roboto-BoldItalic.ttf") format("truetype"),
-    url("../public/fonts/Roboto-Italic.ttf") format("truetype"),
-    url("../public/fonts/Roboto-Light.ttf") format("truetype"),
-    url("../public/fonts/Roboto-LightItalic.ttf") format("truetype"),
-    url("../public/fonts/Roboto-Medium.ttf") format("truetype"),
-    url("../public/fonts/Roboto-MediumItalic.ttf") format("truetype"),
-    url("../public/fonts/Roboto-Regular.ttf") format("truetype"),
-    url("../public/fonts/Roboto-Thin.ttf") format("truetype"),
-    url("../public/fonts/Roboto-ThinItalic.ttf") format("truetype");
+  src: url("../public/fonts/Roboto-Black.ttf") format("truetype");
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("../public/fonts/Roboto-Bold.ttf") format("truetype");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("../public/fonts/Roboto-Medium.ttf") format("truetype");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("../public/fonts/Roboto-Regular.ttf") format("truetype");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("../public/fonts/Roboto-Light.ttf") format("truetype");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("../public/fonts/Roboto-Thin.ttf") format("truetype");
+  font-weight: 100;
 }
 
 :root {
   --primary-color: #141225;
   --secondary-color: #ffce21;
-  --primary-text-color: #fff;
+  --text-color: #fff;
   --placeholder-color: #8a8a8a;
   --background-gradient-color: #62606d;
   --bottom-transition: background-size 250ms ease-out;
@@ -31,7 +50,7 @@ body {
   margin: 0;
   font-family: "Roboto", sans-serif;
   font-size: 16px;
-  color: var(--primary-text-color);
+  color: var(--text-color);
   background: transparent
     radial-gradient(
       closest-side at 50% 50%,
@@ -42,9 +61,9 @@ body {
 }
 
 button {
-  font-family: "Roboto", sans-serif;
+  font-family: inherit;
   font-weight: 500;
-  color: var(--primary-fontcolor);
+  color: var(--text-color);
   background: none;
   border: none;
 }

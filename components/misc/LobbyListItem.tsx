@@ -20,7 +20,6 @@ function LobbyListItem({
 }: LobbyListItemProps) {
   if (playerCount >= 8) {
     lobbyIsFull = true;
-    playerCount = 8;
   }
 
   if (playerCount <= 0) {
