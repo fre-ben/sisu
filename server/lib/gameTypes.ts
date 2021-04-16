@@ -27,6 +27,7 @@ export type Player = {
   cards: Card[];
   totalScore: number;
   roundScore: number[];
+  allCardsRevealed: boolean;
 };
 
 export type PlayerForCardGrid = Pick<

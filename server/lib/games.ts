@@ -32,6 +32,7 @@ export function createGame(
         cards: [],
         totalScore: 0,
         roundScore: [],
+        allCardsRevealed: false,
       },
     ],
     drawPileCards: generateCards(),
@@ -62,6 +63,7 @@ export function joinGame(
     cards: [],
     totalScore: 0,
     roundScore: [],
+    allCardsRevealed: false,
   });
   games[lobbyNr].playerCount++;
 }
@@ -370,3 +372,13 @@ export function discardCurrentDrawPileCard(lobbyNr: number): void {
   games[lobbyNr].discardPileCards.push(drawPileCard);
   games[lobbyNr].tempDrawPileCard = null;
 }
+
+// Funktion für letzte TURNS.
+// Wenn alle 12 cards revealed true is, soll die Funktion ausgeführt werden.
+// Spielern attribut von allCardsRevealed geben?
+// Bei setNextActivePlayer() checken ob der nächste Player allCardsRevealed === true hat.
+// Wenn ja, dann soll das Spielende eingeleitet werden: Alle übrigen Karten sollen aufgedeckt werden und die
+// Round Scores ermittelt und gespeichert werden. Popup soll die Runde zusammenfassen.
+// An Frontend gameHasStarted / roundstart auf false setzen, damit dort nich geklickt werden kann.
+// Bzw. kann es nach wegklicken des Popups ja direkt weitergehen mit Karten aufdecken etc.
+// Der Spieler der allCardsRevealed===true hatte, sollte in der nächsten Runde anfangen nach aufdecken der Karten.
