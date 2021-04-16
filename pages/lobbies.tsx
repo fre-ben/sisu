@@ -8,7 +8,7 @@ import LobbyListItem from "../components/misc/LobbyListItem";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { SocketContext } from "../contexts/SocketContext";
-import { getPlayerName, getSocketID } from "../lib/functions";
+import { getPlayerName } from "../lib/functions";
 import { GameForLobby } from "../server/lib/gameTypes";
 
 export default function Lobbies() {
@@ -34,15 +34,13 @@ export default function Lobbies() {
 
   const handleJoinBtnClick = (lobbyNr: number): void => {
     const playerName = getPlayerName();
-    const socketID = getSocketID();
-    socket.emit("join game", lobbyNr, playerName, socketID);
+    socket.emit("join game", lobbyNr, playerName, socket.id);
     goToLobby(lobbyNr);
   };
 
   const handleCreateBtnClick = (): void => {
     const playerName = getPlayerName();
-    const socketID = getSocketID();
-    socket.emit("create game", playerName, socketID);
+    socket.emit("create game", playerName, socket.id);
     socket.on("pass lobbynr", (lobbyNr: number) => {
       goToLobby(lobbyNr);
     });
