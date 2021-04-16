@@ -24,9 +24,6 @@ import DrawPilePrompt from "../components/gameboard/DrawPilePrompt";
 
 export default function Game() {
   const { socket } = useContext(SocketContext);
-  const router = useRouter();
-  const lobbyNr = getLobbyNr();
-  const blankCards = generateBlankCards();
   const [playerCount, setPlayerCount] = useState<number>(null);
   const [opponentPlayers, setOpponentPlayers] = useState<PlayerForCardGrid[]>(
     []
@@ -36,6 +33,9 @@ export default function Game() {
   const [gameHasStarted, setGameHasStarted] = useState<boolean>(false);
   const [activePlayer, setActivePlayer] = useState<ActivePlayer>(null);
   const [turnPhase, setTurnPhases] = useState<string>(null);
+  const router = useRouter();
+  const lobbyNr = getLobbyNr();
+  const blankCards = generateBlankCards();
 
   useEffect(() => {
     if (!socket || !lobbyNr) {

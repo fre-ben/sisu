@@ -9,16 +9,15 @@ import { useRouter } from "next/dist/client/router";
 import { useState } from "react";
 
 export default function User() {
+  const [isMaxLength, setIsMaxLength] = useState(false);
+  const [playerName, setPlayerName] = useState("");
   const router = useRouter();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault();
     localStorage.setItem("playerName", playerName);
     router.push("/lobbies");
   };
-
-  const [isMaxLength, setIsMaxLength] = useState(false);
-  const [playerName, setPlayerName] = useState("");
 
   const checkValueLength = (event) => {
     setIsMaxLength(event.target.value.length >= 11);

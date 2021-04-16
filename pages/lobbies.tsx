@@ -12,9 +12,9 @@ import { getPlayerName } from "../lib/functions";
 import { GameForLobby } from "../server/lib/gameTypes";
 
 export default function Lobbies() {
-  const router = useRouter();
-  const [lobbyItems, setLobbyItems] = useState<GameForLobby[]>([]);
   const { socket } = useContext(SocketContext);
+  const [lobbyItems, setLobbyItems] = useState<GameForLobby[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     if (!socket) {
