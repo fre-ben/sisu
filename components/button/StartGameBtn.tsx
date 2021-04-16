@@ -1,11 +1,8 @@
 import styles from "./Button.module.css";
-import { ButtonProps } from "./types";
 
-function StartGameBtn({ onClick }: ButtonProps) {
+function StartGameBtn() {
   return (
-    <button className={`${styles.btn} ${styles.startBtn}`} onClick={onClick}>
-      Start Game
-    </button>
+    <button className={`${styles.btn} ${styles.startBtn}`}>Start Game</button>
   );
 }
 
