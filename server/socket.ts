@@ -13,6 +13,7 @@ import {
   broadcastTotalScoresToLobby,
   broadcastTurnPhaseToActivePlayer,
   broadcastTurnStartToActivePlayer,
+  broadcastRoundNrToLobby,
 } from "./lib/broadcasts";
 import {
   calculateRoundScore,
@@ -31,7 +32,6 @@ import {
   getGameByLobby,
   getGamesForLobby,
   getPlayer,
-  getRoundNr,
   joinGame,
   leaveGame,
   setNextActivePlayer,
@@ -81,7 +81,7 @@ export function listenSocket(server): void {
     });
 
     socket.on("get rounds to display", (lobbyNr: number) => {
-      io.to(`lobby${lobbyNr}`).emit("display rounds", getRoundNr(lobbyNr));
+      broadcastRoundNrToLobby(io, lobbyNr);
     });
 
     socket.on("get playercount", (lobbyNr: number) => {
@@ -230,6 +230,8 @@ export function listenSocket(server): void {
         broadcastPlayersToLobby(io, lobbyNr);
         broadcastDiscardPileToLobby(io, lobbyNr);
         await setNextActivePlayer(socketID);
+        broadcastTotalScoresToLobby(io, lobbyNr);
+        broadcastRoundNrToLobby(io, lobbyNr);
         await broadcastTurnStartToActivePlayer(io, socketID, lobbyNr);
         //edit
       }
@@ -297,6 +299,8 @@ export function listenSocket(server): void {
         broadcastPlayersToLobby(io, lobbyNr);
         broadcastDiscardPileToLobby(io, lobbyNr);
         await setNextActivePlayer(socketID);
+        broadcastTotalScoresToLobby(io, lobbyNr);
+        broadcastRoundNrToLobby(io, lobbyNr);
         await broadcastTurnStartToActivePlayer(io, socketID, lobbyNr);
         //edit
       }
@@ -311,6 +315,8 @@ export function listenSocket(server): void {
         await calculateRoundScore(socketID, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
         await setNextActivePlayer(socketID);
+        broadcastTotalScoresToLobby(io, lobbyNr);
+        broadcastRoundNrToLobby(io, lobbyNr);
         await broadcastTurnStartToActivePlayer(io, socketID, lobbyNr);
         //edit
       }

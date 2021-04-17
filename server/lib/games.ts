@@ -281,6 +281,27 @@ export async function calculateRoundScore(socketID: string, lobbyNr: number) {
   player.roundScore[roundNr - 1] = roundScore;
 }
 
+export async function calculateTotalScores(socketID: string): Promise<void> {
+  const currentGame = await getGame(socketID);
+
+  function getPlayerRoundScores(index: number): number[] {
+    return currentGame.players[index].roundScore;
+  }
+
+  function calculateTotalScore(roundScores: number[]): number {
+    return roundScores.reduce((a, b) => {
+      return a + b;
+    });
+  }
+
+  currentGame.players.forEach((player, index) => {
+    const playerRoundScores = getPlayerRoundScores(index);
+    const newTotalScore = calculateTotalScore(playerRoundScores);
+
+    player.totalScore = newTotalScore;
+  });
+}
+
 export async function checkCardsRevealed(
   socketID: string,
   amount: number
@@ -355,8 +376,24 @@ export async function setNextActivePlayer(socketID: string): Promise<void> {
     const nextActivePlayer = currentGame.players[indexCurrentActivePlayer + 1];
     const indexNextActivePlayer = currentGame.players.indexOf(nextActivePlayer);
     currentGame.activePlayerIndex = indexNextActivePlayer;
+    await handleRoundEnd(socketID);
   } else {
     currentGame.activePlayerIndex = 0;
+    await handleRoundEnd(socketID);
+  }
+}
+
+export async function handleRoundEnd(socketID: string): Promise<void> {
+  const currentGame = await getGame(socketID);
+  const activePlayer = currentGame.players[currentGame.activePlayerIndex];
+
+  if (activePlayer.allCardsRevealed === true) {
+    await calculateTotalScores(socketID);
+    currentGame.roundNr = currentGame.roundNr + 1;
+
+    // reset game cards?
+    // deal new cards?
+    console.log("current Game", JSON.stringify(currentGame, null, 4));
   }
 }
 
