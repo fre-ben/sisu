@@ -112,7 +112,7 @@ export default function Game() {
           key={socketID}
           cards={gameHasStarted ? cards : blankCards}
           name={name}
-          roundScore={roundScore}
+          roundScore={roundScore[roundScore.length - 1]}
         />
       );
     }
@@ -162,7 +162,7 @@ export default function Game() {
                 <CardGrid
                   cards={gameHasStarted ? player.cards : blankCards}
                   name={player.name}
-                  roundScore={player.roundScore}
+                  roundScore={player.roundScore[player.roundScore.length - 1]}
                   gameHasStarted={gameHasStarted}
                   turnPhase={turnPhase}
                 />
