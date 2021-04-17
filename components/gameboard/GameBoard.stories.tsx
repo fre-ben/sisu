@@ -21,13 +21,13 @@ export const cardgrid = () => (
   <CardGrid
     cards={null}
     name={"Fred"}
-    roundScore={[20]}
+    roundScore={20}
     turnPhase={null}
     gameHasStarted={null}
   />
 );
 export const opponentcardgrid = () => (
-  <OpponentCardGrid cards={null} name={"Fred"} roundScore={[20]} />
+  <OpponentCardGrid cards={null} name={"Fred"} roundScore={20} />
 );
 export const roundscoremodal = () => <RoundScoreModal />;
 export const roundcounter = () => (
