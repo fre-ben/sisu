@@ -19,10 +19,10 @@ import {
   cardReplaceDiscardPileClick,
   cardReplaceDrawPileKeepClick,
   cardRevealClick,
-  checkAllPlayers2CardsRevealed,
+  checkAllPlayersCardsRevealed,
   checkAllPlayersReady,
   checkCardsVerticalRow,
-  checkTwoCardsRevealed,
+  checkCardsRevealed,
   checkIsLobbyFull,
   createGame,
   dealCardsToPlayers,
@@ -160,12 +160,12 @@ export function listenSocket(server): void {
     socket.on(
       "check 2 cards revealed",
       async (socketID: string, lobbyNr: number, callback) => {
-        const bothCardsRevealed = await checkTwoCardsRevealed(socketID);
+        const bothCardsRevealed = await checkCardsRevealed(socketID, 2);
 
         if (bothCardsRevealed) {
           io.to(socketID).emit("display status", status.PRESTARTWAIT);
         }
-        if (checkAllPlayers2CardsRevealed(lobbyNr)) {
+        if (checkAllPlayersCardsRevealed(lobbyNr, 2)) {
           await broadcastFirstActivePlayerToLobby(io, lobbyNr, socketID);
           await broadcastStatusToActivePlayer(
             io,
@@ -224,7 +224,7 @@ export function listenSocket(server): void {
       "DISCARDPILE: replace card",
       async (socketID: string, lobbyNr: number, index: number) => {
         await cardReplaceDiscardPileClick(socketID, lobbyNr, index);
-        await checkCardsVerticalRow(socketID);
+        await checkCardsVerticalRow(socketID, lobbyNr);
         await calculateRoundScore(socketID, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
         broadcastDiscardPileToLobby(io, lobbyNr);
@@ -289,7 +289,7 @@ export function listenSocket(server): void {
       "DRAWPILE: replace card",
       async (socketID: string, lobbyNr: number, index: number) => {
         await cardReplaceDrawPileKeepClick(socketID, lobbyNr, index);
-        await checkCardsVerticalRow(socketID);
+        await checkCardsVerticalRow(socketID, lobbyNr);
         await calculateRoundScore(socketID, lobbyNr);
         broadcastCurrentDrawPileCardToLobby(io, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
@@ -304,7 +304,7 @@ export function listenSocket(server): void {
       "DRAWPILE: reveal card",
       async (socketID: string, lobbyNr: number, index: number) => {
         await cardRevealClick(socketID, index);
-        await checkCardsVerticalRow(socketID);
+        await checkCardsVerticalRow(socketID, lobbyNr);
         await calculateRoundScore(socketID, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
         await setNextActivePlayer(socketID);

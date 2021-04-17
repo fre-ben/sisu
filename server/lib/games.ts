@@ -32,6 +32,7 @@ export function createGame(
         cards: [],
         totalScore: 0,
         roundScore: [],
+        allCardsRevealed: false,
       },
     ],
     drawPileCards: generateCards(),
@@ -62,6 +63,7 @@ export function joinGame(
     cards: [],
     totalScore: 0,
     roundScore: [],
+    allCardsRevealed: false,
   });
   games[lobbyNr].playerCount++;
 }
@@ -228,7 +230,10 @@ export async function cardReplaceDrawPileKeepClick(
   replaceClickedCardWithDrawPileCard();
 }
 
-export async function checkCardsVerticalRow(socketID: string): Promise<void> {
+export async function checkCardsVerticalRow(
+  socketID: string,
+  lobbyNr: number
+): Promise<void> {
   const activePlayer = await getPlayer(socketID);
   const cards = activePlayer.cards;
   const blankCard = {
@@ -245,6 +250,11 @@ export async function checkCardsVerticalRow(socketID: string): Promise<void> {
       cards[cardOne].value === cards[cardTwo].value &&
       cards[cardOne].value === cards[cardThree].value
     ) {
+      games[lobbyNr].discardPileCards.push(
+        cards[cardOne],
+        cards[cardTwo],
+        cards[cardThree]
+      );
       cards.splice(cardOne, 1, blankCard);
       cards.splice(cardTwo, 1, blankCard);
       cards.splice(cardThree, 1, blankCard);
@@ -271,24 +281,28 @@ export async function calculateRoundScore(socketID: string, lobbyNr: number) {
   player.roundScore[roundNr - 1] = roundScore;
 }
 
-export async function checkTwoCardsRevealed(
-  socketID: string
+export async function checkCardsRevealed(
+  socketID: string,
+  amount: number
 ): Promise<boolean> {
   const player = await getPlayer(socketID);
   const revealedCards = player.cards.filter((card) => card.hidden === false);
 
-  if (revealedCards.length === 2) {
+  if (revealedCards.length === amount) {
     return true;
   } else {
     return false;
   }
 }
 
-export function checkAllPlayers2CardsRevealed(lobbyNr: number): boolean {
+export function checkAllPlayersCardsRevealed(
+  lobbyNr: number,
+  amount: number
+): boolean {
   const currentGame = getGameByLobby(lobbyNr);
   return currentGame.players.every((player) => {
     const revealedCards = player.cards.filter((card) => card.hidden === false);
-    if (revealedCards.length === 2) {
+    if (revealedCards.length === amount) {
       return true;
     }
   });
@@ -358,3 +372,13 @@ export function discardCurrentDrawPileCard(lobbyNr: number): void {
   games[lobbyNr].discardPileCards.push(drawPileCard);
   games[lobbyNr].tempDrawPileCard = null;
 }
+
+// Funktion für letzte TURNS.
+// Wenn alle 12 cards revealed true is, soll die Funktion ausgeführt werden.
+// Spielern attribut von allCardsRevealed geben?
+// Bei setNextActivePlayer() checken ob der nächste Player allCardsRevealed === true hat.
+// Wenn ja, dann soll das Spielende eingeleitet werden: Alle übrigen Karten sollen aufgedeckt werden und die
+// Round Scores ermittelt und gespeichert werden. Popup soll die Runde zusammenfassen.
+// An Frontend gameHasStarted / roundstart auf false setzen, damit dort nich geklickt werden kann.
+// Bzw. kann es nach wegklicken des Popups ja direkt weitergehen mit Karten aufdecken etc.
+// Der Spieler der allCardsRevealed===true hatte, sollte in der nächsten Runde anfangen nach aufdecken der Karten.
