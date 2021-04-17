@@ -38,6 +38,7 @@ export function createGame(
     drawPileCards: generateCards(),
     tempDrawPileCard: null,
     discardPileCards: [],
+    currentRoundScores: [],
   };
   //commented out for now
   // console.log(JSON.stringify(games, null, 4));
@@ -284,6 +285,28 @@ export async function calculateRoundScore(socketID: string, lobbyNr: number) {
 export async function calculateTotalScores(socketID: string): Promise<void> {
   const currentGame = await getGame(socketID);
 
+  const firstPlayerFinished = currentGame.players.find(
+    (player) => player.socketID === currentGame.currentRoundScores[0].socketID
+  );
+
+  const remainingPlayers = currentGame.players.filter(
+    (player) => player.socketID !== firstPlayerFinished.socketID
+  );
+
+  const firstPlayerScore =
+    firstPlayerFinished.roundScore[firstPlayerFinished.roundScore.length - 1];
+
+  if (
+    remainingPlayers.some(
+      (player) =>
+        firstPlayerScore >= player.roundScore[player.roundScore.length - 1]
+    )
+  ) {
+    console.log("low score check fired!");
+    firstPlayerFinished.roundScore[firstPlayerFinished.roundScore.length - 1] =
+      firstPlayerScore * 2;
+  }
+
   function getPlayerRoundScores(index: number): number[] {
     return currentGame.players[index].roundScore;
   }
@@ -304,7 +327,8 @@ export async function calculateTotalScores(socketID: string): Promise<void> {
 
 export async function checkCardsRevealed(
   socketID: string,
-  amount: number
+  amount: number,
+  lobbyNr: number
 ): Promise<boolean> {
   const player = await getPlayer(socketID);
   const revealedCards = player.cards.filter((card) => card.hidden === false);
@@ -312,7 +336,11 @@ export async function checkCardsRevealed(
   if (revealedCards.length === amount) {
     if (revealedCards.length === 12) {
       player.allCardsRevealed = true;
-      console.log("allCardsRevealed", player.allCardsRevealed);
+      games[lobbyNr].currentRoundScores.push({
+        socketID: player.socketID,
+        roundScore: player.roundScore,
+      });
+      console.log("current Roundscores", games[lobbyNr].currentRoundScores);
     }
     return true;
   } else {

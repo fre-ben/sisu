@@ -9,6 +9,7 @@ export type Game = {
   drawPileCards: Card[];
   tempDrawPileCard: Card;
   discardPileCards: Card[];
+  currentRoundScores: CurrentRoundScore[];
 };
 
 export type GamesType = {
@@ -40,6 +41,8 @@ export type PlayerScoreList = Pick<Player, "name" | "totalScore">;
 export type PlayerRoundScore = Pick<Player, "name" | "roundScore">;
 
 export type ActivePlayer = Pick<Player, "name" | "socketID" | "roundScore">;
+
+export type CurrentRoundScore = Pick<Player, "socketID" | "roundScore">;
 
 export type Card = {
   id?: number;

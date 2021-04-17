@@ -160,7 +160,11 @@ export function listenSocket(server): void {
     socket.on(
       "check 2 cards revealed",
       async (socketID: string, lobbyNr: number, callback) => {
-        const bothCardsRevealed = await checkCardsRevealed(socketID, 2);
+        const bothCardsRevealed = await checkCardsRevealed(
+          socketID,
+          2,
+          lobbyNr
+        );
 
         if (bothCardsRevealed) {
           io.to(socketID).emit("display status", status.PRESTARTWAIT);
@@ -225,7 +229,7 @@ export function listenSocket(server): void {
       async (socketID: string, lobbyNr: number, index: number) => {
         await cardReplaceDiscardPileClick(socketID, lobbyNr, index);
         await checkCardsVerticalRow(socketID, lobbyNr);
-        await checkCardsRevealed(socketID, 12);
+        await checkCardsRevealed(socketID, 12, lobbyNr);
         await calculateRoundScore(socketID, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
         broadcastDiscardPileToLobby(io, lobbyNr);
@@ -293,7 +297,7 @@ export function listenSocket(server): void {
       async (socketID: string, lobbyNr: number, index: number) => {
         await cardReplaceDrawPileKeepClick(socketID, lobbyNr, index);
         await checkCardsVerticalRow(socketID, lobbyNr);
-        await checkCardsRevealed(socketID, 12);
+        await checkCardsRevealed(socketID, 12, lobbyNr);
         await calculateRoundScore(socketID, lobbyNr);
         broadcastCurrentDrawPileCardToLobby(io, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
@@ -311,7 +315,7 @@ export function listenSocket(server): void {
       async (socketID: string, lobbyNr: number, index: number) => {
         await cardRevealClick(socketID, index);
         await checkCardsVerticalRow(socketID, lobbyNr);
-        await checkCardsRevealed(socketID, 12);
+        await checkCardsRevealed(socketID, 12, lobbyNr);
         await calculateRoundScore(socketID, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
         await setNextActivePlayer(socketID);
