@@ -225,12 +225,13 @@ export function listenSocket(server): void {
       async (socketID: string, lobbyNr: number, index: number) => {
         await cardReplaceDiscardPileClick(socketID, lobbyNr, index);
         await checkCardsVerticalRow(socketID, lobbyNr);
+        await checkCardsRevealed(socketID, 12);
         await calculateRoundScore(socketID, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
         broadcastDiscardPileToLobby(io, lobbyNr);
         await setNextActivePlayer(socketID);
         await broadcastTurnStartToActivePlayer(io, socketID, lobbyNr);
-        // check 12 cards revealed
+        //edit
       }
     );
 
@@ -290,13 +291,14 @@ export function listenSocket(server): void {
       async (socketID: string, lobbyNr: number, index: number) => {
         await cardReplaceDrawPileKeepClick(socketID, lobbyNr, index);
         await checkCardsVerticalRow(socketID, lobbyNr);
+        await checkCardsRevealed(socketID, 12);
         await calculateRoundScore(socketID, lobbyNr);
         broadcastCurrentDrawPileCardToLobby(io, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
         broadcastDiscardPileToLobby(io, lobbyNr);
         await setNextActivePlayer(socketID);
         await broadcastTurnStartToActivePlayer(io, socketID, lobbyNr);
-        // check 12 cards revealed
+        //edit
       }
     );
 
@@ -305,11 +307,12 @@ export function listenSocket(server): void {
       async (socketID: string, lobbyNr: number, index: number) => {
         await cardRevealClick(socketID, index);
         await checkCardsVerticalRow(socketID, lobbyNr);
+        await checkCardsRevealed(socketID, 12);
         await calculateRoundScore(socketID, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
         await setNextActivePlayer(socketID);
         await broadcastTurnStartToActivePlayer(io, socketID, lobbyNr);
-        // check 12 cards revealed
+        //edit
       }
     );
   });

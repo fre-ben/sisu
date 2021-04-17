@@ -289,6 +289,10 @@ export async function checkCardsRevealed(
   const revealedCards = player.cards.filter((card) => card.hidden === false);
 
   if (revealedCards.length === amount) {
+    if (revealedCards.length === 12) {
+      player.allCardsRevealed = true;
+      console.log("allCardsRevealed", player.allCardsRevealed);
+    }
     return true;
   } else {
     return false;
@@ -375,7 +379,6 @@ export function discardCurrentDrawPileCard(lobbyNr: number): void {
 
 // Funktion für letzte TURNS.
 // Wenn alle 12 cards revealed true is, soll die Funktion ausgeführt werden.
-// Spielern attribut von allCardsRevealed geben?
 // Bei setNextActivePlayer() checken ob der nächste Player allCardsRevealed === true hat.
 // Wenn ja, dann soll das Spielende eingeleitet werden: Alle übrigen Karten sollen aufgedeckt werden und die
 // Round Scores ermittelt und gespeichert werden. Popup soll die Runde zusammenfassen.
