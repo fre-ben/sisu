@@ -285,26 +285,29 @@ export async function calculateRoundScore(socketID: string, lobbyNr: number) {
 export async function calculateTotalScores(socketID: string): Promise<void> {
   const currentGame = await getGame(socketID);
 
-  const firstPlayerFinished = currentGame.players.find(
-    (player) => player.socketID === currentGame.currentRoundScores[0].socketID
-  );
+  function checkFinishingScore(currentGame: Game) {
+    const firstPlayerFinished = currentGame.players.find(
+      (player) => player.socketID === currentGame.currentRoundScores[0].socketID
+    );
 
-  const remainingPlayers = currentGame.players.filter(
-    (player) => player.socketID !== firstPlayerFinished.socketID
-  );
+    const remainingPlayers = currentGame.players.filter(
+      (player) => player.socketID !== firstPlayerFinished.socketID
+    );
 
-  const firstPlayerScore =
-    firstPlayerFinished.roundScore[firstPlayerFinished.roundScore.length - 1];
+    const firstPlayerScore =
+      firstPlayerFinished.roundScore[firstPlayerFinished.roundScore.length - 1];
 
-  if (
-    remainingPlayers.some(
-      (player) =>
-        firstPlayerScore >= player.roundScore[player.roundScore.length - 1]
-    )
-  ) {
-    console.log("low score check fired!");
-    firstPlayerFinished.roundScore[firstPlayerFinished.roundScore.length - 1] =
-      firstPlayerScore * 2;
+    if (
+      remainingPlayers.some(
+        (player) =>
+          firstPlayerScore >= player.roundScore[player.roundScore.length - 1]
+      )
+    ) {
+      console.log("low score check fired!");
+      firstPlayerFinished.roundScore[
+        firstPlayerFinished.roundScore.length - 1
+      ] = firstPlayerScore * 2;
+    }
   }
 
   function getPlayerRoundScores(index: number): number[] {
@@ -317,6 +320,7 @@ export async function calculateTotalScores(socketID: string): Promise<void> {
     });
   }
 
+  checkFinishingScore(currentGame);
   currentGame.players.forEach((player, index) => {
     const playerRoundScores = getPlayerRoundScores(index);
     const newTotalScore = calculateTotalScore(playerRoundScores);
@@ -419,6 +423,8 @@ export async function handleRoundEnd(socketID: string): Promise<void> {
     await calculateTotalScores(socketID);
     currentGame.roundNr = currentGame.roundNr + 1;
 
+    // Maybe reset game cards and deal new cards on newRoundStart.
+    // Reset and deal new cards when the roundScore Modal is continued by all players in frontend
     // reset game cards?
     // deal new cards?
     console.log("current Game", JSON.stringify(currentGame, null, 4));
