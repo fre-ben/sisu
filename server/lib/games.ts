@@ -303,7 +303,6 @@ export async function calculateTotalScores(socketID: string): Promise<void> {
           firstPlayerScore >= player.roundScore[player.roundScore.length - 1]
       )
     ) {
-      console.log("low score check fired!");
       firstPlayerFinished.roundScore[
         firstPlayerFinished.roundScore.length - 1
       ] = firstPlayerScore * 2;
@@ -344,7 +343,6 @@ export async function checkCardsRevealed(
         socketID: player.socketID,
         roundScore: player.roundScore,
       });
-      console.log("current Roundscores", games[lobbyNr].currentRoundScores);
     }
     return true;
   } else {
