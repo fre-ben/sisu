@@ -38,6 +38,7 @@ export function createGame(
     drawPileCards: generateCards(),
     tempDrawPileCard: null,
     discardPileCards: [],
+    currentRoundScores: [],
   };
   //commented out for now
   // console.log(JSON.stringify(games, null, 4));
@@ -281,14 +282,68 @@ export async function calculateRoundScore(socketID: string, lobbyNr: number) {
   player.roundScore[roundNr - 1] = roundScore;
 }
 
+export async function calculateTotalScores(socketID: string): Promise<void> {
+  const currentGame = await getGame(socketID);
+
+  function checkFinishingScore(currentGame: Game) {
+    const firstPlayerFinished = currentGame.players.find(
+      (player) => player.socketID === currentGame.currentRoundScores[0].socketID
+    );
+
+    const remainingPlayers = currentGame.players.filter(
+      (player) => player.socketID !== firstPlayerFinished.socketID
+    );
+
+    const firstPlayerScore =
+      firstPlayerFinished.roundScore[firstPlayerFinished.roundScore.length - 1];
+
+    if (
+      remainingPlayers.some(
+        (player) =>
+          firstPlayerScore >= player.roundScore[player.roundScore.length - 1]
+      )
+    ) {
+      firstPlayerFinished.roundScore[
+        firstPlayerFinished.roundScore.length - 1
+      ] = firstPlayerScore * 2;
+    }
+  }
+
+  function getPlayerRoundScores(index: number): number[] {
+    return currentGame.players[index].roundScore;
+  }
+
+  function calculateTotalScore(roundScores: number[]): number {
+    return roundScores.reduce((a, b) => {
+      return a + b;
+    });
+  }
+
+  checkFinishingScore(currentGame);
+  currentGame.players.forEach((player, index) => {
+    const playerRoundScores = getPlayerRoundScores(index);
+    const newTotalScore = calculateTotalScore(playerRoundScores);
+
+    player.totalScore = newTotalScore;
+  });
+}
+
 export async function checkCardsRevealed(
   socketID: string,
-  amount: number
+  amount: number,
+  lobbyNr: number
 ): Promise<boolean> {
   const player = await getPlayer(socketID);
   const revealedCards = player.cards.filter((card) => card.hidden === false);
 
   if (revealedCards.length === amount) {
+    if (revealedCards.length === 12) {
+      player.allCardsRevealed = true;
+      games[lobbyNr].currentRoundScores.push({
+        socketID: player.socketID,
+        roundScore: player.roundScore,
+      });
+    }
     return true;
   } else {
     return false;
@@ -343,7 +398,10 @@ export async function getActivePlayer(socketID: string): Promise<Player> {
   return activePlayer;
 }
 
-export async function setNextActivePlayer(socketID: string): Promise<void> {
+export async function setNextActivePlayer(
+  socketID: string,
+  lobbyNr: number
+): Promise<void> {
   const currentGame = await getGame(socketID);
   const indexCurrentActivePlayer = currentGame.activePlayerIndex;
 
@@ -351,8 +409,31 @@ export async function setNextActivePlayer(socketID: string): Promise<void> {
     const nextActivePlayer = currentGame.players[indexCurrentActivePlayer + 1];
     const indexNextActivePlayer = currentGame.players.indexOf(nextActivePlayer);
     currentGame.activePlayerIndex = indexNextActivePlayer;
+    await handleRoundEnd(socketID, lobbyNr);
   } else {
     currentGame.activePlayerIndex = 0;
+    await handleRoundEnd(socketID, lobbyNr);
+  }
+}
+
+export async function handleRoundEnd(
+  socketID: string,
+  lobbyNr: number
+): Promise<void> {
+  const currentGame = await getGame(socketID);
+  const activePlayer = currentGame.players[currentGame.activePlayerIndex];
+
+  if (activePlayer.allCardsRevealed === true) {
+    await revealAllCards(socketID);
+    await calculateRoundScore(socketID, lobbyNr);
+    await calculateTotalScores(socketID);
+    currentGame.roundNr = currentGame.roundNr + 1;
+
+    // Maybe reset game cards and deal new cards on newRoundStart.
+    // Reset and deal new cards when the roundScore Modal is continued by all players in frontend
+    // reset game cards?
+    // deal new cards?
+    console.log("current Game", JSON.stringify(currentGame, null, 4));
   }
 }
 
@@ -373,9 +454,24 @@ export function discardCurrentDrawPileCard(lobbyNr: number): void {
   games[lobbyNr].tempDrawPileCard = null;
 }
 
+export async function revealAllCards(socketID: string): Promise<void> {
+  const currentGame = await getGame(socketID);
+
+  function revealCards(index: number): void {
+    currentGame.players[index].cards.forEach((card) => {
+      if (card.hidden) {
+        card.hidden = false;
+      }
+    });
+  }
+
+  for (let i = 0; i < currentGame.playerCount; i++) {
+    revealCards(i);
+  }
+}
+
 // Funktion für letzte TURNS.
 // Wenn alle 12 cards revealed true is, soll die Funktion ausgeführt werden.
-// Spielern attribut von allCardsRevealed geben?
 // Bei setNextActivePlayer() checken ob der nächste Player allCardsRevealed === true hat.
 // Wenn ja, dann soll das Spielende eingeleitet werden: Alle übrigen Karten sollen aufgedeckt werden und die
 // Round Scores ermittelt und gespeichert werden. Popup soll die Runde zusammenfassen.

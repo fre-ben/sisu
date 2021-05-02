@@ -8,6 +8,7 @@ import {
   getNewDrawPileCard,
   getPlayerCount,
   getPlayersInLobby,
+  getRoundNr,
   getTotalScores,
 } from "./games";
 import { status } from "./statusMessages";
@@ -38,6 +39,10 @@ export function broadcastGameStartToLobby(io, lobbyNr: number): void {
 
 export function broadcastDiscardPileToLobby(io, lobbyNr: number): void {
   io.to(`lobby${lobbyNr}`).emit("display discardpile", getDiscardPile(lobbyNr));
+}
+
+export function broadcastRoundNrToLobby(io, lobbyNr: number): void {
+  io.to(`lobby${lobbyNr}`).emit("display rounds", getRoundNr(lobbyNr));
 }
 
 export function broadcastNewDrawPileCardToLobby(io, lobbyNr: number): void {

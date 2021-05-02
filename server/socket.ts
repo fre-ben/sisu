@@ -13,6 +13,7 @@ import {
   broadcastTotalScoresToLobby,
   broadcastTurnPhaseToActivePlayer,
   broadcastTurnStartToActivePlayer,
+  broadcastRoundNrToLobby,
 } from "./lib/broadcasts";
 import {
   calculateRoundScore,
@@ -31,7 +32,6 @@ import {
   getGameByLobby,
   getGamesForLobby,
   getPlayer,
-  getRoundNr,
   joinGame,
   leaveGame,
   setNextActivePlayer,
@@ -81,7 +81,7 @@ export function listenSocket(server): void {
     });
 
     socket.on("get rounds to display", (lobbyNr: number) => {
-      io.to(`lobby${lobbyNr}`).emit("display rounds", getRoundNr(lobbyNr));
+      broadcastRoundNrToLobby(io, lobbyNr);
     });
 
     socket.on("get playercount", (lobbyNr: number) => {
@@ -160,7 +160,11 @@ export function listenSocket(server): void {
     socket.on(
       "check 2 cards revealed",
       async (socketID: string, lobbyNr: number, callback) => {
-        const bothCardsRevealed = await checkCardsRevealed(socketID, 2);
+        const bothCardsRevealed = await checkCardsRevealed(
+          socketID,
+          2,
+          lobbyNr
+        );
 
         if (bothCardsRevealed) {
           io.to(socketID).emit("display status", status.PRESTARTWAIT);
@@ -225,12 +229,15 @@ export function listenSocket(server): void {
       async (socketID: string, lobbyNr: number, index: number) => {
         await cardReplaceDiscardPileClick(socketID, lobbyNr, index);
         await checkCardsVerticalRow(socketID, lobbyNr);
+        await checkCardsRevealed(socketID, 12, lobbyNr);
         await calculateRoundScore(socketID, lobbyNr);
+        await setNextActivePlayer(socketID, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
         broadcastDiscardPileToLobby(io, lobbyNr);
-        await setNextActivePlayer(socketID);
+        broadcastTotalScoresToLobby(io, lobbyNr);
+        broadcastRoundNrToLobby(io, lobbyNr);
         await broadcastTurnStartToActivePlayer(io, socketID, lobbyNr);
-        // check 12 cards revealed
+        //edit
       }
     );
 
@@ -290,13 +297,16 @@ export function listenSocket(server): void {
       async (socketID: string, lobbyNr: number, index: number) => {
         await cardReplaceDrawPileKeepClick(socketID, lobbyNr, index);
         await checkCardsVerticalRow(socketID, lobbyNr);
+        await checkCardsRevealed(socketID, 12, lobbyNr);
         await calculateRoundScore(socketID, lobbyNr);
+        await setNextActivePlayer(socketID, lobbyNr);
         broadcastCurrentDrawPileCardToLobby(io, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
         broadcastDiscardPileToLobby(io, lobbyNr);
-        await setNextActivePlayer(socketID);
+        broadcastTotalScoresToLobby(io, lobbyNr);
+        broadcastRoundNrToLobby(io, lobbyNr);
         await broadcastTurnStartToActivePlayer(io, socketID, lobbyNr);
-        // check 12 cards revealed
+        //edit
       }
     );
 
@@ -305,11 +315,14 @@ export function listenSocket(server): void {
       async (socketID: string, lobbyNr: number, index: number) => {
         await cardRevealClick(socketID, index);
         await checkCardsVerticalRow(socketID, lobbyNr);
+        await checkCardsRevealed(socketID, 12, lobbyNr);
         await calculateRoundScore(socketID, lobbyNr);
+        await setNextActivePlayer(socketID, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
-        await setNextActivePlayer(socketID);
+        broadcastTotalScoresToLobby(io, lobbyNr);
+        broadcastRoundNrToLobby(io, lobbyNr);
         await broadcastTurnStartToActivePlayer(io, socketID, lobbyNr);
-        // check 12 cards revealed
+        //edit
       }
     );
   });

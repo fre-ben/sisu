@@ -4,13 +4,13 @@ import styles from "./CardGrid.module.css";
 export type CardGridProps = {
   cards: Card[];
   name: string;
-  roundScore: number[];
+  roundScore: number;
 };
 
 export type PlayerCardGridProps = {
   cards: Card[];
   name: string;
-  roundScore: number[];
+  roundScore: number;
   gameHasStarted: boolean;
   turnPhase: string;
 };
