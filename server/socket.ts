@@ -231,9 +231,9 @@ export function listenSocket(server): void {
         await checkCardsVerticalRow(socketID, lobbyNr);
         await checkCardsRevealed(socketID, 12, lobbyNr);
         await calculateRoundScore(socketID, lobbyNr);
+        await setNextActivePlayer(socketID, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
         broadcastDiscardPileToLobby(io, lobbyNr);
-        await setNextActivePlayer(socketID);
         broadcastTotalScoresToLobby(io, lobbyNr);
         broadcastRoundNrToLobby(io, lobbyNr);
         await broadcastTurnStartToActivePlayer(io, socketID, lobbyNr);
@@ -299,10 +299,10 @@ export function listenSocket(server): void {
         await checkCardsVerticalRow(socketID, lobbyNr);
         await checkCardsRevealed(socketID, 12, lobbyNr);
         await calculateRoundScore(socketID, lobbyNr);
+        await setNextActivePlayer(socketID, lobbyNr);
         broadcastCurrentDrawPileCardToLobby(io, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
         broadcastDiscardPileToLobby(io, lobbyNr);
-        await setNextActivePlayer(socketID);
         broadcastTotalScoresToLobby(io, lobbyNr);
         broadcastRoundNrToLobby(io, lobbyNr);
         await broadcastTurnStartToActivePlayer(io, socketID, lobbyNr);
@@ -317,8 +317,8 @@ export function listenSocket(server): void {
         await checkCardsVerticalRow(socketID, lobbyNr);
         await checkCardsRevealed(socketID, 12, lobbyNr);
         await calculateRoundScore(socketID, lobbyNr);
+        await setNextActivePlayer(socketID, lobbyNr);
         broadcastPlayersToLobby(io, lobbyNr);
-        await setNextActivePlayer(socketID);
         broadcastTotalScoresToLobby(io, lobbyNr);
         broadcastRoundNrToLobby(io, lobbyNr);
         await broadcastTurnStartToActivePlayer(io, socketID, lobbyNr);

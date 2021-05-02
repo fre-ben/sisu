@@ -398,7 +398,10 @@ export async function getActivePlayer(socketID: string): Promise<Player> {
   return activePlayer;
 }
 
-export async function setNextActivePlayer(socketID: string): Promise<void> {
+export async function setNextActivePlayer(
+  socketID: string,
+  lobbyNr: number
+): Promise<void> {
   const currentGame = await getGame(socketID);
   const indexCurrentActivePlayer = currentGame.activePlayerIndex;
 
@@ -406,18 +409,23 @@ export async function setNextActivePlayer(socketID: string): Promise<void> {
     const nextActivePlayer = currentGame.players[indexCurrentActivePlayer + 1];
     const indexNextActivePlayer = currentGame.players.indexOf(nextActivePlayer);
     currentGame.activePlayerIndex = indexNextActivePlayer;
-    await handleRoundEnd(socketID);
+    await handleRoundEnd(socketID, lobbyNr);
   } else {
     currentGame.activePlayerIndex = 0;
-    await handleRoundEnd(socketID);
+    await handleRoundEnd(socketID, lobbyNr);
   }
 }
 
-export async function handleRoundEnd(socketID: string): Promise<void> {
+export async function handleRoundEnd(
+  socketID: string,
+  lobbyNr: number
+): Promise<void> {
   const currentGame = await getGame(socketID);
   const activePlayer = currentGame.players[currentGame.activePlayerIndex];
 
   if (activePlayer.allCardsRevealed === true) {
+    await revealAllCards(socketID);
+    await calculateRoundScore(socketID, lobbyNr);
     await calculateTotalScores(socketID);
     currentGame.roundNr = currentGame.roundNr + 1;
 
@@ -444,6 +452,22 @@ export function discardCurrentDrawPileCard(lobbyNr: number): void {
   const drawPileCard = games[lobbyNr].tempDrawPileCard;
   games[lobbyNr].discardPileCards.push(drawPileCard);
   games[lobbyNr].tempDrawPileCard = null;
+}
+
+export async function revealAllCards(socketID: string): Promise<void> {
+  const currentGame = await getGame(socketID);
+
+  function revealCards(index: number): void {
+    currentGame.players[index].cards.forEach((card) => {
+      if (card.hidden) {
+        card.hidden = false;
+      }
+    });
+  }
+
+  for (let i = 0; i < currentGame.playerCount; i++) {
+    revealCards(i);
+  }
 }
 
 // Funktion für letzte TURNS.
